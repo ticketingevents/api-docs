@@ -1,0 +1,14 @@
+type: "object"
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the API Integration Token"
+  access:
+    type: "string"
+    enum: ["public","customer","support","host","administrator"]
+    description: "The required access level for this token"
+  key:
+    type: "string"
+    description: |
+      The unique API Key attached to this integration. Can be used
+      to authenticate API requests with the specified access level.

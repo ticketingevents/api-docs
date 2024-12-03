@@ -1,0 +1,7 @@
+description: "One or more of the specified sections do not exist or the sender does not own sufficient tickets to complete the transfer."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "The ticketholder owns fewer than the requested amount of tickets for one or more sections."

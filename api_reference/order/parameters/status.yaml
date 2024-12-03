@@ -1,0 +1,7 @@
+in: query
+name: status
+schema:
+  type: string
+  enum: ['Placed','Cancelled','Timed Out','Fulfilled','Voided','Returned']
+required: false
+description: "If set, only returns orders with the specified status"

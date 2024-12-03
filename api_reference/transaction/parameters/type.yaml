@@ -1,0 +1,7 @@
+in: query
+name: type
+schema:
+  type: string
+  enum: ['Sale','Refund','Payout','Charge','Credit']
+required: false
+description: "Only return transactions of the specified type"

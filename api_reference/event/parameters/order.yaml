@@ -1,0 +1,8 @@
+in: query
+name: order
+schema:
+  type: string
+  enum: ["asc","desc"]
+  default: "asc"
+required: false
+description: "If set along with the 'sort' parameter, determines whether the results will be sorted in ascending or descending order."

@@ -1,0 +1,28 @@
+type: "object"
+description: "The location at which the event is taking place"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the venue resource"
+  name:
+    type: "string"
+    description: "Name of the event venue"
+  region:
+    type: "string"
+    description: "URI of the region resource related to this venue"
+  latitude:
+    type: "number"
+    format: "float"
+    description: "Global latitude of the event venue's location"
+  longitude:
+    type: "number"
+    format: "float"
+    description: "Global longitude of the event venue's location"
+  address:
+    type: "string"
+    description: "Text representation of the event venue's address"
+  map:
+    type: "string"
+    format: "uri"
+    description: "URI to a static Google Maps image of the event venue's location"

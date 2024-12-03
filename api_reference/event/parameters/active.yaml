@@ -1,0 +1,6 @@
+in: query
+name: active
+schema:
+  type: boolean
+required: false
+description: "Only returns future events if set to true, or past events if set to false"

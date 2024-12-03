@@ -1,0 +1,7 @@
+in: query
+name: from
+schema:
+  type: string
+  format: date-time
+required: false
+description: "Only summarise event sales transacted on or after the specified date and time"

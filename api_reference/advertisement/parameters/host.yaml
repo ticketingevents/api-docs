@@ -1,0 +1,7 @@
+in: query
+name: host
+schema:
+  type: string
+  pattern: '^\d{14}$'
+required: false
+description: "If set, only returns advertising campaigns being run by the specified host"

@@ -1,0 +1,53 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the host resource"
+  name:
+    type: "string"
+    description: "Unique name of the event host"
+  contact:
+    type: "string"
+    description: "First and last name of the event host's primary contact person"
+  email:
+    type: "string"
+    format: "email"
+    description: "Primary contact email address of the event host"
+  description:
+    type: "string"
+    description: "Brief description of the nature of the events put on by the host"
+  phone:
+    type: "string"
+    format: "phone"
+    description: "Primary contact number of the event host"
+  website:
+    type: "string"
+    format: "uri"
+    description: "URL of the event host's website, if one exists"
+  country:
+    type: "string"
+    description: "The country in which the host's events will be primarily staged"
+  firstAddressLine:
+    type: "string"
+    description: "The first line of the event host's mailing address"
+  secondAddressLine:
+    type: "string"
+    description: "The second line of the event host's mailing address"
+  city:
+    type: "string"
+    description: "The city portion of the event host's mailing address"
+  state:
+    type: "string"
+    description: "The state, parish or district portion of the event host's mailing address"
+  businessNo:
+    type: "string"
+    description: "The event host's unique registration number, if it maintains a registered business entity"
+  administrators:
+    type: "string"
+    format: "uri"
+    description: "URI of the host's administrative user collection"
+  events:
+    type: "string"
+    format: "uri"
+    description: "URI of the collection of events being staged by this host"

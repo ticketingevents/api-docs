@@ -1,0 +1,20 @@
+self: "/transfers/17096551195817"
+status: "Pending"
+items:
+  - name: "Dawn of the Seven Premier: Backstage"
+    description: "Includes meet and greet with the film's stars."
+    quantity: 2
+sender:
+  self: "/accounts/MO-6A39EE8D"
+  number: "MO-6A39EE8D"
+  username: "mothers.milk"
+  email: "marvin.milk@usmc.gov"
+  firstName: "Marvin"
+  lastName: "Milk"
+recipient:
+  self: "/accounts/BI-5A939D5D"
+  number: "BI-5A939D5D"
+  username: "the_butcher"
+  email: "elcapitaine@yahoo.com"
+  firstName: "Billy"
+  lastName: "Butcher"

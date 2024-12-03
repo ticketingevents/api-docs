@@ -1,0 +1,36 @@
+type: "object"
+properties:
+  entries:
+    type: "array"
+    description: "List of tickets matching the given criteria"
+    items:
+      type: "object"
+      properties:
+        serial:
+          type: "string"
+          description: "Serial number that uniquely identifies the ticket"
+        status:
+          type: "string"
+          description: "The ticket's current status"
+        section:
+          type: "object"
+          description: "The event section to which this ticket grants access"
+          properties:
+            self:
+              type: "string"
+              format: "uri"
+              description: "URI of the event section resource"
+            name:
+              type: "string"
+              description: "Name of the event section"
+            description:
+              type: "string"
+              description: "Details of the experience customers can expect when purchasing tickets to this event section"
+        issued:
+          type: "string"
+          format: "date-time"
+          description: "The date and time at which the ticket was issued"
+        redeemed:
+          type: "string"
+          format: "date-time"
+          description: "The date and time at which the ticket was redeemed (or N/A if it has not been)"

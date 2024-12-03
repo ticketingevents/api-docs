@@ -1,0 +1,7 @@
+in: query
+name: event
+schema:
+  type: string
+  pattern: '^\d{14}$'
+required: false
+description: "If set, only returns campaigns advertising the specified event"

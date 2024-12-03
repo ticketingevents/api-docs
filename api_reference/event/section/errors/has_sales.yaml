@@ -1,0 +1,7 @@
+description: "A section with reserved or purchased tickets cannot be deleted."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "You cannot delete a section with reserved or sold tickets"

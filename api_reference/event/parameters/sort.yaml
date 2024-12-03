@@ -1,0 +1,7 @@
+in: query
+name: sort
+schema:
+  type: string
+  enum: ["alphabetical","published","popularity","start"]
+required: false
+description: "If set, determines how the returned events list is sorted"

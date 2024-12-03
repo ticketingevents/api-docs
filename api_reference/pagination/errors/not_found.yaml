@@ -1,0 +1,7 @@
+description: "The requested results page does not exist for the number of records specified."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "The specified page does not exist for the given records per page."

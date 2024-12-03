@@ -1,0 +1,7 @@
+description: "The request did not specify whether the account holder was a sender or recipient of the transfer."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "Your request must specify whether to list transfers sent or received"

@@ -1,0 +1,62 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the order resource"
+  number:
+    type: "string"
+    description: "Unique identifier of the order"
+  status:
+    type: "string"
+    description: "Current status of the order"
+  placed:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the order was placed"
+  subtotal:
+    type: "number"
+    format: "float"
+    description: "Total cost of the ordered items, before convenience fees are applied"
+  fees:
+    type: "number"
+    format: "float"
+    description: "Total applicable convenience fees for this order"
+  total:
+    type: "number"
+    format: "float"
+    description: "Total to be paid for this order inclusive of item costs (subtotal) and fees"
+  items:
+    type: "array"
+    description: |
+      List of items that were ordered
+    items:
+      type: "object"
+      properties:
+        number:
+          type: "string"
+          description: "Unique identifier of the ordered item"
+        name:
+          type: "string"
+          description: "Short name of the ordered item"
+        description:
+          type: "string"
+          description: "Detailed description of the ordered item"
+        price:
+          type: "number"
+          format: "float"
+          description: "Unit price of the ordered item"
+        quantity:
+          type: "number"
+          description: "Number of instances of this item that were ordered"
+  account:
+    type: "object"
+    description: "Details of the user account that placed the order"
+    properties:
+      $ref: "../../account/schemas/response.yaml#/properties"
+    unevaluatedProperties: true
+  payments:
+    type: "string"
+    format: "uri"
+    description: "URI of the collection of payments that settle this order"
+                

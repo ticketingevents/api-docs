@@ -1,0 +1,7 @@
+description: "One or more advertisements are currently assigned to this zone"
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "The zone is being used by one or more advertisements and cannot be deleted."

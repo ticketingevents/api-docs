@@ -1,0 +1,7 @@
+description: "Payment was attempted on a fulfilled, timed out, refunded or cancelled order"
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "You cannot pay for a Fulfilled order."

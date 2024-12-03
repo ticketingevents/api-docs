@@ -1,0 +1,9 @@
+in: query
+name: group
+schema:
+  type: string
+  enum: ['event','section','modifier']
+required: false
+description: |
+  Return grouped transactions totalling the amount and quantity fields
+  by event, section or modifier

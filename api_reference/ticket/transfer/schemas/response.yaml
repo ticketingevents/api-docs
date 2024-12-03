@@ -1,0 +1,29 @@
+type: object
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the transfer resource"
+  status:
+    type: "string"
+    description: "Current status of the transfer"
+  sender:
+      $ref: "account.yaml"
+  recipient:
+      $ref: "account.yaml"
+  tickets:
+    type: "array"
+    description: |
+      List of tickets involved in the transfer
+    items:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "The event section of the ticket being transferred"
+        description:
+          type: "string"
+          description: "Detailed description of the transferred ticket"
+        quantity:
+          type: "number"
+          description: "Number of tickets for this section being transferred"

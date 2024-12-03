@@ -1,0 +1,10 @@
+type: "object"
+properties:
+  breakdown:
+    type: object
+    description: Breakdown of overall units sold, income from sales and fees charged by modifier.
+    additionalProperties:
+      description: Modifier sales breakdown
+      type: object
+      allOf:
+        - $ref: "sales.yaml"

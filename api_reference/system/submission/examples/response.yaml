@@ -1,0 +1,58 @@
+self: "/submissions/L2V2ZW50cy8xNjk5MzcxNzgxNzk5Ng=="
+type: "advertisement"
+content:
+  self: "/advertisements/17006103852315"
+  name: "Justice is served on 24.06.07"            
+  description: "Launch ad for the Dawn of the Seven World Premier"
+  status: "Draft"
+  artwork: "http://localhost/media/17006103852315-artwork.jpeg"
+  zones:
+    - self: "/zones/17006034766602"
+      name: "Events App Banner"
+      description: |
+        Zone appears at above the fold on the home screen of the TickeTing
+        Events App
+      number: "TE6199"
+      width": 1400
+      height: 800
+      advertisements: "/zones/17006034766602/advertisements"
+  schedule:
+    - start: "2023-11-21T00:00"
+      end": "2025-11-31T00:00"
+  event:
+    self: "/events/16993717817996"
+    title: "Dawn of the Seven Premier"
+    description: |
+      World Premier of the long anticipated movie event of the
+      year: Dawn of the Seven
+    status: "Listed"
+    type: "Standard"
+    public: true
+    category: "Live Events"
+    subcategory: "Premier"
+    start: "2024-06-07T20:00"
+    end: "2024-06-07T23:00"
+    venue:
+      self: "/venues/16878146473429"
+      name: "Vought Tower"
+      longitude: -73.99214
+      latitude: 40.75518
+      address: "7th Ave, Manhattan, New York"
+      map: "https://maps.googleapis.com/maps/api/staticmap?center=40.75518,-73.99214&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7C40.75518,-73.99214&key=AIzaSyCyLy8bOLUTLbQLVQFwf1eVO2UIVO8_4kQ&signature=IowClV__Bha7DFVe7TIG-osgyDE="
+    disclaimer: ""
+    tags: ["homelander","queen maeve","the deep","A-Train"]
+    banner: "http://localhost/media/16993717817996-banner.jpeg"
+    thumbnail: "http://localhost/media/16993717817996-thumbnail.jpeg"
+    popularity: 40
+    sections:
+      - self: "/events/16993717817996/sections/16993964783416"
+        name: "VIP Admission"
+        description: "Includes meet and greet with the film's stars."
+        active: true
+        basePrice: 50
+        salesStart: "2024-01-01T00:00"
+        salesEnd: "2024-06-01T00:00"
+        capacity: 100
+        sold: 23
+        remaining: 74
+        reserved: 3

@@ -1,0 +1,6 @@
+in: path
+name: reset
+schema:
+  type: number
+required: true
+description: "Unique identifier of the reset request."

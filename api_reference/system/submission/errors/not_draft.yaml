@@ -1,0 +1,7 @@
+description: "The submitted content was not in a 'Draft' status."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "Only a 'Draft' can be submitted for review."

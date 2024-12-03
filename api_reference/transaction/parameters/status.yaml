@@ -1,0 +1,7 @@
+in: query
+name: status
+schema:
+  type: string
+  enum: ['Submitted','Pending','Approved','Rejected']
+required: false
+description: "Only return transactions with the specified status"

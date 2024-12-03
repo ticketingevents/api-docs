@@ -1,0 +1,6 @@
+in: path
+name: advertisement
+schema:
+  type: integer
+required: true
+description: "Unique identifier of the requested advertisement"

@@ -1,0 +1,7 @@
+description: "One or more sections have been added to the event, preventing it from being deleted."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "You must delete an event's sections before deleting an event."

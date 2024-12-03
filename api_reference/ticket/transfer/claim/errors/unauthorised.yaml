@@ -1,0 +1,7 @@
+description: "The authenticating user is not the recipient of this transfer."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../../responses/message.yaml"
+    example:
+      message: "Only a transfer's recipient can claim a transfer."

@@ -1,0 +1,30 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the advertising zone resource"
+  name:
+    type: "string"
+    description: "Unique name of the advertising zone"
+  description:
+    type: "string"
+    description: |
+      Text detailing where this zone appears (Events App, Website, etc.)
+      and the type of advertising it will display
+  number:
+    type: "string"
+    pattern: "^[A-Z]{2}[0-9]{4}$"
+    description: "System generated alphanumeric string that uniquely identifies the advertising zone"
+  width:
+    type: "number"
+    format: "float"
+    description: "The width (in pixels) that advertisements assigned to this zone must adhere to"
+  height:
+    type: "number"
+    format: "float"
+    description: "The height (in pixels) that advertisements assigned to this zone must adhere to"
+  advertisements:
+    type: "string"
+    format: "uri"
+    description: "URI of the collection of advertisements assigned to this zone"

@@ -1,0 +1,23 @@
+type: "object"
+description: "A geographical region in which events can be staged"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the region resource"
+  name:
+    type: "string"
+    description: "Unique name of the region"
+  country:
+    type: "string"
+    description: "Country in which the region is located"
+  district:
+    type: "string"
+    description: "Parish, state, province, county, etc. in which the region is located"
+  city:
+    type: "string"
+    description: "City, town or village in which the region is located"
+  icon:
+    type: "string"
+    format: "uri"
+    description: "URI of an icon that represents the region (e.g. flag)"

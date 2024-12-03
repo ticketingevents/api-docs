@@ -1,0 +1,13 @@
+page: 1
+records: 5
+entries:
+  - open: true
+    ip: "90.220.241.159"
+    agent: "Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion"
+    started: "2023-06-30 10:35:39"
+    ended: ""
+  - open: false
+    ip: "90.220.241.159"
+    agent: "Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion"
+    started: "2023-01-04 11:23:00"
+    ended: "2023-03-30 09:22:01"

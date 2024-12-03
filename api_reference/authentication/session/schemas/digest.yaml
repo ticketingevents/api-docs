@@ -1,0 +1,19 @@
+type: "object"
+properties:
+  open:
+    type: "boolean"
+    description: "True if the session is currently active, false otherwise"
+  ip:
+    type: "string"
+    description: "IP Address from which the session was opened"
+  agent:
+    type: "string"
+    description: "User Agent (UA) string of the agent from which the session was opened"
+  started:
+    type: "string"
+    format: "date-time"
+    description: "Time at which the session was opened"
+  ended:
+    type: "string"
+    format: "date-time"
+    description: "Time at which the session was ended, if it is no longer open"

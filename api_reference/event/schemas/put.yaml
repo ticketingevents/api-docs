@@ -1,0 +1,60 @@
+type: "object"
+required:
+  - type
+  - title
+  - description
+  - category
+  - subcategory
+  - venue
+  - public
+properties:
+  title:
+    type: "string"
+    description: "Unique name of the event"
+  description:
+    type: "string"
+    description: |
+      Long form text detailing what the event is about, including performing acts,
+      amenities and additional information important to potential attendees
+  type:
+    type: "string"
+    enum: ["Standard","Registration"]
+    description: "Nature of the event. Determines what information is collected on ticket purchase."
+  public:
+    type: "boolean"
+    description: "Whether or not the event is open to the general public"
+  category:
+    type: "string"
+    format: "uri"
+    description: "URI of the category under which the event is classified"
+  subcategory:
+    type: "string"
+    description: "Subcategory under which the event is classified"
+  start:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the event is scheduled to begin"
+  end:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the event is scheduled to finish"
+  venue:
+    type: "string"
+    format: "uri"
+    description: "URI of the venue at which the event is taking place"
+  disclaimer:
+    type: "string"
+    description: "Subcategory under which the event is classified"
+  tags:
+    type: "array"
+    items:
+      type: "string"
+    description: "List of short phrases that can be used to search and share the event"
+  banner:
+    type: "string"
+    format: "base64"
+    description: "Base64 representation of the event's banner image data"
+  thumbnail:
+    type: "string"
+    format: "base64"
+    description: "Base64 representation of the event's thumbnail image data"

@@ -1,0 +1,6 @@
+in: query
+name: username
+schema:
+  type: string
+required: false
+description: "If set, only returns the account with the specified username"

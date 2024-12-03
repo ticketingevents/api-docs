@@ -1,0 +1,6 @@
+in: path
+name: code
+schema:
+  type: string
+required: true
+description: "Verification code sent to the account's registered email"

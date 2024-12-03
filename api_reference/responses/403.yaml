@@ -1,0 +1,7 @@
+description: "The provided X-API-Key is not allowed to issue this request"
+content:
+  application/json:
+    schema:
+      "$ref": "message.yaml"
+    example:
+      error: "You are restricted from accessing this resource."

@@ -1,0 +1,18 @@
+type: "object"
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the advertising zone"
+  description:
+    type: "string"
+    description: |
+      Text detailing where this zone appears (Events App, Website, etc.)
+      and the type of advertising it will display
+  width:
+    type: "number"
+    format: "float"
+    description: "The width (in pixels) that advertisements assigned to this zone must adhere to"
+  height:
+    type: "number"
+    format: "float"
+    description: "The height (in pixels) that advertisements assigned to this zone must adhere to"

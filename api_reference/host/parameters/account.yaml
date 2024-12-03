@@ -1,0 +1,6 @@
+in: query
+name: account
+schema:
+  type: string
+required: false
+description: "The identifier of the account that returned event hosts should list as an administrator"

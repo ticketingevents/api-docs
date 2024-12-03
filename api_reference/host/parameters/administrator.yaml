@@ -1,0 +1,6 @@
+in: query
+name: account
+schema:
+  type: string
+required: true
+description: "The identifier of the account from which administrative access should be revoked"

@@ -1,0 +1,12 @@
+type: object
+properties:
+  items:
+    description: Sections for which to order tickets. The object's keys
+      are the URI of the event section for which tickets are being ordered, while its values
+      are the number of tickets to order for the section.
+    type: object
+    additionalProperties:
+      description: Number of tickets to order for the specified section
+      type: number
+      format: integer
+              

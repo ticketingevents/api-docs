@@ -1,0 +1,23 @@
+type: object
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the account resource"
+  number:
+    type: "string"
+    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+    description: "Immutable identifier attached to the account"
+  username:
+    type: "string"
+    description: "Unique username attached to the account"
+  email:
+    type: "string"
+    format: "email"
+    description: "Unique email address attached to the account"
+  firstName:
+    type: "string"
+    description: "The account holder's forename"
+  lastName:
+    type: "string"
+    description: "The account holder's surname"

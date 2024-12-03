@@ -1,0 +1,5 @@
+type: "object"
+properties:
+  message:
+    type: "string"
+    description: "Reason for the given response."

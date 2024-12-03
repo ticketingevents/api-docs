@@ -1,0 +1,7 @@
+description: "The specified account number does not belong to a TickeTing account"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The requested account could not be located"

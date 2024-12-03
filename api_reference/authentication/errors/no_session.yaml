@@ -1,0 +1,7 @@
+description: "No session was found for the specified key, or the session has been ended."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "You are restricted from accessing this resource."

@@ -1,0 +1,6 @@
+in: path
+name: venue
+schema:
+  type: integer
+required: true
+description: "Unique identifier of the requested event venue"

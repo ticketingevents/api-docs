@@ -1,0 +1,8 @@
+name: "Justice is served on 24.06.07"            
+description: "Launch ad for the Dawn of the Seven World Premier"
+artwork: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAzoAAASRCAYAAAD/zekXAA..."
+zones: ["TE6199", "DA5842"]
+schedule:
+  - start: "2023-11-21 00:00"
+    end: "2025-11-31 00:00"
+event: "16993717817996"

@@ -1,0 +1,14 @@
+page: 1
+records: 25
+entries:
+  - self: "/categories/16878141745207"
+    name: "Party"
+    subcategories:
+      - Boat Cruise
+      - House Party
+      - Wedding
+  - self: "/categories/16972381860264"
+    name: "Sports"
+    subcategories:
+      - Cricket
+      - Basketball

@@ -1,0 +1,8 @@
+type: "object"
+properties:
+  page:
+    type: "integer"
+    description: "The number of the results page returned"
+  records:
+    type: "integer"
+    description: "The maximum size of the results page returned"

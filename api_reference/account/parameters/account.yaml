@@ -1,0 +1,6 @@
+in: query
+name: number
+schema:
+  type: string
+required: false
+description: "If set, only returns the account with the specified number"

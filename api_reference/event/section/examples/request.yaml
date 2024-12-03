@@ -1,0 +1,6 @@
+name: "Backstage"
+description: "Includes meet and greet with the film's stars."
+basePrice: 50
+salesStart: "2024-01-01T00:00"
+salesEnd: "2024-06-01T00:00"
+capacity: 100

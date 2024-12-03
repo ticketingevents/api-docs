@@ -1,0 +1,68 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the event resource"
+  published:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the event was published"
+  title:
+    type: "string"
+    description: "Unique name of the event"
+  description:
+    type: "string"
+    description: |
+      Long form text detailing what the event is about, including performing acts,
+      amenities and additional information important to potential attendees
+  status:
+    type: "string"
+    description: "Current status of the event"
+  type:
+    type: "string"
+    description: "Nature of the event. Determines what information is collected on ticket purchase."
+  public:
+    type: "boolean"
+    description: "Whether or not the event is open to the general public"
+  category:
+    $ref: "../../system/category/schemas/response.yaml"
+  subcategory:
+    type: "string"
+    description: "Subcategory under which the event is classified"
+  start:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the event is scheduled to begin"
+  end:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the event is scheduled to finish"
+  venue:
+    $ref: "../../system/venue/schemas/response.yaml"
+  disclaimer:
+    type: "string"
+    description: "Subcategory under which the event is classified"
+  tags:
+    type: "array"
+    items:
+      type: "string"
+    description: "List of short phrases that can be used to search and share the event"
+  banner:
+    type: "string"
+    format: "uri"
+    description: "URI of the event's banner image"
+  thumbnail:
+    type: "string"
+    format: "uri"
+    description: "URI of the event's thumbnail image"
+  popularity:
+    type: "integer"
+    description: "Score indicating how much activity the event is generating."
+  sections:
+    type: "array"
+    description: |
+      A list of the event's subdivisions, each of which offer a unique experience to
+      ticket holders (E.g. General, VIP, Backstage, etc.)
+    items:
+      $ref: "../section/schemas/digest.yaml"

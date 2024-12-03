@@ -1,0 +1,7 @@
+description: "Required payment information was missing or provided details were invalid"
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "The following arguments are required, but have not been supplied: cvv, expiryDate"

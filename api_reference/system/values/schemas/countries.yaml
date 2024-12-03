@@ -1,0 +1,11 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the country list resource"
+  countries:
+    type: "array"
+    description: "List of country names"
+    items:
+      type: "string"

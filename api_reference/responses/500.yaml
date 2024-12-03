@@ -1,0 +1,7 @@
+description: "Server error encountered while processing this request. Details in logs."
+content:
+  application/json:
+    schema:
+      "$ref": "message.yaml"
+    example:
+      error: "There was a server error while excuting this request. Please see system logs for details."

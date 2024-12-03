@@ -1,0 +1,26 @@
+type: "object"
+required:
+  - name
+  - region
+  - latitude
+  - longitude
+  - address
+properties:
+  name:
+    type: "string"
+    description: "Name of the event venue"
+  region:
+    type: "string"
+    pattern: '^\d{14}$'
+    description: "Unique identifier of the region in which this venue is located"
+  latitude:
+    type: "number"
+    format: "float"
+    description: "Global latitude of the event venue's location"
+  longitude:
+    type: "number"
+    format: "float"
+    description: "Global longitude of the event venue's location"
+  address:
+    type: "string"
+    description: "Text representation of the event venue's address"

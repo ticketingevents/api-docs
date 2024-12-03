@@ -1,0 +1,7 @@
+in: query
+name: region
+schema:
+  type: string
+  pattern: '^\d{14}$'
+required: false
+description: "If set, only returns venues located in the specified region"

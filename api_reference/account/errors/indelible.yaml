@@ -1,0 +1,7 @@
+description: "The account cannot be deleted until all active tickets have been transferred."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "An account cannot be deleted if it holds active tickets."

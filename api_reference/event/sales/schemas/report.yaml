@@ -1,0 +1,6 @@
+type: "object"
+allOf:
+  - $ref: "sales.yaml"
+  - $ref: "sections.yaml"
+
+

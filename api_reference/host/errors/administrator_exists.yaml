@@ -1,0 +1,7 @@
+description: "The specified account already has administrative access"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The specified account is already a host administrator."

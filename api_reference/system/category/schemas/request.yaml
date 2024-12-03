@@ -1,0 +1,12 @@
+type: "object"
+required:
+  - name
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the event category"
+  subcategories:
+    type: "array"
+    description: "List of subtypes associated with this category"
+    items:
+      type: "string"

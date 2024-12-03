@@ -1,0 +1,27 @@
+type: "object"
+required:
+  - name
+  - basePrice
+  - capacity
+properties:
+  name:
+    type: "string"
+    description: "Name of the event section"
+  description:
+    type: "string"
+    description: "Details of the unique experience customers can expect when purchasing tickets to this event section"
+  basePrice:
+    type: "number"
+    format: "float"
+    description: "Cost of tickets to this event section before the application of any price modifiers"
+  salesStart:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which tickets for this event section go on sale"
+  salesEnd:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which ticket sales for this event section close"
+  capacity:
+    type: "integer"
+    description: "The maximum number of tickets that can be issued for this event section"

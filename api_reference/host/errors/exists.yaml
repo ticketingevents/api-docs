@@ -1,0 +1,7 @@
+description: "An event host with the specified name already exists in the system"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The following arguments conflict with those of another host: name."

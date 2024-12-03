@@ -1,0 +1,7 @@
+description: "The password reset code was omitted or is invalid."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "Your password reset code is invalid."

@@ -1,0 +1,7 @@
+in: query
+name: patron
+schema:
+  type: string
+  pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+required: false
+description: "Only return admissions of the specified patron to the event"

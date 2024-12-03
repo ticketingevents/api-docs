@@ -1,0 +1,6 @@
+in: query
+name: section
+schema:
+  type: string
+required: false
+description: "If set, only returns the event containing the specified section"

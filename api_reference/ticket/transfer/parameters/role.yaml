@@ -1,0 +1,7 @@
+in: query
+name: role
+schema:
+  type: string
+  enum: ['sender','recipient']
+required: true
+description: "Determines whether to return transfers for which the account holder is the sender or the recipient"

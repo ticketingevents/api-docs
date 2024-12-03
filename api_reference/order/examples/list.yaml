@@ -1,0 +1,40 @@
+page: 1
+records: 10
+entries:
+  - self: "/orders/E8D946240203"
+    number: "E8D946240203"
+    status: "Placed"
+    placed: "2024-02-03T23:22:31+00:00"
+    subtotal: 140.00
+    fees: 3.96
+    total: 143.96
+    items:
+      - name: "Dawn of the Seven Premier: General Admission"
+        number: "1c568663aca938b066524a3b3464807d"
+        description: "General Admission to the premier screening of the movie of the year."
+        quantity: 2
+        price: 20
+      - name: "Dawn of the Seven Premier: Backstage"
+        number: "542efc724c884510b7a40a62aea5429a"
+        description: "Includes meet and greet with the film's stars."
+        quantity: 2
+        price: 50
+    account:
+      self: "/accounts/MO-6A39EE8D"
+      number: "MO-6A39EE8D"
+      username: "mothers.milk"
+      email: "marvin.milk@usmc.gov"
+      role: "customer"
+      verified: false
+      activated: true
+      firstName: "Marvin"
+      lastName: "Milk"
+      title: "Mr"
+      dateOfBirth: "1974-09-14"
+      phone: "+1 (268) 555 0123"
+      country: "Antigua and Barbuda"
+      firstAddressLine: "Jennings New Extension"
+      secondAddressLine: ""
+      city: "Jennings"
+      state: "Saint Mary's"
+    payments: "/orders/E8D946240203/payments"

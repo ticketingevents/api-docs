@@ -1,0 +1,11 @@
+page: 3
+records: 2
+entries:
+  - ticket: "DAWIER-BACK75580348"
+    patron: "Marvin Milk (mothers.milk)"
+    section: "Backstage"
+    admitted: "2024-03-01T10:59:56+00:00"
+  - ticket: "DAWIER-VIPV37536946"
+    patron: "Billy Butcher (the_butcher)"
+    section: "VIP"
+    admitted: "2024-03-01T10:59:56+00:00"

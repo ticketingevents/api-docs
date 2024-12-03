@@ -1,0 +1,7 @@
+in: query
+name: status
+schema:
+  type: string
+  enum: ['Draft','Under Review','Scheduled','Listed','Cancelled','Staged']
+required: false
+description: "If set, only returns events with the specified status"

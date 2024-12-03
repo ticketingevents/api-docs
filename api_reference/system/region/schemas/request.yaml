@@ -1,0 +1,17 @@
+type: "object"
+required:
+  - name
+  - country
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the region"
+  country:
+    type: "string"
+    description: "Country in which the region is located"
+  district:
+    type: "string"
+    description: "Parish, state, province, county, etc. in which the region is located"
+  city:
+    type: "string"
+    description: "City, town or village in which the region is located"

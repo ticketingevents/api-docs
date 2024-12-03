@@ -1,0 +1,7 @@
+description: "The authenticating user is neither the sender nor recipient of this transfer."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "This account is not permitted to retrieve details of this transfer."

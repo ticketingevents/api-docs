@@ -1,0 +1,6 @@
+in: query
+name: digest
+schema:
+  type: boolean
+required: false
+description: "If true, returns a more compact representation of each ticket"

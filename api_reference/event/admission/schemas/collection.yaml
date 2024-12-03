@@ -1,0 +1,4 @@
+type: "array"
+description: "List of admissions granted by the provided serial numbers"
+items:
+  $ref: "response.yaml"

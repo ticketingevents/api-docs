@@ -1,0 +1,7 @@
+description: "The transfer has already been claimed or cancelled."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "A Cancelled transfer cannot be cancelled."

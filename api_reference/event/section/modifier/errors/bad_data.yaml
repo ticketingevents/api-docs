@@ -1,0 +1,7 @@
+description: "The modifier's data is internally inconsistent or incompatible with the event section."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../../responses/message.yaml"
+    example:
+      message: "The price delta cannot reduce the base price of the section below 0."

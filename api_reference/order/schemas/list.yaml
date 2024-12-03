@@ -1,0 +1,7 @@
+type: "object"
+properties:
+  entries:
+    type: "array"
+    description: "List of orders matching the given criteria"
+    items:
+      $ref: "response.yaml"

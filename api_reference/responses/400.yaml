@@ -1,0 +1,7 @@
+description: "One or more required arguments are missing or some arguments are invalid."
+content:
+  application/json:
+    schema:
+      "$ref": "message.yaml"
+    example:
+      error: "The following arguments are required, but have not been supplied."

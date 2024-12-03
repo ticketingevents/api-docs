@@ -1,0 +1,20 @@
+self: "/events/16993717817996/sections/16993964783416"
+name: "Backstage"
+description: "Includes meet and greet with the film's stars."
+active: true
+basePrice: 50
+salesStart: "2024-01-01T00:00"
+salesEnd: "2024-06-01T00:00"
+capacity: 100
+sold: 23
+remaining: 74
+reserved: 3
+modifiers:
+  - self: "/events/16993717817996/sections/16993964783416/modifiers/16994014111951"
+    name: "Supe Special"
+    active: true
+    priceDelta: -10
+    availableFrom: "2024-01-01T00:00"
+    availableTo: "2024-03-31T00:00"
+    minOrder: 0
+    maxOrder: 10

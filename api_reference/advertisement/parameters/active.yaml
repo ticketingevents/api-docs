@@ -1,0 +1,6 @@
+in: query
+name: active
+schema:
+  type: boolean
+required: false
+description: "Only returns currently running ad campaigns if set to true, or past and future campaigns if set to false"

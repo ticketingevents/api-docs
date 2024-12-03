@@ -1,0 +1,9 @@
+type: "object"
+required:
+  - region
+properties:
+  region:
+    type: "string"
+    description: |
+      The user's preferred region. Events and advertisements from the
+      selected region will be shown by default.

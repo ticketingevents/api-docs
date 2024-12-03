@@ -1,0 +1,7 @@
+description: "The specified zones do not exist or have different dimensions or the given schedule contains inconsistencies."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "All selected zones must have the same dimensions."

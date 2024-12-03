@@ -1,0 +1,7 @@
+description: "The specified event section already has a price modifier with the given name."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../../responses/message.yaml"
+    example:
+      message: "This section already has a <name> modifier."

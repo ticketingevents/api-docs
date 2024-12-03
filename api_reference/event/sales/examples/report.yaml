@@ -1,0 +1,26 @@
+units: 31
+sales: 960
+fees: 48
+breakdown:
+  Backstage:
+    units: 11
+    sales: 460
+    fees: 23
+    breakdown:
+      Base Price:
+        units: 2
+        sales: 100
+        fees: 5
+      Supe Special:
+        units: 9
+        sales: 360
+        fees: 18
+  VIP:
+    units: 20
+    sales: 500
+    fees: 25
+    breakdown:
+      Base Price:
+        units: 20
+        sales: 500
+        fees: 25

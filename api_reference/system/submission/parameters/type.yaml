@@ -1,0 +1,6 @@
+in: query
+name: type
+schema:
+  type: string
+required: false
+description: "If set, only returns submissions of the specified content type"

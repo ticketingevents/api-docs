@@ -1,0 +1,7 @@
+description: "The specified account does not have administrative access to the event host"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The specified account cannot be removed as it is not a host administrator."

@@ -1,0 +1,7 @@
+description: "An attempt was made to claim a cancelled or previously claimed transfer"
+content:
+  application/json:
+    schema:
+      "$ref": "../../../../responses/message.yaml"
+    example:
+      message: "This transfer can no longer be claimed."

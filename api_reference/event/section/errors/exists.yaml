@@ -1,0 +1,7 @@
+description: "The specified event already has a section with the given name."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "This event already has a <name> section."

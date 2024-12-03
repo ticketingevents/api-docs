@@ -1,0 +1,8 @@
+type: "object"
+required:
+  - account
+properties:
+  account:
+    type: "string"
+    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+    description: "Identifier of the account to which to grant administrative access"

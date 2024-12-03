@@ -1,0 +1,12 @@
+type: "object"
+required:
+  - name
+  - access
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the API Integration Token"
+  access:
+    type: "string"
+    enum: ["public","customer","support","host","administrator"]
+    description: "The required access level for this token"

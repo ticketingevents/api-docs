@@ -1,0 +1,7 @@
+description: "No event could be found with the specified ID"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "There is presently no event with the given ID."

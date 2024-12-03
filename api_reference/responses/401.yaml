@@ -1,0 +1,7 @@
+description: "The X-API-Key header was empty or omitted from the request"
+content:
+  application/json:
+    schema:
+      "$ref": "message.yaml"
+    example:
+      error: "Your request could not be authenticated."

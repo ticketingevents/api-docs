@@ -1,0 +1,7 @@
+description: "The region currently has one or more venues attached."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      error: "A region cannot be deleted if it has venues attached"

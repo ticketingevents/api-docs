@@ -1,0 +1,6 @@
+in: query
+name: public
+schema:
+  type: boolean
+required: false
+description: "Only returns public events if set to true, or private events if set to false."

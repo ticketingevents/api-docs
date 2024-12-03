@@ -1,0 +1,7 @@
+description: "The authenticating user is not authorised to access this customer's orders."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "This account is not permitted to retrieve details of this order."

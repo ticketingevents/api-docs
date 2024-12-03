@@ -1,0 +1,14 @@
+type: "object"
+properties:
+  date:
+    type: "string"
+    format: "date-time"
+    description: "The date/time at which the payment was attempted"
+  amount:
+    type: "number"
+    format: "float"
+    description: "The attempted payment amount"
+  status:
+    type: "string"
+    enum: ["Authorised", "Declined"]
+    description: "The end result of the payment attempt"

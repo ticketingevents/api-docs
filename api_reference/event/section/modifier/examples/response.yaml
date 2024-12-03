@@ -1,0 +1,8 @@
+self: "/events/16993717817996/sections/16993964783416/modifiers/16994014111951"
+name: "Supe Special"
+active: true
+priceDelta: -10
+availableFrom: "2024-01-01T00:00"
+availableTo: "2024-03-31T00:00"
+minOrder: 0
+maxOrder: 10

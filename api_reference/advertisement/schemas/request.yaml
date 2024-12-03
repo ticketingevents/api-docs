@@ -1,0 +1,42 @@
+type: "object"
+properties:
+  name:
+    type: "string"
+    description: "Unique name of the advertisement"
+  description:
+    type: "string"
+    description: |
+      Long form text detailing the aims and objectives of the advertisement
+      and any other relevant information
+  event:
+    type: "string"
+    pattern: '^\d{14}$'
+    description: "Unique identifier of the event that this advertisement is promoting"
+  artwork:
+    type: "string"
+    format: "base64"
+    description: "Base64 representation of the advertisement's artwork image data"
+  zones:
+    type: "array"
+    description: "List of zones the advertisement is assigned to display in"
+    items:
+      type: "string"
+      pattern: "^[A-Z]{2}[0-9]{4}$"
+      description: "Unique number of the zone that this advertisement should target"
+  schedule:
+    type: "array"
+    description: |
+      List of time slots at which to display the advertisement in its
+      allocated zones
+    items:
+      type: "object"
+      properties:
+        start:
+          type: "string"
+          format: "date-time"
+          description: "The date and time from which the advertisement is scheduled to be displayed"
+        end:
+          type: "string"
+          format: "date-time"
+          description: "The date and time until which the advertisement is scheduled to be displayed"
+                

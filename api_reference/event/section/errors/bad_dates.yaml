@@ -1,0 +1,7 @@
+description: "Section sales dates are incompatible with one another, or the dates of the event."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "Sales must start before they end."

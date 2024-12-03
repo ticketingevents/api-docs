@@ -1,0 +1,7 @@
+description: "The order has already been settled or timed out and so can't be cancelled."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "A timed out order cannot be cancelled."

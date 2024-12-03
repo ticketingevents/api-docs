@@ -1,0 +1,7 @@
+type: "object"
+required:
+  - identification
+properties:
+  identification:
+    type: "string"
+    description: The username or email address of the account being looked up

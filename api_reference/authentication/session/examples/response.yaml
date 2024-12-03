@@ -1,0 +1,23 @@
+self: "/sessions/7c69fb3eeb3c910f049d9d72bec05e0d"
+id: 16881177390522
+open: true
+started: "2023-06-30 10:35:39"
+key: "7c69fb3eeb3c910f049d9d72bec05e0d"
+account:
+  self: "/accounts/MO-6A39EE8D"
+  number: "MO-6A39EE8D"
+  username: "mothers.milk"
+  email: "marvin.milk@usmc.gov"
+  role: "customer"
+  verified: false
+  activated: true
+  firstName: "Marvin"
+  lastName: "Milk"
+  title: "Mr."
+  dateOfBirth: "14-09-1974"
+  phone: "+1 (268) 555 0123"
+  country: "Antigua and Barbuda"
+  firstAddressLine: "Jennings New Extension"
+  secondAddressLine: ""
+  city: "Jennings"
+  state: "Saint Mary's"

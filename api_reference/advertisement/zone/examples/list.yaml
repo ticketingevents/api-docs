@@ -1,0 +1,12 @@
+page: 1
+records: 25
+entries:
+  - self: "/zones/17006034766602"
+    name: "Events App Banner"
+    description: |
+      Zone appears at above the fold on the home screen of the TickeTing
+      Events App
+    number: "TE6199"
+    width": 1400
+    height: 800
+    advertisements: "/zones/17006034766602/advertisements"

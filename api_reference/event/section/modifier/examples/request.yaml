@@ -1,0 +1,6 @@
+name: "Supe Special"
+priceDelta: -10
+availableFrom: "2024-01-01T00:00"
+availableTo: "2024-03-31T00:00"
+minOrder: 0
+maxOrder: 10

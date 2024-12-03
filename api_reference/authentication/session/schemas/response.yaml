@@ -1,0 +1,27 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the session resource"
+  id:
+    type: "integer"
+    description: "Unique ID number of the session resource"
+  open:
+    type: "boolean"
+    description: "True if the session is currently active, false otherwise"
+  started:
+    type: "string"
+    format: "date-time"
+    description: "Time at which the session was created"
+  key:
+    type: "string"
+    description: |
+      The key associated to this session resource. Include this token in the
+      'X-API-Key' Header to authenticate requests as the associated user account
+  account:
+    type: "object"
+    description: "User account for which the session was opened"
+    properties:
+      $ref: "../../../account/schemas/response.yaml#/properties"
+    unevaluatedProperties: true

@@ -1,0 +1,7 @@
+in: query
+name: status
+schema:
+  type: string
+  enum: ['Draft','Under Review','Listed','Cancelled']
+required: false
+description: "If set, only returns ad campaigns with the specified status"

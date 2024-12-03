@@ -1,0 +1,7 @@
+in: query
+name: sender
+schema:
+  type: string
+  pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+required: false
+description: "If set, only returns transfers initiated by the customer identified by the specified account number"

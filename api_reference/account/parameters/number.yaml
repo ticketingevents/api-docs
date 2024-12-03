@@ -1,0 +1,6 @@
+in: path
+name: number
+schema:
+  type: string
+required: true
+description: "Alphanumeric identifier of the user account"

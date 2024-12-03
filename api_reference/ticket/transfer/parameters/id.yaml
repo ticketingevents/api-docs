@@ -1,0 +1,7 @@
+in: path
+name: number
+schema:
+  type: string
+  pattern: '^\d{14}$'
+required: false
+description: "Unique identifier of the transfer"

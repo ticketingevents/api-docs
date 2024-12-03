@@ -1,0 +1,13 @@
+type: "object"
+properties:
+  units:
+    type: "number"
+    description: "The total number of ticket sales for this event, section or modifier that match the given criteria"
+  sales:
+    type: "number"
+    format: "float"
+    description: "The total income from matching ticket sales for this event, section or modifier"
+  fees:
+    type: "number"
+    format: "float"
+    description: "The total fees charged on matching ticket sales for this event, section or modifier"

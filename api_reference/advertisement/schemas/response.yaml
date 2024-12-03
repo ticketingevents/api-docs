@@ -1,0 +1,49 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the advertisement resource"
+  name:
+    type: "string"
+    description: "Unique name of the advertisement"
+  description:
+    type: "string"
+    description: |
+      Long form text detailing the aims and objectives of the advertisement
+      and any other relevant information
+  status:
+    type: "string"
+    description: "Current status of the advertisement"
+  artwork:
+    type: "string"
+    format: "uri"
+    description: "URI of the advertisement's artwork"
+  zones:
+    type: "array"
+    description: "List of zones the advertisement is assigned to"
+    items:
+      $ref: "../zone/schemas/response.yaml"
+  schedule:
+    type: "array"
+    description: |
+      List of time slots at which to display the advertisement in its
+      allocated zones
+    items:
+      type: "object"
+      properties:
+        start:
+          type: "string"
+          format: "date-time"
+          description: "The date and time from which the advertisement is scheduled to be displayed"
+        end:
+          type: "string"
+          format: "date-time"
+          description: "The date and time until which the advertisement is scheduled to be displayed"
+  event:
+    type: "object"
+    description: "The event that this advertisement is promoting"
+    properties:
+      $ref: "../../event/schemas/response.yaml#/properties"
+    unevaluatedProperties: true
+                

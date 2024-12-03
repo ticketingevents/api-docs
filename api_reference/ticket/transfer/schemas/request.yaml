@@ -1,0 +1,16 @@
+type: object
+properties:
+  recipient:
+    type: "string"
+    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+    description: "Account identifier of the transfer recipient"
+  tickets:
+    type: object
+    description: Sections for which to transfer tickets. The object's keys
+      are the URI of the event section of the tickets being transferred, while its values
+      are the number of tickets to transfer for that section.
+    additionalProperties:
+      description: Number of tickets to transfer for the specified section
+      type: number
+      format: integer
+              

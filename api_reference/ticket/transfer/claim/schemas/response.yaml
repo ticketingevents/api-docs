@@ -1,0 +1,12 @@
+type: object
+properties:
+  date:
+    type: "string"
+    format: "date-time"
+    description: "The date/time at which the transfer was claimed"
+  claimant:
+    type: "string"
+    description: "Full name and username of the TickeTing user that claimed the transfer"
+  success:
+    type: "boolean"
+    description: "True if the transfer was successfully claimed, false otherwise"

@@ -1,0 +1,15 @@
+page: 1
+records: 25
+entries:
+  - self: "/regions/19290238432215"
+    name: "Antigua and Barbuda"
+    country: "Antigua and Barbuda"
+    district: ""
+    city: ""
+    icon: "https://restfulcountries.com/assets/images/flags/Antigua-And-Barbuda.png"
+  - self: "/regions/159428147942752"
+    name: "Manhattan"
+    country: "United States of America"
+    district: "New York"
+    city: "Manhattan"
+    icon: "https://restfulcountries.com/assets/images/flags/United-States-of-America.png"

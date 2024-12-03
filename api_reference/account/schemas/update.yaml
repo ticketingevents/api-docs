@@ -1,0 +1,35 @@
+type: "object"
+properties:
+  firstName:
+    type: "string"
+    description: "The account holder's forename"
+  lastName:
+    type: "string"
+    description: "The account holder's surname"
+  title:
+    type: "string"
+    enum: ["Mr","Mrs","Ms","Mx"]
+    description: "The account holder's formal title"
+  dateOfBirth:
+    type: "string"
+    format: "date"
+    description: "The account holder's date of birth"
+  phone:
+    type: "string"
+    format: "phone"
+    description: "The account holder's primary contact number"
+  country:
+    type: "string"
+    description: "The country associated with the account (used for regionalisation)"
+  firstAddressLine:
+    type: "string"
+    description: "The first line of the account holder's address"
+  secondAddressLine:
+    type: "string"
+    description: "The second line of the account holder's address"
+  city:
+    type: "string"
+    description: "The city portion of the account holder's address"
+  state:
+    type: "string"
+    description: "The state, parish or district portion of the account holder's address"

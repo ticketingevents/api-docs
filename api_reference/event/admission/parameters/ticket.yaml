@@ -1,0 +1,7 @@
+in: query
+name: ticket
+schema:
+  type: string
+  pattern: '^\w{6}-\w{4}\d{8}$'
+required: false
+description: "Only return details of the admission granted by the specified ticket"

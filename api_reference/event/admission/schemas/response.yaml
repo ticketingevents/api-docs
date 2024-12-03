@@ -1,0 +1,15 @@
+type: "object"
+properties:
+  ticket:
+    type: "string"
+    description: "Serial number of the ticket that granted admission"
+  patron:
+    type: "string"
+    description: "Full name and username of the TickeTing user admitted on this ticket"
+  section:
+    type: "string"
+    description: "Name of the event section the patron was admitted to"
+  admitted:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the patron was admitted"

@@ -1,0 +1,2999 @@
+openapi: "3.1.0"
+info:
+  version: "3.0.0"
+  title: "TickeTing REST API v3 Reference"
+  description: |
+    # Introduction
+    The TickeTing REST API v3 allows developers to integrate with the TickeTing 
+    platform, from creating hosts and events to buying and transferring tickets.
+    This reference document will walk you through authenticating against the API
+    and the full list of available endpoints, their permissions and functionality.
+
+    # Authentication
+    The TickeTing API uses API keys to authenticate requests. You must provide a 
+    valid API Key in the X-API-Key header of each request you make. There are two
+    ways to get a valid API Key:
+    
+    1. Start a session with a valid TickeTing username and password (this gives
+    access based on the user's permissions).
+
+    2. Secure an integration key from a system administrator. Integration keys grant an
+    access level determined by the administrator on creation.
+
+    Session Authentication and Integration Keys are covered in the
+    [Authentication](#tag/Session-Management "Authentication") section of this reference.
+
+    ### Example Request Header
+
+    ~~~
+    X-API-Key: a9427bf35dd3d3011a1277c9c344ae07
+    ~~~
+
+    ### Authentication Errors
+
+    Omitting the X-API-Key Header from your request or specifying an empty value, will result in
+    the following 401 error response.
+
+    ~~~
+    {
+      "message": "Your request could not be authenticated."
+    }
+    ~~~
+
+    If an invalid X-API-Key value is provided, or the provided key is valid, but does not have
+    permission to access the requested resource, the following 403 error response is sent.
+
+    ~~~
+    {
+      "message": "You are restricted from accessing this resource."
+    }
+    ~~~
+
+    # Client Version
+    All requests to the API must advertise the version of the API they wish to integrate with.
+    This ensures compatability with the server. This is done by including the X-Client-Version
+    header in every request along with the expected API version. In this way the server can
+    indicate when a client must upgrade to avoid breaking changes.
+    
+    ### Example Request Header
+
+    ~~~
+    X-Client-Version: 3.0.0
+    ~~~
+    
+    ### Client Version Errors
+
+    If the X-Client-Version header is omitted from your request, or the provided version does
+    not meet the minimum required by the API, the following 412 error response
+    is sent.
+
+    ~~~
+    {
+        "error": "Please upgrade your client to complete this request"
+    }
+    ~~~
+    
+    # Error Responses
+
+    ### 404 Errors
+
+    Requests to the API can result in a 404 error for two reasons:
+
+    1.  The endpoint you are trying to access does not exist, in which case you will see the
+        following response:
+      
+        ~~~
+        {
+            "message": "The requested endpoint /invalid/endpoint does not exist on this server."
+        }
+        ~~~
+
+    2.  The endpoint you are requesting exists, but a resource cannot be located using the
+        given URI. For example, trying to access an event resource with a non-existant ID such
+        as /events/0000000 will result in the following response:
+      
+        ~~~
+        {
+            "error": "There is presently no resource with the given URI."
+        }
+        ~~~
+
+    ### Server Errors
+
+    This version of the API is still under development and there may be bugs and runtime errors
+    encountered while processing your request. In these cases, a 500 error response will be sent
+    with the message below. If such a message is received, please contact a
+    [system administrator](mailto:dev@ticketingevents.com "Administrator Contact") with the details
+    of your request (endpoint, method, headers and payload), so they may reproduce and resolve the
+    issue.
+
+    ~~~
+    {
+      "message": "There was a server error while excuting this request. Please see system logs for details."
+    }
+    ~~~
+
+    ### Other Errors
+    
+    Additional error responses may be received when incorrectly accessing valid API endpoints. The
+    errors received, and their resolution, are specific to the requested URI and HTTP Method and details
+    are provided with each endpoint's reference where applicable.
+
+  contact:
+    name: "TickeTing Inc."
+    email: "dev@ticketingevents.com"
+servers:
+  - url: "https://qa.ticketingevents.com/v3"
+    description: "QA Server"
+  - url: "https://api.ticketingevents.com/v3"
+    description: "Production Server"
+components:
+  securitySchemes:
+    SessionKey:
+      type: "apiKey"
+      in: "header"
+      name: "X-API-Key"
+security:
+  - SessionKey:
+    - public
+    - customer
+    - host
+    - support
+    - administrator
+x-tagGroups:
+  - name: "Authentication"
+    tags:
+      - "Session Authentication"
+      - "API Integrations"
+  - name: "User Accounts"
+    tags:
+      - "Account Management"
+      - "Account Verification"
+      - "Account Activation"
+      - "Password Reset"
+      - "Account Activity"
+  - name: "Events"
+    tags:
+      - "Managing Host Accounts"
+      - "Working with Events"
+      - "Event Admissions"
+      - "Event Reporting"
+  - name: "Advertising"
+    tags:
+      - "Ad Zone Management"
+      - "Advertising an Event"
+  - name: "Purchasing Tickets"
+    tags:
+      - "Placing an Order"
+      - "Order Settlement"
+  - name: "Managing Tickets"
+    tags:
+      - "Ticket Transfers"
+  - name: "System Administration"
+    tags:
+      - "Region Management"
+      - "Venue Management"
+      - "Category Management"
+      - "Reviewing Content"
+      - "Transaction Reports"
+      - "Default Values"
+
+paths:
+  ################ SESSION MANAGEMENT ################
+
+  /sessions:
+    post:
+      tags:
+        - Session Authentication
+      summary: "Start a new API session"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        When provided with a valid username/email address and password, starts a new
+        API session, returning the associated key.
+      operationId: "start_session"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "authentication/schemas/credentials.yaml"
+              example:
+                $ref: "authentication/examples/credentials.yaml"
+      responses:
+        201:
+          description: "Indicates that the session was started successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "authentication/session/schemas/response.yaml"
+              example:
+                $ref: "authentication/session/examples/response.yaml"
+        404:
+          $ref: "authentication/errors/not_found.yaml"
+
+  /sessions/active:
+    get:
+      tags:
+        - Session Authentication
+      summary: "Retrieve an active API session"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Returns details of the user's active API session. The session returned is
+        based on the key used to authenticate the request.
+      operationId: "continue_session"
+      responses:
+        200:
+          description: |
+            The user has an active session, the details of which are in the
+            response body
+          content:
+            application/json:
+              schema:
+                $ref: "authentication/session/schemas/response.yaml"
+              example:
+                $ref: "authentication/session/examples/response.yaml"
+        403:
+          $ref: "authentication/errors/no_session.yaml"
+
+    delete:
+      tags:
+        - Session Authentication
+      summary: "End an active API session"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Ends the user's active API session based on the key used to authenticate the request.
+      operationId: "end_session"
+      responses:
+        200:
+          description: The user's active session was ended successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "responses/message.yaml"
+              example:
+                message: "The active session was ended successfully."
+        403:
+          $ref: "authentication/errors/no_session.yaml"
+
+  /integrations:
+    post:
+      tags:
+        - API Integrations
+      summary: "Create new integration token"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Create an API integration token that can be used to authenticate requests
+        instead of a session key. Integrations should be used where user interaction
+        is not desirable/possible or for server to server applications.
+      operationId: "create_integration"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "authentication/integration/schemas/request.yaml"
+            example:
+              $ref: "authentication/integration/examples/request.yaml"
+      responses:
+        201:
+          description: "Indicates that the API integration token was successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: "authentication/integration/schemas/response.yaml"
+              example:
+                $ref: "authentication/integration/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "authentication/errors/integration_exists.yaml"
+
+
+  ################ ACCOUNT MANAGEMENT ################
+  /accounts:
+    get:
+      tags:
+        - Account Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "account/parameters/account.yaml"
+        - $ref: "account/parameters/email.yaml"
+        - $ref: "account/parameters/username.yaml"
+      summary: "List user accounts"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of TickeTing user accounts.
+      operationId: "list_accounts"
+      responses:
+        200:
+          description: "The list of user accounts was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "account/schemas/list.yaml"
+              example:
+                $ref: "account/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Account Management
+      summary: "Create a new account"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Create a new TickeTing user account. Most user data is optional for
+        account creation, so there is flexibility in the stage of the
+        onboarding process at which data is captured.
+      operationId: "create_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/request.yaml"
+            example:
+              $ref: "account/examples/request.yaml"
+      responses:
+        201:
+          description: "The new account was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/response.yaml"
+              example:
+                $ref: "account/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "account/errors/exists.yaml"
+
+  /accounts/{number}:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Management
+      summary: "Retrieve account details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Returns details of the specified user account.
+      operationId: "retrieve_account"
+      responses:
+        200:
+          description: "Details of the specified user account were returned successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/response.yaml"
+              example:
+                $ref: "account/examples/response.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+    put:
+      tags:
+        - Account Management
+      summary: "Modify account details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Update the details of the specified user account
+      operationId: "update_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/update.yaml"
+            example:
+              $ref: "account/examples/update.yaml"
+      responses:
+        200:
+          description: |
+            The user account details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/response.yaml"
+              example:
+                $ref: "account/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+    delete:
+      tags:
+        - Account Management
+      summary: "Remove an account"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Completely remove an account from the system. An account can only be deleted
+        if it does not currently hold tickets to upcoming events.
+      operationId: "delete_account"
+      responses:
+        200:
+          description: |
+            The user account was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "/account/MO-6A39EE8D, has been deleted."
+        409:
+          $ref: "account/errors/indelible.yaml"
+
+  /accounts/{number}/preferences:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Management
+      summary: "Retrieve account preferences"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Returns the user preferences for the account.
+      operationId: "retrieve_account_preferences"
+      responses:
+        200:
+          description: "List of the user's account preferences."
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/preferences.yaml"
+              example:
+                $ref: "account/examples/preferences.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+    put:
+      tags:
+        - Account Management
+      summary: "Update account preferences"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Make changes to the account's user preferences
+      operationId: "update_account_preferences"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/preferences.yaml"
+            example:
+              $ref: "account/examples/preferences.yaml"
+      responses:
+        200:
+          description: |
+            The user accpunt preferences were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/preferences.yaml"
+              example:
+                $ref: "account/examples/preferences.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+  /accounts/{number}/verifications:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    post:
+      tags:
+        - Account Verification
+      summary: "Generate verification code"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Request that a verification code be sent to the registered email address.
+      operationId: "initiate_verification"
+      responses:
+        201:
+          description: |
+            An account verification code was generated and sent to the registered address.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Verification email has been resent to the user."
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+        409:
+          $ref: "account/errors/already_verified.yaml"
+
+  /accounts/{number}/verifications/{code}:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+      - $ref: "account/parameters/code.yaml"
+
+    put:
+      tags:
+        - Account Verification
+      summary: "Verify account"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Attempt to verify the account using the code sent to the registered email address.
+      operationId: "verify_account"
+      responses:
+        200:
+          description: |
+            The account was successfully verified.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "The account has been successfully verified."
+        400:
+          $ref: "account/errors/invalid_code.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+        409:
+          $ref: "account/errors/already_verified.yaml"
+
+  /accounts/{number}/resets:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    post:
+      tags:
+        - Password Reset
+      summary: "Request Reset Code"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Request that a password reset code be sent to the registered email address.
+      operationId: "request_reset"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/password.yaml"
+            example:
+              $ref: "account/examples/password.yaml"
+      responses:
+        201:
+          description: |
+            A password reset code was generated and sent to the registered address.
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/reset.yaml"
+              example:
+                $ref: "account/examples/reset.yaml"
+        400:
+          $ref: "account/errors/missing_password.yaml"
+
+  /accounts/{number}/resets/{reset}:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+      - $ref: "account/parameters/reset.yaml"
+
+    put:
+      tags:
+        - Password Reset
+      summary: "Reset Password"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Change the password to the value provided when requesting the reset.
+        The password is only changed if the reset code is correct.
+      operationId: "reset_password"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/code.yaml"
+            example:
+              $ref: "account/examples/code.yaml"
+      responses:
+        200:
+          description: |
+            The account password was successfully reset
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "The account password has been reset."
+        400:
+          $ref: "account/errors/missing_code.yaml"
+        409:
+          $ref: "account/errors/already_reset.yaml"
+
+  /accounts/{number}/toggles:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    post:
+      tags:
+        - Account Activation
+      summary: "Toggle account activation"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Deactivates the specified account if it is active, and activates
+        it otherwise.
+      operationId: "toggle_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/toggle.yaml"
+            example:
+              $ref: "account/examples/toggle.yaml"
+      responses:
+        201:
+          description: "The account's activation status was successfully toggled."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "The account was deactivated successfully."
+        400:
+          $ref: "account/errors/bad_toggle.yaml"
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+  /accounts/{number}/deletions:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    post:
+      tags:
+        - Account Activation
+      summary: "Request account deletion"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Notifies system administrators that the user would like to delete their account.
+        When a deletion request is submitted, the account is immediately deactivated,
+        and can no longer authenticate requests, pending review.
+      operationId: "delete_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/deletion.yaml"
+            example:
+              $ref: "account/examples/deletion.yaml"
+      responses:
+        200:
+          description: "Account deletion was successfully requested."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "The account will be deleted pending review."
+        403:
+          $ref: "account/errors/unauthorised.yaml"
+
+
+  ################ ACCOUNT ACTIVITY ################
+
+  /account-lookups:
+    post:
+      tags:
+        - Account Activity
+      summary: "Lookup an account"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Lookup an account using its username or email address. The endpoint
+        returns only limited account details and should be used primarily to
+        test for the existence of a username or email address in the system.
+      operationId: "lookup_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/lookup.yaml"
+            example:
+              $ref: "account/examples/lookup.yaml"
+      responses:
+        200:
+          description: "An account with the specified username or email address was found."
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/digest.yaml"
+              example:
+                $ref: "account/examples/digest.yaml"
+        404:
+          $ref: "account/errors/not_found.yaml"
+
+  /accounts/{number}/sessions:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Activity
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List API sessions"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of API sessions opened by this user.
+      operationId: "list_api_session"
+      responses:
+        200:
+          description: "The list of matching account sessions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "authentication/session/schemas/list.yaml"
+              example:
+                $ref: "authentication/session/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /accounts/{number}/orders:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Activity
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "order/parameters/number.yaml"
+        - $ref: "order/parameters/item.yaml"
+        - $ref: "order/parameters/status.yaml"
+      summary: "View order history"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the order history of the specified account.
+      operationId: "view_order_history"
+      responses:
+        200:
+          description: "The list of matching orders was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "order/schemas/history.yaml"
+              example:
+                $ref: "order/examples/history.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /accounts/{number}/events:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Activity
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/parameters/active.yaml"
+        - $ref: "event/parameters/sort.yaml"
+        - $ref: "event/parameters/order.yaml"
+      summary: "Retrieve event itinerary"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of events, past and future, that the account has tickets for.
+      operationId: "view_event_itinerary"
+      responses:
+        200:
+          description: "The event itinerary was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/schemas/list.yaml"
+              example:
+                $ref: "event/examples/list.yaml"
+        400:
+          $ref: "event/errors/criteria.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /accounts/{number}/tickets:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Activity
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/parameters/event.yaml"
+        - $ref: "ticket/parameters/section.yaml"
+        - $ref: "ticket/parameters/serial.yaml"
+        - $ref: "ticket/parameters/status.yaml"
+        - $ref: "ticket/parameters/digest.yaml"
+      summary: "Retrieve ticket wallet"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of tickets belonging to the specified account.
+      operationId: "list_ticket_wallet"
+      responses:
+        200:
+          description: "The list of matching tickets was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/schemas/wallet.yaml"
+              example:
+                $ref: "ticket/examples/wallet.yaml"
+        400:
+          $ref: "ticket/errors/criteria.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /accounts/{number}/transfers:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Activity
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/transfer/parameters/role.yaml"
+        - $ref: "ticket/transfer/parameters/status.yaml"
+      summary: "View transfer history"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the transfer history of the specified account.
+      operationId: "view_transfer_history"
+      responses:
+        200:
+          description: "The list of matching transfers was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/transfer/schemas/response.yaml"
+              example:
+                $ref: "ticket/transfer/examples/sent.yaml"
+        400:
+          $ref: "ticket/transfer/errors/no_role.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+
+  ################ HOST MANAGEMENT ################
+  /hosts:
+    get:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "host/parameters/account.yaml"
+      summary: "List event hosts"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of registered event hosts that match the given criteria.
+      operationId: "list_hosts"
+      responses:
+        200:
+          description: "The list of matching event hosts was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "host/schemas/list.yaml"
+              example:
+                $ref: "host/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Host Accounts
+      summary: "Create an event host"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Create a new host which can list events, sell tickets, book advertising,
+        or request add-on services through TickeTing. The authorising user account is
+        automatically added to the event host's list of administrators upon creation.
+      operationId: "create_host"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "host/schemas/request.yaml"
+              example:
+                $ref: "host/examples/request.yaml"
+      responses:
+        201:
+          description: "The new host was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "host/schemas/response.yaml"
+              example:
+                $ref: "host/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "host/errors/exists.yaml"
+
+  /hosts/{host}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      summary: "Retrieve host details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the registration details of the specified host.
+      operationId: "retrieve_host"
+      responses:
+        200:
+          description: "Details of the requested event host were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "host/schemas/response.yaml"
+              example:
+                $ref: "host/examples/response.yaml"
+
+    put:
+      tags:
+        - Managing Host Accounts
+      summary: "Update host details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Change the registered details of the specified event host
+      operationId: "update_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "host/schemas/request.yaml"
+            example:
+              $ref: "host/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The host details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "host/schemas/response.yaml"
+              example:
+                $ref: "host/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        409:
+          $ref: "host/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Managing Host Accounts
+      summary: "Remove an event host"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Completely remove a registered event host from the system. The host
+        will no longer be able to list events, sell tickets, book advertising,
+        or request add-on services through TickeTing. Any existing events listed
+        under the removed host account will still be active in the system, and any
+        tickets sold will remain valid.
+      operationId: "delete_host"
+      responses:
+        200:
+          description: |
+            The event host was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Host: /hosts/16951985851389, has been deleted."
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+
+  /hosts/{host}/administrators:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List host administrators"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of user accounts that have been granted administrative access to the specified event host
+      operationId: "list_host_administrators"
+      responses:
+        200:
+          description: "The list of administrative user accounts was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "host/schemas/administrators.yaml"
+              example:
+                $ref: "host/examples/administrators.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Host Accounts
+      summary: "Grant administrative access"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Grant the specified user account administrative access to the requested event host.
+        Administrative access can only be granted by a user that has already been made
+        a host administrator.
+      operationId: "add_host_administrator"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "host/schemas/account.yaml"
+              example:
+                $ref: "host/examples/account.yaml"
+      responses:
+        201:
+          description: "The specified user was successfully granted administrative access to the event host."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Account MO-6A39EE8D can now administer this host."
+        400:
+          $ref: "responses/400.yaml"
+        404:
+          $ref: "host/errors/account_not_found.yaml"
+        409:
+          $ref: "host/errors/administrator_exists.yaml"
+
+    delete:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "host/parameters/administrator.yaml"
+      summary: "Revoke administrative access"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Revoke administrative access to the requested event host from the specified user account.
+        Administrative access can only be revoked by a user that has already been made
+        a host administrator.
+      operationId: "remove_host_administrator"
+      responses:
+        200:
+          description: "Administrative access was successfully revoked from the specified user."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Account MO-6A39EE8D can no longer administer this host."
+        404:
+          $ref: "host/errors/account_not_found.yaml"
+        409:
+          $ref: "host/errors/administrator_not_found.yaml"
+
+  /hosts/{host}/events:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List hosted events"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of all events registered by this event host.
+      operationId: "list_host_events"
+      responses:
+        200:
+          description: "The list of registered events was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/schemas/list.yaml"
+              example:
+                $ref: "event/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /hosts/{host}/advertisements:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "advertisement/parameters/host.yaml"
+        - $ref: "advertisement/parameters/event.yaml"
+        - $ref: "advertisement/parameters/status.yaml"
+        - $ref: "advertisement/parameters/active.yaml"
+      summary: "List host advertisements"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of all advertisements created by this event host.
+      operationId: "list_host_advertisements"
+      responses:
+        200:
+          description: "The list of advertisements was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "advertisement/schemas/list.yaml"
+              example:
+                $ref: "advertisement/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+
+  ################ EVENT MANAGEMENT ################
+
+  /published-events:
+    get:
+      tags:
+        - Working with Events
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/parameters/region.yaml"
+        - $ref: "event/parameters/title.yaml"
+        - $ref: "event/parameters/sort.yaml"
+        - $ref: "event/parameters/order.yaml"
+      summary: "List all published events"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve a list of published events open to the public that match the given criteria.
+      operationId: "list_published_events"
+      responses:
+        200:
+          description: "The list of published events was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/schemas/list.yaml"
+              example:
+                $ref: "event/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /events:
+    get:
+      tags:
+        - Working with Events
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/parameters/region.yaml"
+        - $ref: "event/parameters/host.yaml"
+        - $ref: "event/parameters/title.yaml"
+        - $ref: "event/parameters/status.yaml"
+        - $ref: "event/parameters/active.yaml"
+        - $ref: "event/parameters/public.yaml"
+        - $ref: "event/parameters/section.yaml"
+        - $ref: "event/parameters/sort.yaml"
+        - $ref: "event/parameters/order.yaml"
+      summary: "List all events"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of events matching the given criteria.
+      operationId: "list_events"
+      responses:
+        200:
+          description: "The list of matching events was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/schemas/list.yaml"
+              example:
+                $ref: "event/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Working with Events
+      summary: "Register an event"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Register a new event in the TickeTing system. Once submitted for review and
+        approved by an administrator, the host can begin to sell tickets to the event.
+      operationId: "register_event"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/schemas/post.yaml"
+              example:
+                $ref: "event/examples/post.yaml"
+      responses:
+        201:
+          description: "The new event was successfully registered."
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/errors/exists.yaml"
+
+  /events/{event}:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Working with Events
+      summary: "Retrieve event details"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve the registration details of the requested event
+      operationId: "retrieve_event"
+      responses:
+        200:
+          description: "Details of the requested event were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        403:
+          $ref: "event/errors/unlisted.yaml"
+
+    put:
+      tags:
+        - Working with Events
+      summary: "Update event details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Change the details of the requested event
+      operationId: "update_event"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "event/schemas/put.yaml"
+            example:
+              $ref: "event/examples/put.yaml"
+      responses:
+        200:
+          description: |
+            The event details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Working with Events
+      summary: "Remove an event"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Completely remove a registered event from the system. Only events that have not sold
+        any tickets can be deleted. If tickets have been sold, but further sales should be
+        prevented, an event can be unpublished or cancelled as necessary.
+      operationId: "delete_event"
+      responses:
+        200:
+          description: |
+            The event was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Event: /events/17001492554375, has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/errors/has_sections.yaml"
+
+  /events/{event}/submissions:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    post:
+      tags:
+        - Working with Events
+      summary: "Submit event for review"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        When an event is created it is initially just a draft, visible only to host administrators.
+        When an event is ready to go live, it must first be submitted for review by a member of the
+        TickeTing team. If the event is approved, it will be published and made visible to users
+        across the TickeTing ecosystem. If rejected, the event will be returned to a draft status.
+      operationId: "submit_event"
+      requestBody:
+        content:
+          application/json: {}
+      responses:
+        201:
+          description: "The event was successfully submitted for review."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Your event was submitted for review. You will be notified once a decision is reached."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "system/submission/errors/not_draft.yaml"
+
+  /events/{event}/sections:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    post:
+      tags:
+        - Working with Events
+      summary: "Add an event section"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Add a new section to the specified event. Sections are subdivisions
+        of an event, each of which offer a unique experience to ticket holders.
+        Examples include General Admission, All-Inclusive, VIP and Backstage.
+      operationId: "add_event_section"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/section/schemas/request.yaml"
+              example:
+                $ref: "event/section/examples/request.yaml"
+      responses:
+        201:
+          description: "The new section was successfully added to the event."
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/schemas/response.yaml"
+              example:
+                $ref: "event/section/examples/response.yaml"
+        400:
+          $ref: "event/section/errors/bad_dates.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/section/errors/exists.yaml"
+
+  /events/{event}/sections/{section}:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/section/parameters/id.yaml"
+
+    get:
+      tags:
+        - Working with Events
+      summary: "Retrieve section details"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve the details of the requested event section
+      operationId: "retrieve_event_section"
+      responses:
+        200:
+          description: "Details of the requested event section were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/schemas/response.yaml"
+              example:
+                $ref: "event/section/examples/response.yaml"
+        403:
+          $ref: "event/errors/unlisted.yaml"
+
+    put:
+      tags:
+        - Working with Events
+      summary: "Update section details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Change the details of the requested event section
+      operationId: "update_event_section"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "event/section/schemas/request.yaml"
+            example:
+              $ref: "event/section/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The event section details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/schemas/response.yaml"
+              example:
+                $ref: "event/section/examples/response.yaml"
+        400:
+          $ref: "event/section/errors/bad_dates.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/section/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Working with Events
+      summary: "Remove an event section"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Remove a section from an event. Only sections for which there are no ticket
+        sales or active reservations can be deleted. If tickets have been sold, the
+        section can no longer be deleted, but its associated event can be cancelled
+        or unpublished as necessary.
+      operationId: "delete_event_section"
+      responses:
+        200:
+          description: |
+            The section was successfully removed from the event.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Section: /events/16878174883191/sections/16993992757170, has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/section/errors/has_sales.yaml"
+
+  /events/{event}/sections/{section}/modifiers:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/section/parameters/id.yaml"
+
+    post:
+      tags:
+        - Working with Events
+      summary: "Create a price modifier"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Create a new price modifier for an event section. Price modifiers can be used to increase or
+        decrease a section's base price based on the time of purchase or the number of tickets ordered.
+        Price modifiers can be used to implement sales (Early Bird, Flash Sale), group rates or gate
+        prices.
+      operationId: "add_price_modifier"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/section/modifier/schemas/request.yaml"
+              example:
+                $ref: "event/section/modifier/examples/request.yaml"
+      responses:
+        201:
+          description: "The new price modifier was successfully added to the section."
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/modifier/schemas/response.yaml"
+              example:
+                $ref: "event/section/modifier/examples/response.yaml"
+        400:
+          $ref: "event/section/modifier/errors/bad_data.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/section/modifier/errors/exists.yaml"
+
+  /events/{event}/sections/{section}/modifiers/{modifier}:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/section/parameters/id.yaml"
+      - $ref: "event/section/modifier/parameters/id.yaml"
+
+    get:
+      tags:
+        - Working with Events
+      summary: "Retrieve price modifier details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve the details of the requested price modifier
+      operationId: "retrieve_price_modifier"
+      responses:
+        200:
+          description: "Details of the requested price modifier were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/modifier/schemas/response.yaml"
+              example:
+                $ref: "event/section/modifier/examples/response.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+
+    put:
+      tags:
+        - Working with Events
+      summary: "Update price modifier details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Change the details of the requested price modifier
+      operationId: "update_price_modifier"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "event/section/modifier/schemas/request.yaml"
+            example:
+              $ref: "event/section/modifier/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The price modifier details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "event/section/modifier/schemas/response.yaml"
+              example:
+                $ref: "event/section/modifier/examples/response.yaml"
+        400:
+          $ref: "event/section/modifier/errors/bad_data.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/section/modifier/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Working with Events
+      summary: "Remove a price modifier"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Remove a price modifier from an event section. Future ticket purchases for this
+        section will no longer have the modifier applied.
+      operationId: "delete_price_modifier"
+      responses:
+        200:
+          description: |
+            The price modifier was successfully removed from the event section.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Modifier: /events/16878174883191/sections/17001722163356/modifiers/17001749089001, has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+
+  ################ EVENT ADMISSIONS ################
+
+  /events/{event}/admissions:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    post:
+      tags:
+        - Event Admissions
+      summary: "Admit event patrons"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Attempt to admit one or more patrons to an event based on their ticket serial numbers. Unlike
+        most POST endpoints, this endpoint accepts a list containing the serials of tickets
+        to be redeemed. The system will admit any serials that are currently valid for this event, and
+        return a list of those that were successfully redeemed.
+      operationId: "admit_event_patrons"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/admission/schemas/request.yaml"
+              example:
+                $ref: "event/admission/examples/request.yaml"
+      responses:
+        201:
+          description: |
+            One or more of the tickets identified by the provided serials grants admission to this event
+            and have been successfully redeemed.
+          content:
+            application/json:
+              schema:
+                $ref: "event/admission/schemas/collection.yaml"
+              example:
+                $ref: "event/admission/examples/collection.yaml"
+        400:
+          $ref: "event/admission/errors/failed.yaml"
+
+    get:
+      tags:
+        - Event Admissions
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/admission/parameters/patron.yaml"
+        - $ref: "event/admission/parameters/section.yaml"
+        - $ref: "event/admission/parameters/ticket.yaml"
+      summary: "List event admissions"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of patrons admitted to this event.
+      operationId: "list_event_admissions"
+      responses:
+        200:
+          description: "The list of event admissions matching the given criteria was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/admission/schemas/list.yaml"
+              example:
+                $ref: "event/admission/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  ################ EVENT REPORTING ################
+
+  /events/{event}/tickets:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Reporting
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/parameters/owner.yaml"
+        - $ref: "ticket/parameters/section.yaml"
+        - $ref: "ticket/parameters/serial.yaml"
+        - $ref: "ticket/parameters/status.yaml"
+        - $ref: "ticket/parameters/digest.yaml"
+      summary: "List event tickets"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of tickets that grant access to the specified event.
+      operationId: "list_event_tickets"
+      responses:
+        200:
+          description: "The list of matching tickets was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/schemas/list.yaml"
+              example:
+                $ref: "ticket/examples/list.yaml"
+        400:
+          $ref: "ticket/errors/criteria.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /events/{event}/sales:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Reporting
+      parameters:
+        - $ref: "event/sales/parameters/from.yaml"
+        - $ref: "event/sales/parameters/to.yaml"
+        - $ref: "event/sales/parameters/section.yaml"
+        - $ref: "event/sales/parameters/modifier.yaml"
+      summary: "Report event sales"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Generate a summary report of ticket sales for this event using the given criteria
+      operationId: "report_event_sales"
+      responses:
+        200:
+          description: "The summary of ticket sales fitting the specified criteria was successfully generated.."
+          content:
+            application/json:
+              schema:
+                $ref: "event/sales/schemas/report.yaml"
+              example:
+                $ref: "event/sales/examples/report.yaml"
+        400:
+          $ref: "transaction/errors/bad_query.yaml"
+
+  ################ ADVERTISING MANAGEMENT ################
+  /zones:
+    get:
+      tags:
+        - Ad Zone Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List advertising zones"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of zones in which advertisements can appear across the TickeTing ecosystem.
+      operationId: "list_zones"
+      responses:
+        200:
+          description: "The list of advertising zones was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "advertisement/zone/schemas/list.yaml"
+              example:
+                $ref: "advertisement/zone/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Ad Zone Management
+      summary: "Create an advertising zone"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Create a new advertising zone. New zones do not automatically begin the display of
+        advertisements. Instead zones must be assigned manually to the platform they are meant to
+        appear on (Events App, Website, etc.) using their unique number. The API only ensures that
+        advertisements assigned to a zone adhere to its specified dimensions.
+      operationId: "create_zone"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "advertisement/zone/schemas/request.yaml"
+              example:
+                $ref: "advertisement/zone/examples/request.yaml"
+      responses:
+        201:
+          description: "The new zone was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/zone/schemas/response.yaml"
+              example:
+                $ref: "advertisement/zone/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "advertisement/zone/errors/exists.yaml"
+
+  /zones/{zone}:
+    parameters:
+      - $ref: "advertisement/zone/parameters/id.yaml"
+
+    get:
+      tags:
+        - Ad Zone Management
+      summary: "Retrieve ad zone details"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve the details of the specified advertising zone.
+      operationId: "retrieve_zone"
+      responses:
+        200:
+          description: "Details of the requested advertising zone were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/zone/schemas/response.yaml"
+              example:
+                $ref: "advertisement/zone/examples/response.yaml"
+
+    put:
+      tags:
+        - Ad Zone Management
+      summary: "Modify ad zone details"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Update the details of the specified advertising zone
+      operationId: "update_zone"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "advertisement/zone/schemas/request.yaml"
+            example:
+              $ref: "advertisement/zone/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The advertising zone's details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/zone/schemas/response.yaml"
+              example:
+                $ref: "advertisement/zone/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "advertisement/zone/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Ad Zone Management
+      summary: "Remove an ad zone"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Remove an advertising zone from the system. A zone can only be deleted
+        if it has no advertisements assigned to it.
+      operationId: "delete_zone"
+      responses:
+        200:
+          description: |
+            The advertising zone was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Zone: /zones/17011841347712, has been deleted."
+        409:
+          $ref: "advertisement/zone/errors/in_use.yaml"
+
+  /zones/{zone}/advertisements:
+    parameters:
+      - $ref: "advertisement/zone/parameters/id.yaml"
+
+    get:
+      tags:
+        - Ad Zone Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List assigned advertisements"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve the list of approved, currently active advertisements assigned to this zone.
+      operationId: "list_zone_advertisements"
+      responses:
+        200:
+          description: "The list of advertisements assigned to the zone was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "advertisement/schemas/list.yaml"
+              example:
+                $ref: "advertisement/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /advertisements:
+    get:
+      tags:
+        - Advertising an Event
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "advertisement/parameters/host.yaml"
+        - $ref: "advertisement/parameters/event.yaml"
+        - $ref: "advertisement/parameters/status.yaml"
+        - $ref: "advertisement/parameters/active.yaml"
+      summary: "List advertisements"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of advertisements matching the given criteria.
+      operationId: "list_advertisements"
+      responses:
+        200:
+          description: "The list of matching advertisements was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "advertisement/schemas/list.yaml"
+              example:
+                $ref: "advertisement/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Advertising an Event
+      summary: "Create an advertisement"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Create a new advertisement in the TickeTing system. Once submitted for review
+        and approved by an administrator, the ad will be displayed in its assigned zones
+        according to the given schedule.
+      operationId: "create_advertisement"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "advertisement/schemas/request.yaml"
+              example:
+                $ref: "advertisement/examples/request.yaml"
+      responses:
+        201:
+          description: "The new advertisement was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/schemas/response.yaml"
+              example:
+                $ref: "advertisement/examples/response.yaml"
+        400:
+          $ref: "advertisement/errors/bad_request.yaml"
+        403:
+          $ref: "advertisement/errors/unauthorised.yaml"
+        404:
+          $ref: "advertisement/errors/missing_event.yaml"
+        409:
+          $ref: "advertisement/errors/exists.yaml"
+
+  /advertisements/{advertisement}:
+    parameters:
+      - $ref: "advertisement/parameters/id.yaml"
+
+    get:
+      tags:
+        - Advertising an Event
+      summary: "Retrieve ad details"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve the details of the requested advertisement
+      operationId: "retrieve_advertisement"
+      responses:
+        200:
+          description: "Details of the requested advertisement were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/schemas/response.yaml"
+              example:
+                $ref: "advertisement/examples/response.yaml"
+        403:
+          $ref: "advertisement/errors/unlisted.yaml"
+
+    put:
+      tags:
+        - Advertising an Event
+      summary: "Update ad details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Change the details of the requested advertisement
+      operationId: "update_advertisement"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "advertisement/schemas/request.yaml"
+            example:
+              $ref: "advertisement/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The advertisement details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "advertisement/schemas/response.yaml"
+              example:
+                $ref: "advertisement/examples/response.yaml"
+        400:
+          $ref: "advertisement/errors/bad_request.yaml"
+        403:
+          $ref: "advertisement/errors/unauthorised.yaml"
+        409:
+          $ref: "advertisement/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Advertising an Event
+      summary: "Remove an advertisement"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Completely remove an advertisement from the system. An advertisement will be
+        removed whether or not its is currently active/running. Deleting an advertisement
+        immediately stops it being displayed in its assigned zones across the TickeTing ecosystem.
+      operationId: "delete_advertisement"
+      responses:
+        200:
+          description: |
+            The advertisement was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Advertisement: /advertisements/17013793534908, has been deleted."
+        403:
+          $ref: "advertisement/errors/unauthorised.yaml"
+
+  /advertisements/{advertisement}/submissions:
+    parameters:
+      - $ref: "advertisement/parameters/id.yaml"
+
+    post:
+      tags:
+        - Advertising an Event
+      summary: "Submit ad for review"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        When an advertisement is created it is initially just a draft, visible only to administrators
+        of the advertising event host. When an advertisement is ready to go live, it must first be
+        submitted for review by a member of the TickeTing team. If the advertisement is approved,
+        it will be published and made visible to users across the TickeTing ecosystem. If rejected,
+        the advertisement will be returned to a draft status.
+      operationId: "submit_advertisement"
+      requestBody:
+        content:
+          application/json: {}
+      responses:
+        201:
+          description: "The advertisement was successfully submitted for review."
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Your advertisement was submitted for review. You will be notified once a decision is reached."
+        403:
+          $ref: "advertisement/errors/unauthorised.yaml"
+        409:
+          $ref: "system/submission/errors/not_draft.yaml"
+
+  ################ ORDER MANAGEMENT ################
+
+  /orders:
+    get:
+      tags:
+        - Placing an Order
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "order/parameters/profile.yaml"
+        - $ref: "order/parameters/number.yaml"
+        - $ref: "order/parameters/item.yaml"
+        - $ref: "order/parameters/status.yaml"
+      summary: "List orders"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of orders matching the given criteria.
+      operationId: "list_orders"
+      responses:
+        200:
+          description: "The list of matching orders was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "order/schemas/list.yaml"
+              example:
+                $ref: "order/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Placing an Order
+      summary: "Place a new order"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Place a new order for one or more tickets. A single order can include multiple
+        ticket types of a single event, or from multiple events. When a new order is created
+        tickets are reserved for a fixed period of time until the order is settled, cancelled
+        or times out.
+
+        If the tickets being ordered are free (i.e. the order total is $0.00), the order is
+        fuliflled immediately and tickets delivered to the customer's account.
+      operationId: "place_order"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "order/schemas/request.yaml"
+              example:
+                $ref: "order/examples/request.yaml"
+      responses:
+        201:
+          description: "The order was successfully placed."
+          content:
+            application/json:
+              schema:
+                $ref: "order/schemas/response.yaml"
+              example:
+                $ref: "order/examples/response.yaml"
+        400:
+          $ref: "order/errors/bad_request.yaml"
+
+  /orders/{order}:
+    parameters:
+      - $ref: "order/parameters/id.yaml"
+
+    get:
+      tags:
+        - Placing an Order
+      summary: "Retrieve order details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the details of the requested order
+      operationId: "retrieve_order"
+      responses:
+        200:
+          description: "Details of the requested order were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "order/schemas/response.yaml"
+              example:
+                $ref: "order/examples/response.yaml"
+        403:
+          $ref: "order/errors/unauthorised.yaml"
+
+    delete:
+      tags:
+        - Placing an Order
+      summary: "Cancel an order"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Cancel an existing order. Any reserved tickets are immediately released. An order
+        can only be cancelled if it has not already been settled or timed out.
+      operationId: "cancel_order"
+      responses:
+        200:
+          description: |
+            The order was successfully cancelled.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Order: /orders/E8D946240203, has been cancelled successfully."
+        403:
+          $ref: "order/errors/unauthorised.yaml"
+        409:
+          $ref: "order/errors/uncancellable.yaml"
+
+  /orders/{order}/payments:
+    parameters:
+      - $ref: "order/parameters/id.yaml"
+
+    post:
+      tags:
+        - Order Settlement
+      summary: "Attempt payment"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Attempt to settle a pending order by credit card payment. Payment can only be attempted
+        once an order has been placed, but before it has timed out. Payment can no longer be
+        attempted once an order has been fulfilled, refunded or cancelled.
+
+        If the tickets being ordered are free (i.e. the order total is $0.00), the order does
+        not require settlement, and will be fulfilled immediately without payment.
+      operationId: "settle_order"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "order/payment/schemas/request.yaml"
+              example:
+                $ref: "order/payment/examples/request.yaml"
+      responses:
+        201:
+          description: "Payment was accepted in settlement of the order."
+          content:
+            application/json:
+              schema:
+                $ref: "order/payment/schemas/response.yaml"
+              example:
+                $ref: "order/payment/examples/response.yaml"
+        400:
+          $ref: "order/payment/errors/bad_request.yaml"
+        409:
+          $ref: "order/payment/errors/invalid_state.yaml"
+
+  ################ TICKET MANAGEMENT ################
+
+  /transfers:
+
+    post:
+      tags:
+        - Ticket Transfers
+      summary: "Initiating a transfer"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Initiate a transfer of one or more tickets from the requesting user
+        to another TickeTing user. Initiating a transfer, does not automatically
+        move tickets between accounts, but instead sends a transfer request. This request
+        must first be claimed at which time the tickets themselves are transferred.
+        If the transfer request is cancelled or rejected, no tickets change hands.
+
+        One or more tickets, for one or multiple events, can be sent in a single transfer. 
+        Tickets that are part of an open transfer (not yet claimed, canclled or rejected)
+        enter into a pending state in which they cannot be redeemed, only becoming usable
+        again once a decision is taken on the transfer.
+      operationId: "initiate_transfer"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "ticket/transfer/schemas/request.yaml"
+              example:
+                $ref: "ticket/transfer/examples/request.yaml"
+      responses:
+        201:
+          description: "The transfer was successfully initiated."
+          content:
+            application/json:
+              schema:
+                $ref: "ticket/transfer/schemas/response.yaml"
+              example:
+                $ref: "ticket/transfer/examples/response.yaml"
+        400:
+          $ref: "ticket/transfer/errors/bad_request.yaml"
+        404:
+          $ref: "ticket/transfer/errors/unknown_recipient.yaml"
+
+    get:
+      tags:
+        - Ticket Transfers
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/transfer/parameters/sender.yaml"
+        - $ref: "ticket/transfer/parameters/recipient.yaml"
+        - $ref: "ticket/transfer/parameters/status.yaml"
+      summary: "Listing transfers"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of ticket transfers matching the given criteria.
+      operationId: "list_transfers"
+      responses:
+        200:
+          description: "The list of matching transfers was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/transfer/schemas/list.yaml"
+              example:
+                $ref: "ticket/transfer/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /transfers/{transfer}:
+    parameters:
+      - $ref: "ticket/transfer/parameters/id.yaml"
+
+    get:
+      tags:
+        - Ticket Transfers
+      summary: "Retrieve transfer details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the details of the requested transfer
+      operationId: "retrieve_transfer"
+      responses:
+        200:
+          description: "Details of the requested transfer were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "ticket/transfer/schemas/response.yaml"
+              example:
+                $ref: "ticket/transfer/examples/response.yaml"
+        403:
+          $ref: "ticket/transfer/errors/unauthorised.yaml"
+
+    delete:
+      tags:
+        - Ticket Transfers
+      summary: "Cancel a transfer"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Cancel a pending transfer. A transfer can be cancelled by either its sender or
+        its recipient before it is claimed. Any pending tickets attached to the transfer
+        are immediately released. A transfer can only be cancelled if it has not yet
+        been claimed, or previously cancelled.
+      operationId: "cancel_transfer"
+      responses:
+        200:
+          description: |
+            The transfer was successfully cancelled.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Transfer: /transfers/17096551195817, has been cancelled successfully."
+        403:
+          $ref: "ticket/transfer/errors/unauthorised.yaml"
+        409:
+          $ref: "ticket/transfer/errors/uncancellable.yaml"
+
+  /transfers/{transfer}/claims:
+    parameters:
+      - $ref: "ticket/transfer/parameters/id.yaml"
+
+    post:
+      tags:
+        - Ticket Transfers
+      summary: "Claim a transfer"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Claim a pending transfer. Once claimed, any tickets attached to the transfer are moved
+        from the sender's account to the recipient's and returned to a usable state. Only a
+        transfer's recipient can claim a transfer, and a transfer can no longer be claimed once
+        it has been cancelled or claimed previously.
+      operationId: "claim_transfer"
+      responses:
+        201:
+          description: "The transferred tickets were successfully delivered to the recipient's account."
+          content:
+            application/json:
+              schema:
+                $ref: "ticket/transfer/claim/schemas/response.yaml"
+              example:
+                $ref: "ticket/transfer/claim/examples/response.yaml"
+        403:
+          $ref: "ticket/transfer/claim/errors/unauthorised.yaml"
+        409:
+          $ref: "ticket/transfer/claim/errors/invalid_state.yaml"
+
+  ################ SYSTEM ADMINISTRATION ################
+  /regions:
+    get:
+      tags:
+        - Region Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List supported regions"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of supported regions where events can be staged.
+      operationId: "list_regions"
+      responses:
+        200:
+          description: "The list of supported regions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "system/region/schemas/list.yaml"
+              example:
+                $ref: "system/region/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Region Management
+      summary: "Add a supported region"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Add a supported region to the TickeTing system. Any venue created needs to reference the region
+        in which it is located. Events staged at this venue will be grouped within the related region,
+        and are displayed to users based on their regional preference.
+      operationId: "add_region"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "system/region/schemas/request.yaml"
+              example:
+                $ref: "system/region/examples/request.yaml"
+      responses:
+        201:
+          description: "The supported region was successfully added."
+          content:
+            application/json:
+              schema:
+                $ref: "system/region/schemas/response.yaml"
+              example:
+                $ref: "system/region/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/region/errors/exists.yaml"
+
+  /regions/{region}:
+    parameters:
+      - $ref: "system/region/parameters/id.yaml"
+
+    get:
+      tags:
+        - Region Management
+      summary: "Retrieve region details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the details of the specified region.
+      operationId: "retrieve_region"
+      responses:
+        200:
+          description: "Details of the requested region were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "system/region/schemas/response.yaml"
+              example:
+                $ref: "system/region/examples/response.yaml"
+
+    put:
+      tags:
+        - Region Management
+      summary: "Modify region details"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Update the details of the specified region
+      operationId: "update_region"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "system/region/schemas/request.yaml"
+            example:
+              $ref: "system/region/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The region's details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "system/region/schemas/response.yaml"
+              example:
+                $ref: "system/region/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/region/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Region Management
+      summary: "Remove a supported region"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Completely remove a supported region from the system. A region can only be deleted
+        if it has no venues associated to it.
+      operationId: "remove_region"
+      responses:
+        200:
+          description: |
+            The suported region was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Region: /regions/159428147942752, has been deleted."
+        409:
+          $ref: "system/region/errors/in_use.yaml"
+
+  /venues:
+    get:
+      tags:
+        - Venue Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "system/venue/parameters/region.yaml"
+      summary: "List event venues"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of approved venues at which events can be hosted.
+      operationId: "list_venues"
+      responses:
+        200:
+          description: "The list of event venues was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "system/venue/schemas/list.yaml"
+              example:
+                $ref: "system/venue/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Venue Management
+      summary: "Create an event venue"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Create an approved venue that can stage events. Once created, the venue can be
+        selected as hosting new events added to the system.
+      operationId: "create_venue"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "system/venue/schemas/request.yaml"
+              example:
+                $ref: "system/venue/examples/request.yaml"
+      responses:
+        201:
+          description: "The new venue was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "system/venue/schemas/response.yaml"
+              example:
+                $ref: "system/venue/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/venue/errors/exists.yaml"
+
+  /venues/{venue}:
+    parameters:
+      - $ref: "system/venue/parameters/id.yaml"
+
+    get:
+      tags:
+        - Venue Management
+      summary: "Retrieve event venue details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the details of the specified event venue.
+      operationId: "retrieve_venue"
+      responses:
+        200:
+          description: "Details of the requested event venue were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "system/venue/schemas/response.yaml"
+              example:
+                $ref: "system/venue/examples/response.yaml"
+
+    put:
+      tags:
+        - Venue Management
+      summary: "Modify event venue details"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Update the details of the specified event venue
+      operationId: "update_venue"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "system/venue/schemas/request.yaml"
+            example:
+              $ref: "system/venue/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The event venue's details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "system/venue/schemas/response.yaml"
+              example:
+                $ref: "system/venue/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/venue/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Venue Management
+      summary: "Remove an event venue"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Completely remove an event venue from the system. A venue can only be deleted
+        if no events are or have been staged there.
+      operationId: "delete_venue"
+      responses:
+        200:
+          description: |
+            The event venue was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "/venues/16989249829149, has been deleted."
+        409:
+          $ref: "system/venue/errors/in_use.yaml"
+
+  /categories:
+    get:
+      tags:
+        - Category Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List event categories"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of event categories under which events can be classified.
+      operationId: "list_categories"
+      responses:
+        200:
+          description: "The list of event categories was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "system/category/schemas/list.yaml"
+              example:
+                $ref: "system/category/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Category Management
+      summary: "Create an event category"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Create an event category (and its associated subcategories). Once created, the category 
+        (and one of its subcategories) can be used to classify events.
+      operationId: "create_category"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "system/category/schemas/request.yaml"
+              example:
+                $ref: "system/category/examples/request.yaml"
+      responses:
+        201:
+          description: "The new category was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "system/category/schemas/response.yaml"
+              example:
+                $ref: "system/category/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/category/errors/exists.yaml"
+
+  /categories/{category}:
+    parameters:
+      - $ref: "system/category/parameters/id.yaml"
+
+    get:
+      tags:
+        - Category Management
+      summary: "Retrieve category details"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve the details of the specified event category.
+      operationId: "retrieve_category"
+      responses:
+        200:
+          description: "Details of the requested event category were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "system/category/schemas/response.yaml"
+              example:
+                $ref: "system/category/examples/response.yaml"
+
+    put:
+      tags:
+        - Category Management
+      summary: "Modify category details"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Update the details of the specified event category
+      operationId: "update_category"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "system/category/schemas/request.yaml"
+            example:
+              $ref: "system/category/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The event category's details were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "system/category/schemas/response.yaml"
+              example:
+                $ref: "system/category/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        409:
+          $ref: "system/category/errors/exists.yaml"
+
+    delete:
+      tags:
+        - Category Management
+      summary: "Remove a category"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Completely remove an event category from the system. A category can only be deleted
+        if it is not associated with any events.
+      operationId: "delete_category"
+      responses:
+        200:
+          description: |
+            The event category was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Category: /categories/16972381860264, has been deleted."
+        409:
+          $ref: "system/category/errors/in_use.yaml"
+
+  /submissions:
+    get:
+      tags:
+        - Reviewing Content
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "system/submission/parameters/type.yaml"
+      summary: "List submissions"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of content submitted by hosts for review, optionally filtered by type.
+      operationId: "list_submissions"
+      responses:
+        200:
+          description: "The list of content submissions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "system/submission/schemas/list.yaml"
+              example:
+                $ref: "system/submission/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /submissions/{submission}:
+    parameters:
+      - $ref: "system/submission/parameters/id.yaml"
+
+    get:
+      tags:
+        - Reviewing Content
+      summary: "Retrieve submission details"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve the details of the specified content submission
+      operationId: "retrieve_submission"
+      responses:
+        200:
+          description: "Details of the requested content submission were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "system/submission/schemas/response.yaml"
+              example:
+                $ref: "system/submission/examples/response.yaml"
+
+    delete:
+      tags:
+        - Reviewing Content
+      parameters:
+        - $ref: "system/submission/parameters/approved.yaml"
+      summary: "Decide on a submission"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Decide whether to approve or reject the submitted content. If approved, the content will be
+        made visible to the public, across all TickeTing platforms. If rejected, the content will revert to a draft
+        and only be visible to administrators of the host who submitted it.
+      operationId: "decide_on_submission"
+      responses:
+        200:
+          description: |
+            The submission review decision was successfully actioned.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Submission: /submissions/L2V2ZW50cy8xNjk5MzcxNzgxNzk5Ng==, has been rejected."
+        400:
+          $ref: "system/submission/errors/no_decision.yaml"
+
+  /transactions:
+    get:
+      tags:
+        - Transaction Reports
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "transaction/parameters/type.yaml"
+        - $ref: "transaction/parameters/category.yaml"
+        - $ref: "transaction/parameters/status.yaml"
+        - $ref: "transaction/parameters/from.yaml"
+        - $ref: "transaction/parameters/to.yaml"
+        - $ref: "transaction/parameters/event.yaml"
+        - $ref: "transaction/parameters/section.yaml"
+        - $ref: "transaction/parameters/modifier.yaml"
+        - $ref: "transaction/parameters/group.yaml"
+      summary: "Generate transaction report"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve a list of transactions matching the given criteria.
+      operationId: "transaction_report"
+      responses:
+        200:
+          description: "The list of matching transactions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "transaction/schemas/list.yaml"
+              example:
+                $ref: "transaction/examples/list.yaml"
+        400:
+          $ref: "transaction/errors/bad_query.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /countries:
+    get:
+      tags:
+        - Default Values
+      summary: "Retrieve a list of countries"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Retrieve a list of country names to be used in association with
+        user accounts, events, hosts, etc.
+      operationId: "retrieve_countries"
+      responses:
+        200:
+          description: "The list of country names was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "system/values/schemas/countries.yaml"
+              example:
+                $ref: "system/values/examples/countries.yaml"

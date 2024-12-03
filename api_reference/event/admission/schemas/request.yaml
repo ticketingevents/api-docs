@@ -1,0 +1,8 @@
+type: "array"
+description: "List of serials identifying tickets to redeem for admission to this event"
+items:
+  type: "object"
+  properties:
+    serial:
+      type: "string"
+      description: "Serial number that uniquely identifies the ticket"

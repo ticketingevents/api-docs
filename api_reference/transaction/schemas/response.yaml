@@ -1,0 +1,35 @@
+type: "object"
+properties:
+  description:
+    type: "string"
+    description: |
+      Long form text detailing what the transaction was for. This can include event ticket information
+      for sales or services rendered for charges.
+  type:
+    type: "string"
+    description: "The nature of the transaction, whether a sale, charge, refund or credit"
+  category:
+    type: "string"
+    description: "The category into which this transaction falls (Ticket Sales, Advertisement or Event Management)"
+  status:
+    type: "string"
+    description: "Current status of the transaction"
+  amount:
+    type: "number"
+    description: "The total monetary value of the transaction"
+  quantity:
+    type: "number"
+    description: "The number of items involved in this transaction (E.g number of tickets being paid for)"
+  event:
+    type: "string"
+    description: "Name of the event to which this transaction is associated, if applicable"
+  section:
+    type: "string"
+    description: "Name of the event section to which this transaction is associated, if applicable"
+  modifier:
+    type: "string"
+    description: "Name of the event section modifier applied to this transaction, if applicable"
+  created:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the transaction was transacted"

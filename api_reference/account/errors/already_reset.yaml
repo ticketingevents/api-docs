@@ -1,0 +1,7 @@
+description: "The account password has already been reset, or the reset request was cancelled."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The password reset request has already been completed."

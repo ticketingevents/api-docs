@@ -1,0 +1,7 @@
+description: "The authenticating user is not authorised to administer the event host."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "This account is not an administrator for the relevant event host."

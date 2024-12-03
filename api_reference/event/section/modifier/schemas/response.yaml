@@ -1,0 +1,30 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the price modifier resource"
+  name:
+    type: "string"
+    description: "Name of the price modifier"
+  priceDelta:
+    type: "number"
+    format: "float"
+    description: "The change made to the event section's base price when this modifier is applied"
+  availableFrom:
+    type: "string"
+    format: "date-time"
+    description: "The date and time after which this price modifier will be applied"
+  availableTo:
+    type: "string"
+    format: "date-time"
+    description: "The date and time before which this price modifier will be applied"
+  active:
+    type: "boolean"
+    description: "Whether or not the price modifier is currently active based on its availability dates"
+  minOrder:
+    type: "integer"
+    description: "The minimum order size for which this modifier will be applied (for group rates)."
+  maxOrder:
+    type: "integer"
+    description: "The maximum order size for which this modifier will be applied (for group rates)."

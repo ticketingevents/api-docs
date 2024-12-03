@@ -1,0 +1,14 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the event category resource"
+  name:
+    type: "string"
+    description: "Unique name of the event category"
+  subcategories:
+    type: "array"
+    description: "List of subtypes associated with this category"
+    items:
+      type: "string"

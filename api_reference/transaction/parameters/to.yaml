@@ -1,0 +1,7 @@
+in: query
+name: to
+schema:
+  type: string
+  format: date-time
+required: false
+description: "Only return transactions transacted on or before the specified date and time"

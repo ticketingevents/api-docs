@@ -1,0 +1,13 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the content submission resource"
+  type:
+    type: "string"
+    enum: ["advertisement", "event"]
+    description: "The type of content that has been submitted for review"
+  content:
+    description: |
+      Details of the content that has been submitted for review

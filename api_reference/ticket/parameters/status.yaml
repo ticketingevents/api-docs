@@ -1,0 +1,9 @@
+in: query
+name: status
+schema:
+  type: array
+  items:
+    type: string
+    enum: ['Issued','Pending','Held','Redeemed','Expired']
+required: false
+description: "Only return tickets that are in one of the specified statuses"
