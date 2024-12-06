@@ -1,0 +1,6 @@
+in: query
+name: active
+schema:
+  type: boolean
+required: false
+description: "Returns regions with one or more upcoming events, if true, or regions without upcoming events if false."

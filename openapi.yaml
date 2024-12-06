@@ -2462,6 +2462,7 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "system/region/parameters/active.yaml"
       summary: "List supported regions"
       security:
         - SessionKey: [customer, host, support, administrator]
