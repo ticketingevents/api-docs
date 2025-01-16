@@ -1,7 +1,7 @@
-description: "The requested resource could not be located"
+description: "The global admission token cannot be deleted."
 content:
   application/json:
     schema:
-      "$ref": "message.yaml"
+      "$ref": "../../,,/../../responses/message.yaml"
     example:
       message: "The requested resource could not be located."

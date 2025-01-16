@@ -1,0 +1,17 @@
+total: 2
+page: 1
+records: 25
+entries:
+  - self: "/events/16993717817996/tokens"
+    code: "A0F9GG8D"
+    global: true
+    key: "11a6f64c842142235g8668c5ff77024c"
+    sections:
+      - "/events/16993717817996/sections/16993964783416"
+      - "/events/16993717817996/sections/16993964783417"
+  - self: "/events/16993717817996/tokens"
+    code: "91JKC83A"
+    global: false
+    key: "54fa35g8668c5ff77024cd3d11421422"
+    sections:
+      - "/events/16993717817996/sections/16993964783416"

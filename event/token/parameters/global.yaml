@@ -1,0 +1,6 @@
+in: query
+name: global
+schema:
+  type: boolean
+required: false
+description: "Only returns the global token if true, all additional tokens if false."

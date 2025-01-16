@@ -1,0 +1,11 @@
+type: "object"
+required:
+  - sections
+properties:
+  sections:
+    type: array
+    description: "List of sections this token can redeem tickets for."
+    items:
+      type: string
+      format: uri
+      description: "URI of the event section resource"

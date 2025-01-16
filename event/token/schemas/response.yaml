@@ -1,0 +1,19 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the token resource"
+  code:
+    type: "string"
+    description: "The code used to uniquely identify this token in the system"
+  global:
+    type: boolean
+    description: "Whether or not this is a global event token"
+  sections:
+    type: array
+    description: "List of sections this token can redeem tickets for."
+    items:
+      type: string
+      format: uri
+      description: "URI of the event section resource"
