@@ -1699,7 +1699,7 @@ paths:
     post:
       tags:
         - Event Admissions
-      summary: "Manage admission tokens"
+      summary: "Issue admission tokens"
       security:
         - SessionKey: [host, administrator]
       description: |
@@ -1828,7 +1828,7 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                message: "Token: /events/17001492554375/tokens/17011841347712, has been invalidated."
+                message: "Token: A0F9GG8D has been invalidated."
         409:
           $ref: "event/token/errors/is_global.yaml"
 
