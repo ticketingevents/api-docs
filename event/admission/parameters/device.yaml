@@ -1,0 +1,6 @@
+in: query
+name: device
+schema:
+  type: string
+required: false
+description: "Only return admissions granted on tickets redeemed by the specified device."

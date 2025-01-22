@@ -1920,6 +1920,8 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/admission/parameters/redeemer.yaml"
+        - $ref: "event/admission/parameters/device.yaml"
         - $ref: "event/admission/parameters/ticket.yaml"
         - $ref: "event/admission/parameters/patron.yaml"
         - $ref: "event/admission/parameters/section.yaml"
