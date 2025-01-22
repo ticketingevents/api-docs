@@ -1,11 +1,29 @@
 page: 3
 records: 2
 entries:
-  - ticket: "DAWIER-BACK75580348"
-    patron: "Marvin Milk (mothers.milk)"
-    section: "Backstage"
+  - redeemer: Butcher
+    device: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36...
+    ticket: "DAWIER-BACK75580348"
+    patron:
+      username: "mothers.milk"
+      email: "marvin.milk@usmc.gov"
+      firstName: "Marvin"
+      lastName: "Milk"
+    section:
+      self: "/events/16993717817996/sections/16993964783416"
+      name: "Backstage"
+      description: "Includes meet and greet with the film's stars."
     admitted: "2024-03-01T10:59:56+00:00"
-  - ticket: "DAWIER-VIPV37536946"
-    patron: "Billy Butcher (the_butcher)"
-    section: "VIP"
+  - redeemer: Butcher
+    device: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36...
+    ticket: "DAWIER-VIPV37536946"
+    patron:
+      username: "the_butcher"
+      email: "billy.butcher@theboys.com"
+      firstName: "Billy"
+      lastName: "Butched"
+    section:
+      self: "/events/16993717817996/sections/4829429647013942"
+      name: "VIP"
+      description: "All-inclusive food and drinks."
     admitted: "2024-03-01T10:59:56+00:00"

@@ -1,7 +1,8 @@
 description: |
-  None of the tickets identified by the provided serials grants access to the event.
-  This is either because no ticket could be found, the tickets grant access to
-  different events or the tickets have already been redeemed or expired.
+  None of the tickets identified grants access to an event section that the redeemer
+  is allowed to admit patrons to. This is either because no ticket could be found,
+  the tickets grant access to different event sections or the tickets have already
+  been redeemed or expired.
 content:
   application/json:
     schema:

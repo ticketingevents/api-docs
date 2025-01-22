@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../,,/../../responses/message.yaml"
     example:
-      message: "The requested resource could not be located."
+      message: "The global admission token cannot be deleted."

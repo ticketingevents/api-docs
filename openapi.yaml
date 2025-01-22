@@ -865,7 +865,6 @@ paths:
         - $ref: "ticket/parameters/section.yaml"
         - $ref: "ticket/parameters/serial.yaml"
         - $ref: "ticket/parameters/status.yaml"
-        - $ref: "ticket/parameters/digest.yaml"
       summary: "Retrieve ticket wallet"
       security:
         - SessionKey: [customer, host, support, administrator]
@@ -1726,6 +1725,8 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
 
     get:
       tags:
@@ -1751,6 +1752,8 @@ paths:
                   - $ref: "event/token/schemas/list.yaml"
               example:
                 $ref: "event/token/examples/list.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1777,6 +1780,8 @@ paths:
                 $ref: "event/token/schemas/response.yaml"
               example:
                 $ref: "event/token/examples/response.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "responses/404.yaml"
 
@@ -1808,6 +1813,8 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
 
     delete:
       tags:
@@ -1828,9 +1835,45 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                message: "Token: A0F9GG8D has been invalidated."
+                message: "Token: /events/16993717817996/tokens/17370490770235 has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "event/token/errors/is_global.yaml"
+
+  /events/{event}/tickets:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Admissions
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/parameters/modified_since.yaml"
+      summary: "Retrieve valid event tickets"
+      security:
+        - SessionKey: [redeemer]
+      description: |
+        Retrieve a detailed list of valid event tickets issued for sections that the authenticated redeemer
+        is authorised to admit patrons to.
+      operationId: "list_event_tickets"
+      responses:
+        200:
+          description: "The list of matching tickets the authenticated redeemer has access to was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/schemas/list.yaml"
+              example:
+                $ref: "ticket/examples/list.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
 
   /events/{event}/admissions:
     parameters:
@@ -1841,12 +1884,12 @@ paths:
         - Event Admissions
       summary: "Admit event patrons"
       security:
-        - SessionKey: [redeemer, host, administrator]
+        - SessionKey: [redeemer]
       description: |
-        Attempt to admit one or more patrons to an event based on their ticket serial numbers. Unlike
-        most POST endpoints, this endpoint accepts a list containing the serials of tickets
-        to be redeemed. The system will admit any serials that are currently valid for this event, and
-        return a list of those that were successfully redeemed.
+        Attempt to admit one or more patrons to an event based on their ticket serial numbers.
+        The endpoint accepts a list containing the serials of tickets to be redeemed. The system
+        will admit any serials that are currently valid for the event sections that the redeemer is
+        authorised to admit to, and return a list of those that were successfully redeemed.
       operationId: "admit_event_patrons"
       requestBody:
         content:
@@ -1858,8 +1901,8 @@ paths:
       responses:
         201:
           description: |
-            One or more of the tickets identified by the provided serials grants admission to this event
-            and have been successfully redeemed.
+            One or more of the tickets identified by the provided serials grants admission to an 
+            authorised event section and have been successfully redeemed.
           content:
             application/json:
               schema:
@@ -1868,6 +1911,8 @@ paths:
                 $ref: "event/admission/examples/collection.yaml"
         400:
           $ref: "event/admission/errors/failed.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
 
     get:
       tags:
@@ -1875,14 +1920,14 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/admission/parameters/ticket.yaml"
         - $ref: "event/admission/parameters/patron.yaml"
         - $ref: "event/admission/parameters/section.yaml"
-        - $ref: "event/admission/parameters/ticket.yaml"
       summary: "List event admissions"
       security:
         - SessionKey: [host, administrator]
       description: |
-        Retrieve a list of patrons admitted to this event.
+        Retrieve a list of admissions to the event sections that the authenticated redeemer has access to.
       operationId: "list_event_admissions"
       responses:
         200:
@@ -1895,47 +1940,12 @@ paths:
                   - $ref: "event/admission/schemas/list.yaml"
               example:
                 $ref: "event/admission/examples/list.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
   ################ EVENT REPORTING ################
-
-  /events/{event}/tickets:
-    parameters:
-      - $ref: "event/parameters/id.yaml"
-
-    get:
-      tags:
-        - Event Reporting
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/parameters/owner.yaml"
-        - $ref: "ticket/parameters/section.yaml"
-        - $ref: "ticket/parameters/serial.yaml"
-        - $ref: "ticket/parameters/status.yaml"
-        - $ref: "ticket/parameters/digest.yaml"
-      summary: "List event tickets"
-      security:
-        - SessionKey: [redeemer, host, administrator]
-      description: |
-        Retrieve a list of tickets that grant access to the specified event.
-      operationId: "list_event_tickets"
-      responses:
-        200:
-          description: "The list of matching tickets was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/schemas/list.yaml"
-              example:
-                $ref: "ticket/examples/list.yaml"
-        400:
-          $ref: "ticket/errors/criteria.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
 
   /events/{event}/sales:
     parameters:

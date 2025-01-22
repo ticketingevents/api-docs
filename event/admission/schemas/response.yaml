@@ -1,14 +1,45 @@
 type: "object"
 properties:
+  redeemer:
+    type: "string"
+    description: "Human-readable name of the person who redeemed the ticket"
+  device:
+    type: "string"
+    description: "Unique identifier of the device from which the ticket was redeemed"
   ticket:
     type: "string"
     description: "Serial number of the ticket that granted admission"
   patron:
-    type: "string"
+    type: "object"
     description: "Full name and username of the TickeTing user admitted on this ticket"
+    properties:
+      username:
+        type: "string"
+        description: "Unique username attached to the account"
+      email:
+        type: "string"
+        format: "email"
+        description: "Unique email address attached to the account"
+      firstName:
+        type: "string"
+        description: "The account holder's forename"
+      lastName:
+        type: "string"
+        description: "The account holder's surname"
   section:
-    type: "string"
+    type: "object"
     description: "Name of the event section the patron was admitted to"
+    properties:
+      self:
+        type: "string"
+        format: "uri"
+        description: "URI of the event section resource"
+      name:
+        type: "string"
+        description: "Name of the event section"
+      description:
+        type: "string"
+        description: "Details of the experience customers can expect when purchasing tickets to this event section"
   admitted:
     type: "string"
     format: "date-time"

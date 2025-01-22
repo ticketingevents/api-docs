@@ -1,7 +1,9 @@
 serial: "DAWIER-BACK75580348"
 status: "Issued"
-issued: "2024-02-21T14:59:18+00:00"
-redeemed: "N/A"
+section:
+  self: "/events/16993717817996/sections/16993964783416"
+  name: "Backstage"
+  description: "Includes meet and greet with the film's stars."
 owner:
   self: "/accounts/MO-6A39EE8D"
   number: "MO-6A39EE8D"
@@ -9,7 +11,5 @@ owner:
   email: "marvin.milk@usmc.gov"
   firstName: "Marvin"
   lastName: "Milk"
-section:
-  self: "/events/16993717817996/sections/16993964783416"
-  name: "Backstage"
-  description: "Includes meet and greet with the film's stars."
+issued: "2024-02-21T14:59:18+00:00"
+redeemed: "N/A"

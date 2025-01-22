@@ -1,8 +1,17 @@
-type: "array"
-description: "List of serials identifying tickets to redeem for admission to this event"
-items:
-  type: "object"
-  properties:
-    serial:
+type: "object"
+required: 
+  - redeemer
+  - device
+  - serials
+properties:
+  redeemer:
+    type: "string"
+    description: "Human-readable name of the person redeeming the listed tickets"
+  device:
+    type: "string"
+    description: "Unique identifier of the device the tickets are being redeemed from"
+  serials:
+    type: "array"
+    description: "List of ticket serials to redeem for admission to this event"
+    items:
       type: "string"
-      description: "Serial number that uniquely identifies the ticket"
