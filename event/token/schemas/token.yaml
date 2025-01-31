@@ -1,0 +1,16 @@
+type: "object"
+properties:
+  key:
+    type: "string"
+    description: "The API access key associated with this token"
+  event:
+    type: string
+    format: uri
+    description: "URI of the event resource the token belongs to"
+  sections:
+    type: array
+    description: "List of sections this token can redeem tickets for."
+    items:
+      type: string
+      format: uri
+      description: "URI of the event section resource"

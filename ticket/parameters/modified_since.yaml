@@ -1,0 +1,7 @@
+in: query
+name: modified_since
+schema:
+  type: string
+  format: "date-time"
+required: false
+description: "Only return tickets that have had a status change after the provided date"

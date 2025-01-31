@@ -2,6 +2,9 @@ openapi: 3.1.0
 info:
   version: "3.0.0"
   title: "TickeTing REST API v3 Reference"
+  license:
+    name: "Apache 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
   description: |
     # Introduction
     The TickeTing REST API v3 allows developers to integrate with the TickeTing 
@@ -144,6 +147,7 @@ x-tagGroups:
   - name: "Authentication"
     tags:
       - "Session Authentication"
+      - "Token Authentication"
       - "API Integrations"
   - name: "User Accounts"
     tags:
@@ -256,6 +260,34 @@ paths:
                 message: "The active session was ended successfully."
         403:
           $ref: "authentication/errors/no_session.yaml"
+
+  /tokens/{code}:
+    parameters:
+      - $ref: "event/token/parameters/code.yaml"
+
+    get:
+      tags:
+        - Token Authentication
+      summary: "Retrieve token key"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Returns authentication key and netadata for an event admissions
+        token. Authenticating requests with the returned key will grant access to
+        endpoints needed for ticket redemption.
+      operationId: "retrieve_token_auth"
+      responses:
+        200:
+          description: |
+            Returns authentication and metadata for an admissions token
+          content:
+            application/json:
+              schema:
+                $ref: "event/token/schemas/token.yaml"
+              example:
+                $ref: "event/token/examples/token.yaml"
+        404:
+          $ref: "event/token/errors/no_token.yaml"
 
   /integrations:
     post:
@@ -667,7 +699,7 @@ paths:
         Notifies system administrators that the user would like to delete their account.
         When a deletion request is submitted, the account is immediately deactivated,
         and can no longer authenticate requests, pending review.
-      operationId: "delete_account"
+      operationId: "request_deletion"
       requestBody:
         content:
           application/json:
@@ -833,7 +865,6 @@ paths:
         - $ref: "ticket/parameters/section.yaml"
         - $ref: "ticket/parameters/serial.yaml"
         - $ref: "ticket/parameters/status.yaml"
-        - $ref: "ticket/parameters/digest.yaml"
       summary: "Retrieve ticket wallet"
       security:
         - SessionKey: [customer, host, support, administrator]
@@ -974,6 +1005,8 @@ paths:
                 $ref: "host/schemas/response.yaml"
               example:
                 $ref: "host/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     put:
       tags:
@@ -983,7 +1016,7 @@ paths:
         - SessionKey: [host, administrator]
       description: |
         Change the registered details of the specified event host
-      operationId: "update_account"
+      operationId: "update_host"
       requestBody:
         content:
           application/json:
@@ -1658,6 +1691,190 @@ paths:
 
   ################ EVENT ADMISSIONS ################
 
+  /events/{event}/tokens:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    post:
+      tags:
+        - Event Admissions
+      summary: "Issue admission tokens"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Create tokens that authorise event staff to grant admission to the event. Tokens allow event staff to redeem tickets
+        and admit patrons to one or more event sections. Each event has a global token that allows redemption of tickets for
+        all sections. Additional tokens can be created, as needed, and should be issued to event staff on a one-to-one basis.
+      operationId: "manage_admission_tokens"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/token/schemas/request.yaml"
+              example:
+                $ref: "event/token/examples/request.yaml"
+      responses:
+        201:
+          description: |
+            The admission token was successfully added to the event
+          content:
+            application/json:
+              schema:
+                $ref: "event/token/schemas/response.yaml"
+              example:
+                $ref: "event/token/examples/response.yaml"
+        400:
+          $ref: "event/token/errors/bad_sections.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+
+    get:
+      tags:
+        - Event Admissions
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/token/parameters/global.yaml"
+      summary: "List admission tokens"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve a list of tokens permitted to redeem tickets issued for this event.
+      operationId: "list_event_tokens"
+      responses:
+        200:
+          description: "The list of event tokens matching the given criteria was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/token/schemas/list.yaml"
+              example:
+                $ref: "event/token/examples/list.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /events/{event}/tokens/{token}:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/token/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Admissions
+      summary: "Retrieve admission token details"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Retrieve the details of the specified admission token.
+      operationId: "retrieve_admission_token"
+      responses:
+        200:
+          description: "Details of the requested adnussion token were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/token/schemas/response.yaml"
+              example:
+                $ref: "event/token/examples/response.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "responses/404.yaml"
+
+    put:
+      tags:
+        - Event Admissions
+      summary: "Modify admission token sections"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Update the event sections that the admission token can be used to grant entry to
+      operationId: "update_admission_token"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "event/token/schemas/request.yaml"
+            example:
+              $ref: "event/token/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The admission tokens associated sections were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "event/token/schemas/response.yaml"
+              example:
+                $ref: "event/token/examples/response.yaml"
+        400:
+          $ref: "event/token/errors/bad_sections.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+
+    delete:
+      tags:
+        - Event Admissions
+      summary: "Invalidate an admission token"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        Invalidate an admission token and remove it from the event. Invalidated tokens can no longer be used
+        by event staff to redeem tickets and grant admission.
+      operationId: "invalidate_admission_token"
+      responses:
+        200:
+          description: |
+            The admission token was successfully invalidated and removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Token: /events/16993717817996/tokens/17370490770235 has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/token/errors/is_global.yaml"
+
+  /events/{event}/tickets:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Admissions
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/parameters/modified_since.yaml"
+      summary: "Retrieve valid event tickets"
+      security:
+        - SessionKey: [redeemer]
+      description: |
+        Retrieve a detailed list of valid event tickets issued for sections that the authenticated redeemer
+        is authorised to admit patrons to.
+      operationId: "list_event_tickets"
+      responses:
+        200:
+          description: "The list of matching tickets the authenticated redeemer has access to was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/schemas/list.yaml"
+              example:
+                $ref: "ticket/examples/list.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
   /events/{event}/admissions:
     parameters:
       - $ref: "event/parameters/id.yaml"
@@ -1667,12 +1884,12 @@ paths:
         - Event Admissions
       summary: "Admit event patrons"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [redeemer]
       description: |
-        Attempt to admit one or more patrons to an event based on their ticket serial numbers. Unlike
-        most POST endpoints, this endpoint accepts a list containing the serials of tickets
-        to be redeemed. The system will admit any serials that are currently valid for this event, and
-        return a list of those that were successfully redeemed.
+        Attempt to admit one or more patrons to an event based on their ticket serial numbers.
+        The endpoint accepts a list containing the serials of tickets to be redeemed. The system
+        will admit any serials that are currently valid for the event sections that the redeemer is
+        authorised to admit to, and return a list of those that were successfully redeemed.
       operationId: "admit_event_patrons"
       requestBody:
         content:
@@ -1684,8 +1901,8 @@ paths:
       responses:
         201:
           description: |
-            One or more of the tickets identified by the provided serials grants admission to this event
-            and have been successfully redeemed.
+            One or more of the tickets identified by the provided serials grants admission to an 
+            authorised event section and have been successfully redeemed.
           content:
             application/json:
               schema:
@@ -1694,6 +1911,8 @@ paths:
                 $ref: "event/admission/examples/collection.yaml"
         400:
           $ref: "event/admission/errors/failed.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
 
     get:
       tags:
@@ -1701,14 +1920,16 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/admission/parameters/redeemer.yaml"
+        - $ref: "event/admission/parameters/device.yaml"
+        - $ref: "event/admission/parameters/ticket.yaml"
         - $ref: "event/admission/parameters/patron.yaml"
         - $ref: "event/admission/parameters/section.yaml"
-        - $ref: "event/admission/parameters/ticket.yaml"
       summary: "List event admissions"
       security:
         - SessionKey: [host, administrator]
       description: |
-        Retrieve a list of patrons admitted to this event.
+        Retrieve a list of admissions to the event sections that the authenticated redeemer has access to.
       operationId: "list_event_admissions"
       responses:
         200:
@@ -1721,47 +1942,12 @@ paths:
                   - $ref: "event/admission/schemas/list.yaml"
               example:
                 $ref: "event/admission/examples/list.yaml"
+        403:
+          $ref: "event/admission/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
   ################ EVENT REPORTING ################
-
-  /events/{event}/tickets:
-    parameters:
-      - $ref: "event/parameters/id.yaml"
-
-    get:
-      tags:
-        - Event Reporting
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/parameters/owner.yaml"
-        - $ref: "ticket/parameters/section.yaml"
-        - $ref: "ticket/parameters/serial.yaml"
-        - $ref: "ticket/parameters/status.yaml"
-        - $ref: "ticket/parameters/digest.yaml"
-      summary: "List event tickets"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Retrieve a list of tickets that grant access to the specified event.
-      operationId: "list_event_tickets"
-      responses:
-        200:
-          description: "The list of matching tickets was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/schemas/list.yaml"
-              example:
-                $ref: "ticket/examples/list.yaml"
-        400:
-          $ref: "ticket/errors/criteria.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
 
   /events/{event}/sales:
     parameters:
@@ -1876,6 +2062,8 @@ paths:
                 $ref: "advertisement/zone/schemas/response.yaml"
               example:
                 $ref: "advertisement/zone/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     put:
       tags:
@@ -2537,6 +2725,8 @@ paths:
                 $ref: "system/region/schemas/response.yaml"
               example:
                 $ref: "system/region/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     put:
       tags:
@@ -2673,6 +2863,8 @@ paths:
                 $ref: "system/venue/schemas/response.yaml"
               example:
                 $ref: "system/venue/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     put:
       tags:
@@ -2808,6 +3000,8 @@ paths:
                 $ref: "system/category/schemas/response.yaml"
               example:
                 $ref: "system/category/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     put:
       tags:
@@ -2913,6 +3107,8 @@ paths:
                 $ref: "system/submission/schemas/response.yaml"
               example:
                 $ref: "system/submission/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
 
     delete:
       tags:
@@ -2998,3 +3194,5 @@ paths:
                 $ref: "system/values/schemas/countries.yaml"
               example:
                 $ref: "system/values/examples/countries.yaml"
+        404:
+          $ref: "responses/404.yaml"

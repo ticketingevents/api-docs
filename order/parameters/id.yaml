@@ -1,5 +1,5 @@
 in: path
-name: number
+name: order
 schema:
   type: string
   pattern: '^\d{14}$'

@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "message.yaml"
     example:
-      error: "The requested resource could not be located."
+      message: "The requested resource could not be located."

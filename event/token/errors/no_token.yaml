@@ -1,0 +1,7 @@
+description: "No admission token identified by the given code exists"
+content:
+  application/json:
+    schema:
+      "$ref": "../../,,/../../responses/message.yaml"
+    example:
+      message: "The requested resource could not be located."

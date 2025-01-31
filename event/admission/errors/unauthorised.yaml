@@ -1,0 +1,7 @@
+description: "The authenticating user is not authorised to redeem tickets for any section of this event."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "The admission token is not valid for this event."

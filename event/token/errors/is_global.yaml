@@ -1,0 +1,7 @@
+description: "The global admission token cannot be deleted."
+content:
+  application/json:
+    schema:
+      "$ref": "../../,,/../../responses/message.yaml"
+    example:
+      message: "The global admission token cannot be deleted."
