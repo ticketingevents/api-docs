@@ -1815,6 +1815,8 @@ paths:
           $ref: "event/token/errors/bad_sections.yaml"
         403:
           $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "event/token/errors/is_global.yaml"
 
     delete:
       tags:
