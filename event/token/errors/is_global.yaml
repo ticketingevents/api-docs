@@ -1,4 +1,4 @@
-description: "The global admission token cannot be deleted."
+description: "The global admission token cannot be modified or deleted."
 content:
   application/json:
     schema:
