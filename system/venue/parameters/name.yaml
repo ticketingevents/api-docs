@@ -1,0 +1,6 @@
+in: query
+name: name
+schema:
+  type: string
+required: false
+description: "If set, only returns venues whose name matches the specified regular expression"
