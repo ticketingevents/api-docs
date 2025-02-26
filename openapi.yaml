@@ -2792,6 +2792,7 @@ paths:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
         - $ref: "system/venue/parameters/region.yaml"
+        - $ref: "system/venue/parameters/name.yaml"
       summary: "List event venues"
       security:
         - SessionKey: [customer, host, support, administrator]
