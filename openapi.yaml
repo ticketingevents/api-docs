@@ -520,6 +520,36 @@ paths:
           $ref: "responses/400.yaml"
         403:
           $ref: "account/errors/unauthorised.yaml"
+          
+  /accounts/{number}/hosts:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List related hosts"
+      security:
+        - SessionKey: [customer, host, support, administrator]
+      description: |
+        Retrieve a list of registered event hosts for which this user has administrative permissions.
+      operationId: "list_account_hosts"
+      responses:
+        200:
+          description: "The list of event hosts this account has administrative permissions for was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "host/schemas/list.yaml"
+              example:
+                $ref: "host/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
 
   /accounts/{number}/verifications:
     parameters:
@@ -753,6 +783,7 @@ paths:
         404:
           $ref: "account/errors/not_found.yaml"
 
+
   /accounts/{number}/sessions:
     parameters:
       - $ref: "account/parameters/number.yaml"
@@ -930,7 +961,6 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "host/parameters/account.yaml"
       summary: "List event hosts"
       security:
         - SessionKey: [customer, host, support, administrator]
@@ -1168,6 +1198,13 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/parameters/region.yaml"
+        - $ref: "event/parameters/title.yaml"
+        - $ref: "event/parameters/status.yaml"
+        - $ref: "event/parameters/active.yaml"
+        - $ref: "event/parameters/public.yaml"
+        - $ref: "event/parameters/sort.yaml"
+        - $ref: "event/parameters/order.yaml"
       summary: "List hosted events"
       security:
         - SessionKey: [host, administrator]
