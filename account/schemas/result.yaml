@@ -1,0 +1,11 @@
+type: "object"
+properties:
+  identification:
+    type: "string"
+    description: "The username or email address provided for the account lookup"
+  role:
+    type: "string"
+    description: "The role provided for the account lookup."
+  found:
+    type: "boolean"
+    description: "Whether or not an account matching the provided identification and role was found."

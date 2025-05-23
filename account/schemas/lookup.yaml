@@ -5,3 +5,8 @@ properties:
   identification:
     type: "string"
     description: The username or email address of the account being looked up
+  role:
+    type: "string"
+    description: |
+      The role that an account must be assigned for a successful lookup.
+      If left blank, the lookup will match an account regardles of its role.
