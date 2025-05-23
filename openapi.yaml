@@ -531,7 +531,7 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-      summary: "List related hosts"
+      summary: "List managed hosts"
       security:
         - SessionKey: [customer, host, support, administrator]
       description: |
@@ -550,6 +550,36 @@ paths:
                 $ref: "host/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
+
+  /lookups:
+    post:
+      tags:
+        - Account Management
+      summary: "Lookup an account"
+      security:
+        - SessionKey: [public, customer, host, support, administrator]
+      description: |
+        Test the existenc of an account using its username or email address. A user role
+        can optionally be provided to test for the existence of accounts of a certain type.
+      operationId: "lookup_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/lookup.yaml"
+            example:
+              $ref: "account/examples/lookup.yaml"
+      responses:
+        200:
+          description: "An account with the specified username or email address was found."
+          content:
+            application/json:
+              schema:
+                $ref: "account/schemas/result.yaml"
+              example:
+                $ref: "account/examples/result.yaml"
+        400:
+          $ref: "responses/400.yaml"
 
   /accounts/{number}/verifications:
     parameters:
@@ -751,38 +781,6 @@ paths:
 
 
   ################ ACCOUNT ACTIVITY ################
-
-  /account-lookups:
-    post:
-      tags:
-        - Account Activity
-      summary: "Lookup an account"
-      security:
-        - SessionKey: [public, customer, host, support, administrator]
-      description: |
-        Lookup an account using its username or email address. The endpoint
-        returns only limited account details and should be used primarily to
-        test for the existence of a username or email address in the system.
-      operationId: "lookup_account"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "account/schemas/lookup.yaml"
-            example:
-              $ref: "account/examples/lookup.yaml"
-      responses:
-        200:
-          description: "An account with the specified username or email address was found."
-          content:
-            application/json:
-              schema:
-                $ref: "account/schemas/digest.yaml"
-              example:
-                $ref: "account/examples/digest.yaml"
-        404:
-          $ref: "account/errors/not_found.yaml"
-
 
   /accounts/{number}/sessions:
     parameters:
