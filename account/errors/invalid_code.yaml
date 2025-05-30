@@ -1,8 +1,8 @@
 description: |
-  The supplied verification code was incorrect.
+  The supplied password reset code was incorrect.
 content:
   application/json:
     schema:
       "$ref": "../../responses/message.yaml"
     example:
-      message: "The provided verification code is invalid."
+      message: "The provided password reset code is incorrect."

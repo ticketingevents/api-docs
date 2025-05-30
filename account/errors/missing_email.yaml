@@ -1,0 +1,7 @@
+description: "No email address was provided with the password reset request."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "You must provide an email address to which to send the reset code."
