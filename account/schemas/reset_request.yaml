@@ -1,0 +1,5 @@
+type: "object"
+properties:
+  email:
+    type: "string"
+    description: "Email addresss to which a password reset code will be sent."

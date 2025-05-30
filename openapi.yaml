@@ -640,61 +640,59 @@ paths:
         409:
           $ref: "account/errors/already_verified.yaml"
 
-  /accounts/{number}/resets:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
+  /resets:
 
     post:
       tags:
         - Password Reset
-      summary: "Request Reset Code"
+      summary: "Request password reset"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public]
       description: |
-        Request that a password reset code be sent to the registered email address.
+        Request that a password reset code be sent to the provided email address, if it belongs to a registered user.
       operationId: "request_reset"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "account/schemas/password.yaml"
+              $ref: "account/schemas/reset_request.yaml"
             example:
-              $ref: "account/examples/password.yaml"
+              $ref: "account/examples/reset_request.yaml"
       responses:
         201:
           description: |
-            A password reset code was generated and sent to the registered address.
+            A password reset code was generated and sent to the provided email address, if it belongs to a registered user.
           content:
             application/json:
               schema:
-                $ref: "account/schemas/reset.yaml"
+                $ref: "account/schemas/reset_response.yaml"
               example:
-                $ref: "account/examples/reset.yaml"
+                $ref: "account/examples/reset_response.yaml"
         400:
-          $ref: "account/errors/missing_password.yaml"
+          $ref: "account/errors/missing_email.yaml"
+        404:
+          $ref: "account/errors/not_found.yaml"
 
-  /accounts/{number}/resets/{reset}:
+  /resets/{reset}:
     parameters:
-      - $ref: "account/parameters/number.yaml"
       - $ref: "account/parameters/reset.yaml"
 
-    put:
+    patch:
       tags:
         - Password Reset
-      summary: "Reset Password"
+      summary: "Reset password"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public]
       description: |
-        Change the password to the value provided when requesting the reset.
-        The password is only changed if the reset code is correct.
+        Change the password to the value provided if the reset code matches that sent to the account's email address.
       operationId: "reset_password"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "account/schemas/code.yaml"
+              $ref: "account/schemas/password_reset.yaml"
             example:
-              $ref: "account/examples/code.yaml"
+              $ref: "account/examples/password_reset.yaml"
       responses:
         200:
           description: |
@@ -706,9 +704,9 @@ paths:
               example:
                 message: "The account password has been reset."
         400:
-          $ref: "account/errors/missing_code.yaml"
+          $ref: "account/errors/invalid_code.yaml"
         409:
-          $ref: "account/errors/already_reset.yaml"
+          $ref: "account/errors/cannot_reset.yaml"
 
   /accounts/{number}/toggles:
     parameters:

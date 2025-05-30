@@ -1,0 +1,13 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the reset request resource"
+  email:
+    type: "string"
+    description: "Email addresss to which the password reset code should be sent."
+  status:
+    type: "string"
+    enum: ["Pending","Completed","Expired"]
+    description: "Current status of the password reset request."
