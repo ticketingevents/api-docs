@@ -1984,6 +1984,58 @@ paths:
 
   ################ EVENT REPORTING ################
 
+  /hosts/{host}/statistics:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Reporting
+      summary: "View host statistics"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        View high-level statistics for a host including total revenues, tickets sold,
+        events listed and unique customers.
+      operationId: "view_host_statistics"
+      responses:
+        200:
+          description: "The host statistics resource was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "host/schemas/statistics.yaml"
+              example:
+                $ref: "host/examples/statistics.yaml"
+        404:
+          $ref: "responses/404.yaml"
+
+  /events/{event}/statistics:
+    parameters:
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Reporting
+      summary: "View event statistics"
+      security:
+        - SessionKey: [host, administrator]
+      description: |
+        View high-level statistics for an event including revenues, tickets sold,
+        ticket capacity and total orders.
+      operationId: "view_event_statistics"
+      responses:
+        200:
+          description: "The event statistics resource was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/statistics.yaml"
+              example:
+                $ref: "event/examples/statistics.yaml"
+        404:
+          $ref: "responses/404.yaml"
+
   /events/{event}/sales:
     parameters:
       - $ref: "event/parameters/id.yaml"
