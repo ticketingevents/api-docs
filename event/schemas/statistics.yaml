@@ -1,0 +1,19 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the event statistics resource"
+  capacity:
+    type: "number"
+    description: "Total ticket capacity for the event."
+  orders:
+    type: "number"
+    description: "Number of successful ticket orders for the event."
+  revenue:
+    type: "number"
+    description: "Total revenue from tickets sold to the event."
+  tickets:
+    type: "number"
+    format: "email"
+    description: "Total tickets sold to the event."

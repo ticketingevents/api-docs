@@ -1,0 +1,19 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the host statistics resource"
+  events:
+    type: "number"
+    description: "Total number of events staged by the host."
+  orders:
+    type: "number"
+    description: "Number of successful ticket orders for events staged by the host."
+  revenue:
+    type: "number"
+    description: "Total ticket sale revenue for events staged by the host."
+  tickets:
+    type: "number"
+    format: "email"
+    description: "Number of tickets sold to events staged by the host."
