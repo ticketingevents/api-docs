@@ -1,0 +1,13 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    format: "uri"
+    description: "URI of the verification request resource"
+  email:
+    type: "string"
+    description: "Email addresss to which the account verification code was sent."
+  status:
+    type: "string"
+    enum: ["Pending","Completed","Expired"]
+    description: "Current status of the account verification request."

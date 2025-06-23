@@ -153,8 +153,8 @@ x-tagGroups:
     tags:
       - "Account Management"
       - "Account Verification"
-      - "Account Activation"
       - "Password Reset"
+      - "Account Activation"
       - "Account Activity"
   - name: "Events"
     tags:
@@ -581,48 +581,60 @@ paths:
         400:
           $ref: "responses/400.yaml"
 
-  /accounts/{number}/verifications:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
+  /verifications:
 
     post:
       tags:
         - Account Verification
-      summary: "Generate verification code"
+      summary: "Request verification code"
       security:
         - SessionKey: [customer, host, support, administrator]
       description: |
-        Request that a verification code be sent to the registered email address.
-      operationId: "initiate_verification"
+        
+        Request that an account verification code be sent to the provided email address, if it belongs to a registered user.
+      operationId: "request_verification_code"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/verification_request.yaml"
+            example:
+              $ref: "account/examples/verification_request.yaml"
       responses:
         201:
           description: |
-            An account verification code was generated and sent to the registered address.
+            An account verification code was generated and sent to the provided email address, if it belongs to a registered user.
           content:
             application/json:
               schema:
-                "$ref": "responses/message.yaml"
+                $ref: "account/schemas/verification_response.yaml"
               example:
-                message: "Verification email has been resent to the user."
-        403:
-          $ref: "account/errors/unauthorised.yaml"
-        409:
-          $ref: "account/errors/already_verified.yaml"
+                $ref: "account/examples/verification_response.yaml"
+        400:
+          $ref: "account/errors/missing_verification_email.yaml"
+        404:
+          $ref: "account/errors/not_found.yaml"
 
-  /accounts/{number}/verifications/{code}:
+  /verifications/{verification}:
     parameters:
-      - $ref: "account/parameters/number.yaml"
-      - $ref: "account/parameters/code.yaml"
+      - $ref: "account/parameters/verification.yaml"
 
-    put:
+    patch:
       tags:
         - Account Verification
       summary: "Verify account"
       security:
         - SessionKey: [customer, host, support, administrator]
       description: |
-        Attempt to verify the account using the code sent to the registered email address.
+        Verify the account if the verification code matches that sent to the account's email address.
       operationId: "verify_account"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "account/schemas/account_verification.yaml"
+            example:
+              $ref: "account/examples/account_verification.yaml"
       responses:
         200:
           description: |
@@ -634,11 +646,9 @@ paths:
               example:
                 message: "The account has been successfully verified."
         400:
-          $ref: "account/errors/invalid_code.yaml"
-        403:
-          $ref: "account/errors/unauthorised.yaml"
+          $ref: "account/errors/invalid_verification_code.yaml"
         409:
-          $ref: "account/errors/already_verified.yaml"
+          $ref: "account/errors/cannot_verify.yaml"
 
   /resets:
 
@@ -669,7 +679,7 @@ paths:
               example:
                 $ref: "account/examples/reset_response.yaml"
         400:
-          $ref: "account/errors/missing_email.yaml"
+          $ref: "account/errors/missing_reset_email.yaml"
         404:
           $ref: "account/errors/not_found.yaml"
 
@@ -704,7 +714,7 @@ paths:
               example:
                 message: "The account password has been reset."
         400:
-          $ref: "account/errors/invalid_code.yaml"
+          $ref: "account/errors/invalid_reset_code.yaml"
         409:
           $ref: "account/errors/cannot_reset.yaml"
 
