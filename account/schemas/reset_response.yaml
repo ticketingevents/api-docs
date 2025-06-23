@@ -6,7 +6,7 @@ properties:
     description: "URI of the reset request resource"
   email:
     type: "string"
-    description: "Email addresss to which the password reset code should be sent."
+    description: "Email addresss to which the password reset code was sent."
   status:
     type: "string"
     enum: ["Pending","Completed","Expired"]

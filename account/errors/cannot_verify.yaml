@@ -1,0 +1,7 @@
+description: "The account has already been verified, or the verification request has expired."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The account verification request has already been completed or expired."

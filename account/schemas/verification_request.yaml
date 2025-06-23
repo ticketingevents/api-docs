@@ -1,0 +1,5 @@
+type: "object"
+properties:
+  email:
+    type: "string"
+    description: "Email address to which a verification request code will be sent."

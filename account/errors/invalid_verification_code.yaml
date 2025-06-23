@@ -1,0 +1,8 @@
+description: |
+  The supplied account verification code was incorrect.
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The provided account verification code is incorrect."
