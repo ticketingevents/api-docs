@@ -49,7 +49,7 @@ properties:
         quantity:
           type: "number"
           description: "Number of instances of this item that were ordered"
-  account:
+  customer:
     type: "object"
     description: "Details of the user account that placed the order"
     properties:

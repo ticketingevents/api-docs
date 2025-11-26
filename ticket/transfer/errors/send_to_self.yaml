@@ -1,0 +1,7 @@
+description: "The sender attempted to transfer tickets to themselves."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "A sender cannot transfer tickets to themselves."

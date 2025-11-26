@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../../responses/message.yaml"
     example:
-      message: "The ticketholder owns fewer than the requested amount of tickets for one or more sections."
+      message: "The sender does not hold sufficient itckets in their wallet to complete this transfer."

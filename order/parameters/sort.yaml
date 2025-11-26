@@ -1,0 +1,7 @@
+in: query
+name: sort
+schema:
+  type: string
+  enum: ["date"]
+required: false
+description: "If set, determines how the returned orders are sorted"

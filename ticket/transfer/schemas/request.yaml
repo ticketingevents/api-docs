@@ -1,5 +1,9 @@
 type: object
 properties:
+  sender:
+    type: "string"
+    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+    description: "Unique identifier of the account initiating this transfer"
   recipient:
     type: "string"
     pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"

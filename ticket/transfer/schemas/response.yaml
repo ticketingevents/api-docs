@@ -7,6 +7,10 @@ properties:
   status:
     type: "string"
     description: "Current status of the transfer"
+  initiated:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the transfer was initiated"
   sender:
       $ref: "account.yaml"
   recipient:
@@ -27,3 +31,7 @@ properties:
         quantity:
           type: "number"
           description: "Number of tickets for this section being transferred"
+  claims:
+    type: "string"
+    format: "uri"
+    description: "URI for the claims collection used to complete the transfer"

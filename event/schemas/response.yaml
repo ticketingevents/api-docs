@@ -40,6 +40,8 @@ properties:
     description: "The date and time at which the event is scheduled to finish"
   venue:
     $ref: "../../system/venue/schemas/response.yaml"
+  host:
+    $ref: "../../host/schemas/response.yaml"
   disclaimer:
     type: "string"
     description: "Subcategory under which the event is classified"

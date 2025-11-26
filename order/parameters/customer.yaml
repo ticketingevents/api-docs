@@ -1,5 +1,5 @@
 in: query
-name: profile
+name: customer
 schema:
   type: string
   pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"

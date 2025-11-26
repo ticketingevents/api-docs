@@ -16,7 +16,7 @@ items:
     description: "Includes meet and greet with the film's stars."
     quantity: 2
     price: 50
-account:
+customer:
   self: "/accounts/MO-6A39EE8D"
   number: "MO-6A39EE8D"
   username: "mothers.milk"

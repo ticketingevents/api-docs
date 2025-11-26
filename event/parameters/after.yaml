@@ -1,0 +1,7 @@
+in: query
+name: after
+schema:
+  type: string
+  format: "date-time"
+required: false
+description: "If set, only returns events that start after the specified date."
