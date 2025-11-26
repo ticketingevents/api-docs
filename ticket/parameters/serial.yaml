@@ -2,6 +2,5 @@ in: query
 name: serial
 schema:
   type: string
-  pattern: '^\w{6}-\w{4}\d{8}$'
 required: false
-description: "Only return the ticket with the given serial number"
+description: "Only return tickets with serial numbers matching the pattern"

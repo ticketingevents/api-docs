@@ -1,5 +1,9 @@
 type: object
 properties:
+  customer:
+    type: "string"
+    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
+    description: "Unique identifier of the account placing this order"
   items:
     description: Sections for which to order tickets. The object's keys
       are the URI of the event section for which tickets are being ordered, while its values

@@ -1,0 +1,6 @@
+in: query
+name: subcategory
+schema:
+  type: string
+required: false
+description: "If set, only returns events belonging to the specified subcategory"

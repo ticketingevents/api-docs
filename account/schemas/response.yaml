@@ -58,6 +58,6 @@ properties:
   state:
     type: "string"
     description: "The state, parish or district portion of the account holder's address"
-  prefernces:
+  preferences:
     type: "string"
     description: "URI of the account's user preferences resource"

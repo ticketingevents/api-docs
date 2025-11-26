@@ -1,4 +1,4 @@
-description: "The specified recipient does not exist in the system."
+description: "The specified sender or recipient does not exist in the system."
 content:
   application/json:
     schema:

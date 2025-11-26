@@ -1,9 +1,10 @@
 self: "/transfers/17096551195817"
 status: "Pending"
-items:
+tickets:
   - name: "Dawn of the Seven Premier: Backstage"
     description: "Includes meet and greet with the film's stars."
     quantity: 2
+initiated: "2025-11-13T12:16:57+00:00"
 sender:
   self: "/accounts/MO-6A39EE8D"
   number: "MO-6A39EE8D"
@@ -18,3 +19,4 @@ recipient:
   email: "elcapitaine@yahoo.com"
   firstName: "Billy"
   lastName: "Butcher"
+claims: "/transfers/17096551195817/claims"

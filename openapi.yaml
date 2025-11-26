@@ -830,8 +830,6 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "order/parameters/number.yaml"
-        - $ref: "order/parameters/item.yaml"
         - $ref: "order/parameters/status.yaml"
       summary: "View order history"
       security:
@@ -950,7 +948,7 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/transfer/schemas/response.yaml"
+                  - $ref: "ticket/transfer/schemas/list.yaml"
               example:
                 $ref: "ticket/transfer/examples/sent.yaml"
         400:
@@ -967,9 +965,13 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
+        - $ref: "host/parameters/name.yaml"
+        - $ref: "host/parameters/country.yaml"
+        - $ref: "host/parameters/sort.yaml"
+        - $ref: "host/parameters/order.yaml"
       summary: "List event hosts"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [public, customer, host, support, administrator]
       description: |
         Retrieve a list of registered event hosts that match the given criteria.
       operationId: "list_hosts"
@@ -1276,7 +1278,13 @@ paths:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
         - $ref: "event/parameters/region.yaml"
+        - $ref: "event/parameters/host.yaml"
         - $ref: "event/parameters/title.yaml"
+        - $ref: "event/parameters/active.yaml"
+        - $ref: "event/parameters/category.yaml"
+        - $ref: "event/parameters/subcategory.yaml"
+        - $ref: "event/parameters/after.yaml"
+        - $ref: "event/parameters/before.yaml"
         - $ref: "event/parameters/sort.yaml"
         - $ref: "event/parameters/order.yaml"
       summary: "List all published events"
@@ -2438,10 +2446,11 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "order/parameters/profile.yaml"
         - $ref: "order/parameters/number.yaml"
-        - $ref: "order/parameters/item.yaml"
+        - $ref: "order/parameters/customer.yaml"
         - $ref: "order/parameters/status.yaml"
+        - $ref: "order/parameters/sort.yaml"
+        - $ref: "order/parameters/order.yaml"
       summary: "List orders"
       security:
         - SessionKey: [administrator]
@@ -2495,6 +2504,8 @@ paths:
                 $ref: "order/examples/response.yaml"
         400:
           $ref: "order/errors/bad_request.yaml"
+        403:
+          $ref: "order/errors/unauthorised.yaml"
 
   /orders/{order}:
     parameters:
@@ -2582,8 +2593,46 @@ paths:
                 $ref: "order/payment/examples/response.yaml"
         400:
           $ref: "order/payment/errors/bad_request.yaml"
+        403:
+          $ref: "order/payment/errors/unauthorised.yaml"
         409:
           $ref: "order/payment/errors/invalid_state.yaml"
+
+  /orders/{order}/refunds:
+    parameters:
+      - $ref: "order/parameters/id.yaml"
+
+    post:
+      tags:
+        - Order Settlement
+      summary: "Refund order"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Attempt to refund an order, reversing the attached credit card payment. Only fulfilled orders can be 
+        refunded and each order can only be sucessfully refunded once. Orders for free tickets or ones that
+        have not been fulfilled, cannot be refunded.
+      operationId: "refund_order"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "order/refund/schemas/request.yaml"
+              example:
+                $ref: "order/refund/examples/request.yaml"
+      responses:
+        201:
+          description: "The order was successfully refunded and the issued tickets revoked."
+          content:
+            application/json:
+              schema:
+                $ref: "order/refund/schemas/response.yaml"
+              example:
+                $ref: "order/refund/examples/response.yaml"
+        400:
+          $ref: "order/refund/errors/bad_request.yaml"
+        409:
+          $ref: "order/refund/errors/invalid_state.yaml"
 
   ################ TICKET MANAGEMENT ################
 
@@ -2625,37 +2674,12 @@ paths:
                 $ref: "ticket/transfer/examples/response.yaml"
         400:
           $ref: "ticket/transfer/errors/bad_request.yaml"
+        403:
+          $ref: "ticket/transfer/errors/unauthorised.yaml"
         404:
           $ref: "ticket/transfer/errors/unknown_recipient.yaml"
-
-    get:
-      tags:
-        - Ticket Transfers
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/transfer/parameters/sender.yaml"
-        - $ref: "ticket/transfer/parameters/recipient.yaml"
-        - $ref: "ticket/transfer/parameters/status.yaml"
-      summary: "Listing transfers"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Retrieve a list of ticket transfers matching the given criteria.
-      operationId: "list_transfers"
-      responses:
-        200:
-          description: "The list of matching transfers was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/transfer/schemas/list.yaml"
-              example:
-                $ref: "ticket/transfer/examples/list.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
+        409:
+          $ref: "ticket/transfer/errors/send_to_self.yaml"
 
   /transfers/{transfer}:
     parameters:

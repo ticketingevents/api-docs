@@ -1,0 +1,7 @@
+type: "object"
+required:
+  - reason
+properties:
+  reason:
+    type: "string"
+    description: "The reason for issuing this refund."
