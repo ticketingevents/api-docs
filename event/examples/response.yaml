@@ -7,6 +7,7 @@ description: |
 status: "Listed"
 type: "Standard"
 public: true
+featured: false
 category:
   self: "/categories/16878141745207"
   name: "Cinema"
