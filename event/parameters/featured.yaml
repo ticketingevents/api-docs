@@ -1,0 +1,6 @@
+in: query
+name: featured
+schema:
+  type: boolean
+required: false
+description: "Only returns featured events if set to true, or non-featured events if set to false."

@@ -25,6 +25,9 @@ properties:
   public:
     type: "boolean"
     description: "Whether or not the event is open to the general public"
+  featured:
+    type: "boolean"
+    description: "Whether or not the event is currently part of a feature promotion"
   category:
     $ref: "../../system/category/schemas/response.yaml"
   subcategory:

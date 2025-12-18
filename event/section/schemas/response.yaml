@@ -37,10 +37,3 @@ properties:
   reserved:
     type: "integer"
     description: "The number of event section tickets held by ongoing orders"
-  modifiers:
-    type: "array"
-    description: |
-      A list of the section's price modifiers. Price modifiers implement special ticket rates
-      including early bird specials, flash sales and group discounts.
-    items:
-      $ref: "../modifier/schemas/response.yaml"

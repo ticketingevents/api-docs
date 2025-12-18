@@ -6,8 +6,7 @@ properties:
     description: "Unique identifier of the account initiating this transfer"
   recipient:
     type: "string"
-    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
-    description: "Account identifier of the transfer recipient"
+    description: "Username or email address of the intended recipient"
   tickets:
     type: object
     description: Sections for which to transfer tickets. The object's keys
