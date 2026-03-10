@@ -2,6 +2,6 @@ description: "The provided name is already in use by another venue in this regio
 content:
   application/json:
     schema:
-      "$ref": "../../../responses/message.yaml"
+      "$ref": "../../responses/message.yaml"
     example:
-      error: "Creating the requested Venue would violate uniqueness constraints."
+      message: "Creating the requested Venue would violate uniqueness constraints."

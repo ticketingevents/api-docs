@@ -2,6 +2,6 @@ description: "One or more events are currently listed under this category"
 content:
   application/json:
     schema:
-      "$ref": "../../../responses/message.yaml"
+      "$ref": "../../responses/message.yaml"
     example:
-      error: "The requested category is in use and cannot be deleted."
+      message: "The requested category is in use and cannot be deleted."

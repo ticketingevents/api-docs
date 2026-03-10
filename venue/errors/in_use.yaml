@@ -2,6 +2,6 @@ description: "The venue is currently hosting, or has staged, one or more event."
 content:
   application/json:
     schema:
-      "$ref": "../../../responses/message.yaml"
+      "$ref": "../../responses/message.yaml"
     example:
       message: "The requested venue is in use and cannot be deleted."
