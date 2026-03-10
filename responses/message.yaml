@@ -1,5 +1,5 @@
 type: "object"
 properties:
-  error:
+  message:
     type: "string"
     description: "Reason for the given response."

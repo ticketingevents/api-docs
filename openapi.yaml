@@ -1097,7 +1097,7 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                error: "host: /hosts/17724935637423, has been deleted."
+                message: "host: /hosts/17724935637423, has been deleted."
         403:
           $ref: "host/errors/unauthorised.yaml"
 
@@ -1243,8 +1243,6 @@ paths:
           $ref: "responses/400.yaml"
         404:
           $ref: "event/errors/not_found.yaml"
-        409:
-          $ref: "event/errors/exists.yaml"
 
   /events/{event}:
     parameters:
@@ -1324,7 +1322,7 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                error: "event: /events/17728094995512, has been deleted."
+                message: "event: /events/17728094995512, has been deleted."
         404:
           $ref: "event/errors/not_found.yaml"
 
@@ -1364,8 +1362,6 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
 
     get:
       tags:
@@ -1391,8 +1387,6 @@ paths:
                   - $ref: "event/token/schemas/list.yaml"
               example:
                 $ref: "event/token/examples/list.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1419,8 +1413,6 @@ paths:
                 $ref: "event/token/schemas/response.yaml"
               example:
                 $ref: "event/token/examples/response.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "responses/404.yaml"
 
@@ -1452,8 +1444,6 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "event/token/errors/is_global.yaml"
 
@@ -1477,8 +1467,6 @@ paths:
                 "$ref": "responses/message.yaml"
               example:
                 message: "Token: /events/16993717817996/tokens/17370490770235 has been deleted."
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "event/token/errors/is_global.yaml"
 
@@ -1961,7 +1949,7 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                error: "Transfer: /transfers/17096551195817, has been cancelled successfully."
+                message: "Transfer: /transfers/17096551195817, has been cancelled successfully."
         403:
           $ref: "ticket/transfer/errors/unauthorised.yaml"
         409:
@@ -2272,7 +2260,7 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                error: "venue: /venues/17722058266303, has been deleted."
+                message: "venue: /venues/17722058266303, has been deleted."
         409:
           $ref: "venue/errors/in_use.yaml"
 
