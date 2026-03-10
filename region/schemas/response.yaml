@@ -3,7 +3,6 @@ description: "A geographical region in which events can be staged"
 properties:
   self:
     type: "string"
-    format: "uri"
     description: "URI of the region resource"
   name:
     type: "string"

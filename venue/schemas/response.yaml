@@ -3,14 +3,13 @@ description: "The location at which the event is taking place"
 properties:
   self:
     type: "string"
-    format: "uri"
     description: "URI of the venue resource"
   name:
     type: "string"
     description: "Name of the event venue"
   region:
-    type: "string"
     description: "URI of the region resource related to this venue"
+    $ref: "../../region/schemas/response.yaml"
   latitude:
     type: "number"
     format: "float"

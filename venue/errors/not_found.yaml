@@ -1,0 +1,7 @@
+description: "A venue with the given URI does not exist."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "There is presently no venue with the given URI."

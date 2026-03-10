@@ -1,6 +1,12 @@
 self: "/venues/16878146473429"
 name: "Vought Tower"
-region: "/regions/19290238432215"
+region:
+  self: "/regions/19290238432215"
+  name: "Antigua and Barbuda"
+  country: "Antigua and Barbuda"
+  district: ""
+  city: ""
+  icon: "https://restfulcountries.com/assets/images/flags/Antigua-And-Barbuda.png"
 longitude: -73.99214
 latitude: 40.75518
 address: "7th Ave, Manhattan, New York"

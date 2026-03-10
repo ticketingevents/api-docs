@@ -22,16 +22,54 @@ properties:
     items:
       type: "object"
       properties:
-        name:
-          type: "string"
+        event:
           description: "The event section of the ticket being transferred"
-        description:
-          type: "string"
-          description: "Detailed description of the transferred ticket"
+          type: "object"
+          properties:
+            self:
+              type: "string"
+              format: "uri"
+              description: "URI of the event resource"
+            title:
+              type: "string"
+              description: "Unique name of the event"
+            description:
+              type: "string"
+              description: |
+                Long form text detailing what the event is about, including performing acts,
+                amenities and additional information important to potential attendees
+            status:
+              type: "string"
+              description: "Current status of the event"
+            start:
+              type: "string"
+              format: "date-time"
+              description: "The date and time at which the event is scheduled to begin"
+            end:
+              type: "string"
+              format: "date-time"
+              description: "The date and time at which the event is scheduled to finish"
+            banner:
+              type: "string"
+              format: "uri"
+              description: "URI of the event's banner image"
+            thumbnail:
+              type: "string"
+              format: "uri"
+              description: "URI of the event's thumbnail image"
+        section:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+              format: "uri"
+              description: "URI of the event section resource"
+            name:
+              type: "string"
+              description: "Name of the event section"
+            description:
+              type: "string"
+              description: "Details of the unique experience customers can expect when purchasing tickets to this event section"
         quantity:
-          type: "number"
-          description: "Number of tickets for this section being transferred"
-  claims:
-    type: "string"
-    format: "uri"
-    description: "URI for the claims collection used to complete the transfer"
+          type: "integer"
+          description: "Number of tickets for the section being transferred"

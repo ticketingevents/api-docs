@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../../responses/message.yaml"
     example:
-      error: "The following arguments conflict with those of another venue: name."
+      error: "Creating the requested Venue would violate uniqueness constraints."

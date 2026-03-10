@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../../responses/message.yaml"
     example:
-      message: "You cannot delete in-use event categories."
+      error: "The requested category is in use and cannot be deleted."

@@ -1,0 +1,7 @@
+description: "An event with the given URI does not exist."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "There is presently no event with the given URI."
