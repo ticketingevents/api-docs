@@ -12,7 +12,6 @@ entries:
     firstAddressLine: "Wireless Road"
     secondAddressLine: "Clare Hall"
     city: "St. John's"
-    state: "Saint John"
+    district: "Saint John"
     businessNo: "A5585291"
-    administrators: "/hosts/16951985851389/administrators"
     events: "/hosts/16951985851389/events"

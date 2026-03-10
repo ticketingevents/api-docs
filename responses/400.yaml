@@ -1,7 +1,7 @@
-description: "One or more required arguments are missing or some arguments are invalid."
+description: "The request payload is invalid JSON or has missing, malformed or incorrect attributes."
 content:
   application/json:
     schema:
       "$ref": "message.yaml"
     example:
-      error: "The following arguments are required, but have not been supplied."
+      error: "Your request payload is invalid. Please ensure you have included all required fields and values are well-formed."

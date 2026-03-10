@@ -1,0 +1,7 @@
+description: "A host account with the given URI does not exist."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "There is presently no host with the given URI."

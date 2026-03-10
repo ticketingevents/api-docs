@@ -1,0 +1,9 @@
+self: "/categories/16878141745207"
+name: "Party"
+subcategories:
+  - self: "/categories/17720402945929"
+    name: "Boat Cruise"
+  - self: "/categories/17720402945927"
+    name: "House Party"
+  - self: "/categories/17720402914950"
+    name: "Wedding"

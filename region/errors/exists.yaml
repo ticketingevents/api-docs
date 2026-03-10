@@ -1,0 +1,7 @@
+description: "The provided name is already in use by another region"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "Creating the requested Region would violate uniqueness constraints."

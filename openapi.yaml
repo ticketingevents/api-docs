@@ -187,7 +187,7 @@ paths:
         - Session Authentication
       summary: "Start a new API session"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         When provided with a valid username/email address and password, starts a new
         API session, returning the associated key.
@@ -217,7 +217,7 @@ paths:
         - Session Authentication
       summary: "Retrieve an active API session"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Returns details of the user's active API session. The session returned is
         based on the key used to authenticate the request.
@@ -241,7 +241,7 @@ paths:
         - Session Authentication
       summary: "End an active API session"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Ends the user's active API session based on the key used to authenticate the request.
       operationId: "end_session"
@@ -266,7 +266,7 @@ paths:
         - Token Authentication
       summary: "Retrieve token key"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Returns authentication key and netadata for an event admissions
         token. Authenticating requests with the returned key will grant access to
@@ -355,7 +355,7 @@ paths:
         - Account Management
       summary: "Create a new account"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Create a new TickeTing user account. Most user data is optional for
         account creation, so there is flexibility in the stage of the
@@ -391,7 +391,7 @@ paths:
         - Account Management
       summary: "Retrieve account details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Returns details of the specified user account.
       operationId: "retrieve_account"
@@ -412,7 +412,7 @@ paths:
         - Account Management
       summary: "Modify account details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Update the details of the specified user account
       operationId: "update_account"
@@ -470,7 +470,7 @@ paths:
         - Account Management
       summary: "Retrieve account preferences"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Returns the user preferences for the account.
       operationId: "retrieve_account_preferences"
@@ -491,7 +491,7 @@ paths:
         - Account Management
       summary: "Update account preferences"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Make changes to the account's user preferences
       operationId: "update_account_preferences"
@@ -529,7 +529,7 @@ paths:
         - $ref: "pagination/parameters/page.yaml"
       summary: "List managed hosts"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of registered event hosts for which this user has administrative permissions.
       operationId: "list_account_hosts"
@@ -553,7 +553,7 @@ paths:
         - Account Management
       summary: "Lookup an account"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Test the existenc of an account using its username or email address. A user role
         can optionally be provided to test for the existence of accounts of a certain type.
@@ -584,7 +584,7 @@ paths:
         - Account Verification
       summary: "Request verification code"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         
         Request that an account verification code be sent to the provided email address, if it belongs to a registered user.
@@ -620,7 +620,7 @@ paths:
         - Account Verification
       summary: "Verify account"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Verify the account if the verification code matches that sent to the account's email address.
       operationId: "verify_account"
@@ -758,7 +758,7 @@ paths:
         - Account Activation
       summary: "Request account deletion"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Notifies system administrators that the user would like to delete their account.
         When a deletion request is submitted, the account is immediately deactivated,
@@ -798,7 +798,7 @@ paths:
         - $ref: "pagination/parameters/page.yaml"
       summary: "List API sessions"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of API sessions opened by this user.
       operationId: "list_api_session"
@@ -829,7 +829,7 @@ paths:
         - $ref: "order/parameters/status.yaml"
       summary: "View order history"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the order history of the specified account.
       operationId: "view_order_history"
@@ -862,7 +862,7 @@ paths:
         - $ref: "event/parameters/order.yaml"
       summary: "Retrieve event itinerary"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of events, past and future, that the account has tickets for.
       operationId: "view_event_itinerary"
@@ -898,7 +898,7 @@ paths:
         - $ref: "ticket/parameters/status.yaml"
       summary: "Retrieve ticket wallet"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of tickets belonging to the specified account.
       operationId: "list_ticket_wallet"
@@ -932,7 +932,7 @@ paths:
         - $ref: "ticket/transfer/parameters/status.yaml"
       summary: "View transfer history"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the transfer history of the specified account.
       operationId: "view_transfer_history"
@@ -967,7 +967,7 @@ paths:
         - $ref: "host/parameters/order.yaml"
       summary: "List event hosts"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Retrieve a list of registered event hosts that match the given criteria.
       operationId: "list_hosts"
@@ -990,7 +990,7 @@ paths:
         - Managing Host Accounts
       summary: "Create an event host"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Create a new host which can list and promote events, sell tickets
         or request add-on services through TickeTing. The authorising user account is
@@ -1026,7 +1026,7 @@ paths:
         - Managing Host Accounts
       summary: "Retrieve host details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the registration details of the specified host.
       operationId: "retrieve_host"
@@ -1040,14 +1040,14 @@ paths:
               example:
                 $ref: "host/examples/response.yaml"
         404:
-          $ref: "responses/404.yaml"
+          $ref: "host/errors/not_found.yaml"
 
     put:
       tags:
         - Managing Host Accounts
       summary: "Update host details"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Change the registered details of the specified event host
       operationId: "update_host"
@@ -1080,7 +1080,7 @@ paths:
         - Managing Host Accounts
       summary: "Remove an event host"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Completely remove a registered event host from the system. The host
         will no longer be able to list or promote events, sell tickets,
@@ -1097,100 +1097,9 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                message: "Host: /hosts/16951985851389, has been deleted."
+                message: "host: /hosts/17724935637423, has been deleted."
         403:
           $ref: "host/errors/unauthorised.yaml"
-
-  /hosts/{host}/administrators:
-    parameters:
-      - $ref: "host/parameters/id.yaml"
-
-    get:
-      tags:
-        - Managing Host Accounts
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-      summary: "List host administrators"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Retrieve a list of user accounts that have been granted administrative access to the specified event host
-      operationId: "list_host_administrators"
-      responses:
-        200:
-          description: "The list of administrative user accounts was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "host/schemas/administrators.yaml"
-              example:
-                $ref: "host/examples/administrators.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-    post:
-      tags:
-        - Managing Host Accounts
-      summary: "Grant administrative access"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Grant the specified user account administrative access to the requested event host.
-        Administrative access can only be granted by a user that has already been made
-        a host administrator.
-      operationId: "add_host_administrator"
-      requestBody:
-        content:
-          application/json:
-              schema:
-                $ref: "host/schemas/account.yaml"
-              example:
-                $ref: "host/examples/account.yaml"
-      responses:
-        201:
-          description: "The specified user was successfully granted administrative access to the event host."
-          content:
-            application/json:
-              schema:
-                "$ref": "responses/message.yaml"
-              example:
-                message: "Account MO-6A39EE8D can now administer this host."
-        400:
-          $ref: "responses/400.yaml"
-        404:
-          $ref: "host/errors/account_not_found.yaml"
-        409:
-          $ref: "host/errors/administrator_exists.yaml"
-
-    delete:
-      tags:
-        - Managing Host Accounts
-      parameters:
-        - $ref: "host/parameters/administrator.yaml"
-      summary: "Revoke administrative access"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Revoke administrative access to the requested event host from the specified user account.
-        Administrative access can only be revoked by a user that has already been made
-        a host administrator.
-      operationId: "remove_host_administrator"
-      responses:
-        200:
-          description: "Administrative access was successfully revoked from the specified user."
-          content:
-            application/json:
-              schema:
-                "$ref": "responses/message.yaml"
-              example:
-                message: "Account MO-6A39EE8D can no longer administer this host."
-        404:
-          $ref: "host/errors/account_not_found.yaml"
-        409:
-          $ref: "host/errors/administrator_not_found.yaml"
 
   /hosts/{host}/events:
     parameters:
@@ -1202,17 +1111,14 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/parameters/region.yaml"
         - $ref: "event/parameters/title.yaml"
-        - $ref: "event/parameters/status.yaml"
         - $ref: "event/parameters/active.yaml"
         - $ref: "event/parameters/public.yaml"
-        - $ref: "event/parameters/featured.yaml"
         - $ref: "event/parameters/sort.yaml"
         - $ref: "event/parameters/order.yaml"
       summary: "List hosted events"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of all events registered by this event host.
       operationId: "list_host_events"
@@ -1252,7 +1158,7 @@ paths:
         - $ref: "event/parameters/order.yaml"
       summary: "List all published events"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Retrieve a list of published events open to the public that match the given criteria.
       operationId: "list_published_events"
@@ -1280,11 +1186,11 @@ paths:
         - $ref: "event/parameters/region.yaml"
         - $ref: "event/parameters/host.yaml"
         - $ref: "event/parameters/title.yaml"
-        - $ref: "event/parameters/status.yaml"
         - $ref: "event/parameters/active.yaml"
         - $ref: "event/parameters/public.yaml"
         - $ref: "event/parameters/featured.yaml"
-        - $ref: "event/parameters/section.yaml"
+        - $ref: "event/parameters/category.yaml"
+        - $ref: "event/parameters/subcategory.yaml"
         - $ref: "event/parameters/sort.yaml"
         - $ref: "event/parameters/order.yaml"
       summary: "List all events"
@@ -1312,7 +1218,7 @@ paths:
         - Working with Events
       summary: "Register an event"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Register a new event in the TickeTing system. Once submitted for review and
         approved by an administrator, the host can begin to sell tickets to the event.
@@ -1335,10 +1241,8 @@ paths:
                 $ref: "event/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/errors/exists.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
 
   /events/{event}:
     parameters:
@@ -1349,7 +1253,7 @@ paths:
         - Working with Events
       summary: "Retrieve event details"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Retrieve the registration details of the requested event
       operationId: "retrieve_event"
@@ -1364,13 +1268,15 @@ paths:
                 $ref: "event/examples/response.yaml"
         403:
           $ref: "event/errors/unlisted.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
 
     put:
       tags:
         - Working with Events
       summary: "Update event details"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Change the details of the requested event
       operationId: "update_event"
@@ -1393,17 +1299,15 @@ paths:
                 $ref: "event/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/errors/exists.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
 
     delete:
       tags:
         - Working with Events
       summary: "Remove an event"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Completely remove a registered event from the system. Only events that have not sold
         any tickets can be deleted. If tickets have been sold, but further sales should be
@@ -1418,168 +1322,9 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                message: "Event: /events/17001492554375, has been deleted."
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/errors/has_sections.yaml"
-
-  /events/{event}/submissions:
-    parameters:
-      - $ref: "event/parameters/id.yaml"
-
-    post:
-      tags:
-        - Working with Events
-      summary: "Submit event for review"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        When an event is created it is initially just a draft, visible only to host administrators.
-        When an event is ready to go live, it must first be submitted for review by a member of the
-        TickeTing team. If the event is approved, it will be published and made visible to users
-        across the TickeTing ecosystem. If rejected, the event will be returned to a draft status.
-      operationId: "submit_event"
-      requestBody:
-        content:
-          application/json: {}
-      responses:
-        201:
-          description: "The event was successfully submitted for review."
-          content:
-            application/json:
-              schema:
-                "$ref": "responses/message.yaml"
-              example:
-                message: "Your event was submitted for review. You will be notified once a decision is reached."
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "system/submission/errors/not_draft.yaml"
-
-  /events/{event}/sections:
-    parameters:
-      - $ref: "event/parameters/id.yaml"
-
-    post:
-      tags:
-        - Working with Events
-      summary: "Add an event section"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Add a new section to the specified event. Sections are subdivisions
-        of an event, each of which offer a unique experience to ticket holders.
-        Examples include General Admission, All-Inclusive, VIP and Backstage.
-      operationId: "add_event_section"
-      requestBody:
-        content:
-          application/json:
-              schema:
-                $ref: "event/section/schemas/request.yaml"
-              example:
-                $ref: "event/section/examples/request.yaml"
-      responses:
-        201:
-          description: "The new section was successfully added to the event."
-          content:
-            application/json:
-              schema:
-                $ref: "event/section/schemas/response.yaml"
-              example:
-                $ref: "event/section/examples/response.yaml"
-        400:
-          $ref: "event/section/errors/bad_dates.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/section/errors/exists.yaml"
-
-  /events/{event}/sections/{section}:
-    parameters:
-      - $ref: "event/parameters/id.yaml"
-      - $ref: "event/section/parameters/id.yaml"
-
-    get:
-      tags:
-        - Working with Events
-      summary: "Retrieve section details"
-      security:
-        - SessionKey: [public, customer, host, support, administrator]
-      description: |
-        Retrieve the details of the requested event section
-      operationId: "retrieve_event_section"
-      responses:
-        200:
-          description: "Details of the requested event section were successfully retrieved."
-          content:
-            application/json:
-              schema:
-                $ref: "event/section/schemas/response.yaml"
-              example:
-                $ref: "event/section/examples/response.yaml"
-        403:
-          $ref: "event/errors/unlisted.yaml"
-
-    put:
-      tags:
-        - Working with Events
-      summary: "Update section details"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Change the details of the requested event section
-      operationId: "update_event_section"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "event/section/schemas/request.yaml"
-            example:
-              $ref: "event/section/examples/request.yaml"
-      responses:
-        200:
-          description: |
-            The event section details were successfully updated.
-          content:
-            application/json:
-              schema:
-                $ref: "event/section/schemas/response.yaml"
-              example:
-                $ref: "event/section/examples/response.yaml"
-        400:
-          $ref: "event/section/errors/bad_dates.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/section/errors/exists.yaml"
-
-    delete:
-      tags:
-        - Working with Events
-      summary: "Remove an event section"
-      security:
-        - SessionKey: [host, administrator]
-      description: |
-        Remove a section from an event. Only sections for which there are no ticket
-        sales or active reservations can be deleted. If tickets have been sold, the
-        section can no longer be deleted, but its associated event can be cancelled
-        or unpublished as necessary.
-      operationId: "delete_event_section"
-      responses:
-        200:
-          description: |
-            The section was successfully removed from the event.
-          content:
-            application/json:
-              schema:
-                "$ref": "responses/message.yaml"
-              example:
-                message: "Section: /events/16878174883191/sections/16993992757170, has been deleted."
-        403:
-          $ref: "event/errors/unauthorised.yaml"
-        409:
-          $ref: "event/section/errors/has_sales.yaml"
+                message: "event: /events/17728094995512, has been deleted."
+        404:
+          $ref: "event/errors/not_found.yaml"
 
   ################ EVENT ADMISSIONS ################
 
@@ -1592,7 +1337,7 @@ paths:
         - Event Admissions
       summary: "Issue admission tokens"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Create tokens that authorise event staff to grant admission to the event. Tokens allow event staff to redeem tickets
         and admit patrons to one or more event sections. Each event has a global token that allows redemption of tickets for
@@ -1617,8 +1362,6 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
 
     get:
       tags:
@@ -1629,7 +1372,7 @@ paths:
         - $ref: "event/token/parameters/global.yaml"
       summary: "List admission tokens"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Retrieve a list of tokens permitted to redeem tickets issued for this event.
       operationId: "list_event_tokens"
@@ -1644,8 +1387,6 @@ paths:
                   - $ref: "event/token/schemas/list.yaml"
               example:
                 $ref: "event/token/examples/list.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1659,7 +1400,7 @@ paths:
         - Event Admissions
       summary: "Retrieve admission token details"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Retrieve the details of the specified admission token.
       operationId: "retrieve_admission_token"
@@ -1672,8 +1413,6 @@ paths:
                 $ref: "event/token/schemas/response.yaml"
               example:
                 $ref: "event/token/examples/response.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "responses/404.yaml"
 
@@ -1682,7 +1421,7 @@ paths:
         - Event Admissions
       summary: "Modify admission token sections"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Update the event sections that the admission token can be used to grant entry to
       operationId: "update_admission_token"
@@ -1705,8 +1444,6 @@ paths:
                 $ref: "event/token/examples/response.yaml"
         400:
           $ref: "event/token/errors/bad_sections.yaml"
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "event/token/errors/is_global.yaml"
 
@@ -1715,7 +1452,7 @@ paths:
         - Event Admissions
       summary: "Invalidate an admission token"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Invalidate an admission token and remove it from the event. Invalidated tokens can no longer be used
         by event staff to redeem tickets and grant admission.
@@ -1730,8 +1467,6 @@ paths:
                 "$ref": "responses/message.yaml"
               example:
                 message: "Token: /events/16993717817996/tokens/17370490770235 has been deleted."
-        403:
-          $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "event/token/errors/is_global.yaml"
 
@@ -1821,7 +1556,7 @@ paths:
         - $ref: "event/admission/parameters/section.yaml"
       summary: "List event admissions"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Retrieve a list of admissions to the event sections that the authenticated redeemer has access to.
       operationId: "list_event_admissions"
@@ -1852,7 +1587,7 @@ paths:
         - Event Reporting
       summary: "View host statistics"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         View high-level statistics for a host including total revenues, tickets sold,
         events listed and unique customers.
@@ -1878,7 +1613,7 @@ paths:
         - Event Reporting
       summary: "View event statistics"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         View high-level statistics for an event including revenues, tickets sold,
         ticket capacity and total orders.
@@ -1908,7 +1643,7 @@ paths:
         - $ref: "event/sales/parameters/section.yaml"
       summary: "Report event sales"
       security:
-        - SessionKey: [host, administrator]
+        - SessionKey: [administrator]
       description: |
         Generate a summary report of ticket sales for this event using the given criteria
       operationId: "report_event_sales"
@@ -1963,7 +1698,7 @@ paths:
         - Placing an Order
       summary: "Place a new order"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Place a new order for one or more tickets. A single order can include multiple
         ticket types of a single event, or from multiple events. When a new order is created
@@ -2003,7 +1738,7 @@ paths:
         - Placing an Order
       summary: "Retrieve order details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the details of the requested order
       operationId: "retrieve_order"
@@ -2024,7 +1759,7 @@ paths:
         - Placing an Order
       summary: "Cancel an order"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Cancel an existing order. Any reserved tickets are immediately released. An order
         can only be cancelled if it has not already been settled or timed out.
@@ -2053,7 +1788,7 @@ paths:
         - Order Settlement
       summary: "Attempt payment"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Attempt to settle a pending order by credit card payment. Payment can only be attempted
         once an order has been placed, but before it has timed out. Payment can no longer be
@@ -2130,7 +1865,7 @@ paths:
         - Ticket Transfers
       summary: "Initiating a transfer"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Initiate a transfer of one or more tickets from the requesting user
         to another TickeTing user. Initiating a transfer, does not automatically
@@ -2177,7 +1912,7 @@ paths:
         - Ticket Transfers
       summary: "Retrieve transfer details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the details of the requested transfer
       operationId: "retrieve_transfer"
@@ -2198,7 +1933,7 @@ paths:
         - Ticket Transfers
       summary: "Cancel a transfer"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Cancel a pending transfer. A transfer can be cancelled by either its sender or
         its recipient before it is claimed. Any pending tickets attached to the transfer
@@ -2229,7 +1964,7 @@ paths:
         - Ticket Transfers
       summary: "Claim a transfer"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Claim a pending transfer. Once claimed, any tickets attached to the transfer are moved
         from the sender's account to the recipient's and returned to a usable state. Only a
@@ -2258,10 +1993,10 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "system/region/parameters/active.yaml"
+        - $ref: "region/parameters/active.yaml"
       summary: "List supported regions"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of supported regions where events can be staged.
       operationId: "list_regions"
@@ -2273,9 +2008,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "system/region/schemas/list.yaml"
+                  - $ref: "region/schemas/list.yaml"
               example:
-                $ref: "system/region/examples/list.yaml"
+                $ref: "region/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -2294,33 +2029,33 @@ paths:
         content:
           application/json:
               schema:
-                $ref: "system/region/schemas/request.yaml"
+                $ref: "region/schemas/request.yaml"
               example:
-                $ref: "system/region/examples/request.yaml"
+                $ref: "region/examples/request.yaml"
       responses:
         201:
           description: "The supported region was successfully added."
           content:
             application/json:
               schema:
-                $ref: "system/region/schemas/response.yaml"
+                $ref: "region/schemas/response.yaml"
               example:
-                $ref: "system/region/examples/response.yaml"
+                $ref: "region/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/region/errors/exists.yaml"
+          $ref: "region/errors/exists.yaml"
 
   /regions/{region}:
     parameters:
-      - $ref: "system/region/parameters/id.yaml"
+      - $ref: "region/parameters/id.yaml"
 
     get:
       tags:
         - Region Management
       summary: "Retrieve region details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the details of the specified region.
       operationId: "retrieve_region"
@@ -2330,11 +2065,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/region/schemas/response.yaml"
+                $ref: "region/schemas/response.yaml"
               example:
-                $ref: "system/region/examples/response.yaml"
+                $ref: "region/examples/response.yaml"
         404:
-          $ref: "responses/404.yaml"
+          $ref: "region/errors/not_found.yaml"
 
     put:
       tags:
@@ -2349,9 +2084,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "system/region/schemas/request.yaml"
+              $ref: "region/schemas/request.yaml"
             example:
-              $ref: "system/region/examples/request.yaml"
+              $ref: "region/examples/request.yaml"
       responses:
         200:
           description: |
@@ -2359,13 +2094,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/region/schemas/response.yaml"
+                $ref: "region/schemas/response.yaml"
               example:
-                $ref: "system/region/examples/response.yaml"
+                $ref: "region/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/region/errors/exists.yaml"
+          $ref: "region/errors/exists.yaml"
 
     delete:
       tags:
@@ -2388,7 +2123,7 @@ paths:
               example:
                 message: "Region: /regions/159428147942752, has been deleted."
         409:
-          $ref: "system/region/errors/in_use.yaml"
+          $ref: "region/errors/in_use.yaml"
 
   /venues:
     get:
@@ -2397,11 +2132,11 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "system/venue/parameters/region.yaml"
-        - $ref: "system/venue/parameters/name.yaml"
+        - $ref: "venue/parameters/region.yaml"
+        - $ref: "venue/parameters/name.yaml"
       summary: "List event venues"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of approved venues at which events can be hosted.
       operationId: "list_venues"
@@ -2413,9 +2148,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "system/venue/schemas/list.yaml"
+                  - $ref: "venue/schemas/list.yaml"
               example:
-                $ref: "system/venue/examples/list.yaml"
+                $ref: "venue/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -2433,33 +2168,33 @@ paths:
         content:
           application/json:
               schema:
-                $ref: "system/venue/schemas/request.yaml"
+                $ref: "venue/schemas/request.yaml"
               example:
-                $ref: "system/venue/examples/request.yaml"
+                $ref: "venue/examples/request.yaml"
       responses:
         201:
           description: "The new venue was successfully created."
           content:
             application/json:
               schema:
-                $ref: "system/venue/schemas/response.yaml"
+                $ref: "venue/schemas/response.yaml"
               example:
-                $ref: "system/venue/examples/response.yaml"
+                $ref: "venue/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/venue/errors/exists.yaml"
+          $ref: "venue/errors/exists.yaml"
 
   /venues/{venue}:
     parameters:
-      - $ref: "system/venue/parameters/id.yaml"
+      - $ref: "venue/parameters/id.yaml"
 
     get:
       tags:
         - Venue Management
       summary: "Retrieve event venue details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the details of the specified event venue.
       operationId: "retrieve_venue"
@@ -2469,11 +2204,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/venue/schemas/response.yaml"
+                $ref: "venue/schemas/response.yaml"
               example:
-                $ref: "system/venue/examples/response.yaml"
+                $ref: "venue/examples/response.yaml"
         404:
-          $ref: "responses/404.yaml"
+          $ref: "venue/errors/not_found.yaml"
 
     put:
       tags:
@@ -2488,9 +2223,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "system/venue/schemas/request.yaml"
+              $ref: "venue/schemas/request.yaml"
             example:
-              $ref: "system/venue/examples/request.yaml"
+              $ref: "venue/examples/request.yaml"
       responses:
         200:
           description: |
@@ -2498,13 +2233,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/venue/schemas/response.yaml"
+                $ref: "venue/schemas/response.yaml"
               example:
-                $ref: "system/venue/examples/response.yaml"
+                $ref: "venue/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/venue/errors/exists.yaml"
+          $ref: "venue/errors/exists.yaml"
 
     delete:
       tags:
@@ -2525,9 +2260,9 @@ paths:
               schema:
                 "$ref": "responses/message.yaml"
               example:
-                message: "/venues/16989249829149, has been deleted."
+                message: "venue: /venues/17722058266303, has been deleted."
         409:
-          $ref: "system/venue/errors/in_use.yaml"
+          $ref: "venue/errors/in_use.yaml"
 
   /categories:
     get:
@@ -2538,7 +2273,7 @@ paths:
         - $ref: "pagination/parameters/page.yaml"
       summary: "List event categories"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve a list of event categories under which events can be classified.
       operationId: "list_categories"
@@ -2550,9 +2285,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "system/category/schemas/list.yaml"
+                  - $ref: "category/schemas/list.yaml"
               example:
-                $ref: "system/category/examples/list.yaml"
+                $ref: "category/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -2570,33 +2305,33 @@ paths:
         content:
           application/json:
               schema:
-                $ref: "system/category/schemas/request.yaml"
+                $ref: "category/schemas/request.yaml"
               example:
-                $ref: "system/category/examples/request.yaml"
+                $ref: "category/examples/request.yaml"
       responses:
         201:
           description: "The new category was successfully created."
           content:
             application/json:
               schema:
-                $ref: "system/category/schemas/response.yaml"
+                $ref: "category/schemas/response.yaml"
               example:
-                $ref: "system/category/examples/response.yaml"
+                $ref: "category/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/category/errors/exists.yaml"
+          $ref: "category/errors/exists.yaml"
 
   /categories/{category}:
     parameters:
-      - $ref: "system/category/parameters/id.yaml"
+      - $ref: "category/parameters/id.yaml"
 
     get:
       tags:
         - Category Management
       summary: "Retrieve category details"
       security:
-        - SessionKey: [customer, host, support, administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Retrieve the details of the specified event category.
       operationId: "retrieve_category"
@@ -2606,9 +2341,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/category/schemas/response.yaml"
+                $ref: "category/schemas/response.yaml"
               example:
-                $ref: "system/category/examples/response.yaml"
+                $ref: "category/examples/response.yaml"
         404:
           $ref: "responses/404.yaml"
 
@@ -2625,9 +2360,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "system/category/schemas/request.yaml"
+              $ref: "category/schemas/request.yaml"
             example:
-              $ref: "system/category/examples/request.yaml"
+              $ref: "category/examples/request.yaml"
       responses:
         200:
           description: |
@@ -2635,13 +2370,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/category/schemas/response.yaml"
+                $ref: "category/schemas/response.yaml"
               example:
-                $ref: "system/category/examples/response.yaml"
+                $ref: "category/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         409:
-          $ref: "system/category/errors/exists.yaml"
+          $ref: "category/errors/exists.yaml"
 
     delete:
       tags:
@@ -2664,7 +2399,7 @@ paths:
               example:
                 message: "Category: /categories/16972381860264, has been deleted."
         409:
-          $ref: "system/category/errors/in_use.yaml"
+          $ref: "category/errors/in_use.yaml"
 
   /submissions:
     get:
@@ -2788,7 +2523,7 @@ paths:
         - Default Values
       summary: "Retrieve a list of countries"
       security:
-        - SessionKey: [public, customer, host, support, administrator]
+        - SessionKey: [public, customer, administrator]
       description: |
         Retrieve a list of country names to be used in association with
         user accounts, events, hosts, etc.

@@ -2,7 +2,6 @@ type: "object"
 properties:
   self:
     type: "string"
-    format: "uri"
     description: "URI of the host resource"
   name:
     type: "string"
@@ -37,17 +36,12 @@ properties:
   city:
     type: "string"
     description: "The city portion of the event host's mailing address"
-  state:
+  district:
     type: "string"
     description: "The state, parish or district portion of the event host's mailing address"
   businessNo:
     type: "string"
     description: "The event host's unique registration number, if it maintains a registered business entity"
-  administrators:
-    type: "string"
-    format: "uri"
-    description: "URI of the host's administrative user collection"
   events:
     type: "string"
-    format: "uri"
     description: "URI of the collection of events being staged by this host"

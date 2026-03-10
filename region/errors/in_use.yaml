@@ -1,0 +1,7 @@
+description: "The region currently contains one or more venus."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      error: "The requested region is in use and cannot be deleted."

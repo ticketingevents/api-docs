@@ -1,0 +1,7 @@
+description: "A category with the given URI does not exist."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "There is presently no category with the given URI."

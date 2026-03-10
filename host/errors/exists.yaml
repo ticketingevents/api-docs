@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../responses/message.yaml"
     example:
-      message: "The following arguments conflict with those of another host: name."
+      error: "Creating the requested Host would violate uniqueness constraints."
