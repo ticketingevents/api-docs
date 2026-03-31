@@ -1,0 +1,8 @@
+type: "object"
+required:
+  - role
+properties:
+  role:
+    type: "string"
+    enum: ["Administrator", "Editor", "Viewer"]
+    description: "Role that the privilege should confer upon the user."

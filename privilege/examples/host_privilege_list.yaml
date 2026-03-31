@@ -1,0 +1,16 @@
+page: 1
+records: 25
+entries:
+  - self: "/hosts/16951985851389/privileges/18294757620193"
+    user: "billy.butcher@fbsa.gov"
+    role:
+      name: Administrator
+      permissions:
+        - retrieve_host
+        - modify_host
+        - delete_host
+        - list_host_events
+        - create_event
+    type: host
+    resource: 16951985851389
+    pending: false

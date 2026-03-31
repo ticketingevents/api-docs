@@ -1,0 +1,6 @@
+in: query
+name: role
+schema:
+  type: string
+required: false
+description: "If set, only returns privileges that grant the specified role"

@@ -1,0 +1,47 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the submission resource"
+  submitted_at:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which changes to a resource were submitted for review"
+  submitted_by:
+    $ref: "../../account/schemas/response.yaml"
+    description: "The TickeTing account that submitted changes to a resource for review"
+  resource:
+    description: "Unique identifier of the resource for which changes have been submitted."
+    type: string
+    pattern: "^[0-9]{14}$"
+  original:
+    description: "The original resource content that is being changed."
+    type: "object"
+    additionalProperties:
+      anyOf:
+        - type: string
+        - type: number
+        - type: array
+          items: {type: string}
+        - type: array
+          items: {type: number}
+  changes:
+    description: "The changes to the resource being submitted for review."
+    type: "object"
+    additionalProperties:
+      anyOf:
+        - type: string
+        - type: number
+        - type: array
+          items: {type: string}
+        - type: array
+          items: {type: number}
+  note:
+    description: "Note included wuth the submission for attention of the reviewer"
+    type: "string"
+  approved:
+    description: "True if the submitted resource changes were approved after review, false otherwise."
+    type: "boolean"
+  feedback:
+    description: "Additional feedback provided by the reviewer when deciding on the submitted change."
+    type: "string"

@@ -159,7 +159,8 @@ x-tagGroups:
   - name: "Events"
     tags:
       - "Managing Host Accounts"
-      - "Working with Events"
+      - "Managing Events"
+      - "Event Listings"
       - "Event Admissions"
       - "Event Reporting"
   - name: "Purchasing Tickets"
@@ -517,6 +518,38 @@ paths:
         403:
           $ref: "account/errors/unauthorised.yaml"
           
+  /accounts/{number}/privileges:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Account Management
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "privilege/parameters/role.yaml"
+        - $ref: "privilege/parameters/type.yaml"
+      summary: "List account privileges"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of privileges granted to this user to manage various system resources.
+      operationId: "list_account_privileges"
+      responses:
+        200:
+          description: "The list of privileges granted to this account including their associated roles and the resources they apply to."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "privilege/schemas/list.yaml"
+              example:
+                $ref: "privilege/examples/host_privilege_list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+          
   /accounts/{number}/hosts:
     parameters:
       - $ref: "account/parameters/number.yaml"
@@ -527,15 +560,15 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-      summary: "List managed hosts"
+      summary: "List privileged hosts"
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Retrieve a list of registered event hosts for which this user has administrative permissions.
+        Retrieve a list of host resources for which this account has been granted access privileges.
       operationId: "list_account_hosts"
       responses:
         200:
-          description: "The list of event hosts this account has administrative permissions for was successfully retrieved."
+          description: "The list of host resources on which this account has been granted access privileges was successfully retrieved."
           content:
             application/json:
               schema:
@@ -1047,7 +1080,7 @@ paths:
         - Managing Host Accounts
       summary: "Update host details"
       security:
-        - SessionKey: [administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Change the registered details of the specified event host
       operationId: "update_host"
@@ -1072,6 +1105,8 @@ paths:
           $ref: "responses/400.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "host/errors/not_found.yaml"
         409:
           $ref: "host/errors/exists.yaml"
 
@@ -1080,7 +1115,7 @@ paths:
         - Managing Host Accounts
       summary: "Remove an event host"
       security:
-        - SessionKey: [administrator]
+        - SessionKey: [customer, administrator]
       description: |
         Completely remove a registered event host from the system. The host
         will no longer be able to list or promote events, sell tickets,
@@ -1100,6 +1135,166 @@ paths:
                 message: "host: /hosts/17724935637423, has been deleted."
         403:
           $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "host/errors/not_found.yaml"
+        409:
+          $ref: "host/errors/in_use.yaml"
+
+  /hosts/{host}/privileges:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "privilege/parameters/role.yaml"
+      summary: "List host privileges"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of all privileges granted on the host account.
+      operationId: "list_host_privileges"
+      responses:
+        200:
+          description: "The list of privileges granted on the event host was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "privilege/schemas/list.yaml"
+              example:
+                $ref: "privilege/examples/host_privilege_list.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Host Accounts
+      summary: "Grant a host privilege"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Grant a new privilege on the host account which allows the targetted user
+        to perform a subset of management operations based on their assigned role.
+      operationId: "grant_host_privilege"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "privilege/schemas/request.yaml"
+              example:
+                $ref: "privilege/examples/request.yaml"
+      responses:
+        201:
+          description: "The privilege was successfully granted to the user."
+          content:
+            application/json:
+              schema:
+                $ref: "privilege/schemas/response.yaml"
+              example:
+                $ref: "privilege/examples/host_privilege.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        409:
+          $ref: "privilege/errors/exists.yaml"
+
+  /hosts/{host}/privileges/{privilege}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "privilege/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Host Accounts
+      summary: "Retrieve host privilege"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve details of the specified privilege.
+      operationId: "retrieve_host_privilege"
+      responses:
+        200:
+          description: "Details of the requested privilege were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "privilege/schemas/response.yaml"
+              example:
+                $ref: "privilege/examples/host_privilege.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "privilege/errors/not_found.yaml"
+
+    put:
+      tags:
+        - Managing Host Accounts
+      summary: "Update host privilege"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Update the role associated with the specified privilege
+      operationId: "update_host_privilege"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "privilege/schemas/role.yaml"
+            example:
+              $ref: "privilege/examples/role.yaml"
+      responses:
+        200:
+          description: |
+            The host privilege was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "privilege/schemas/response.yaml"
+              example:
+                $ref: "privilege/examples/host_privilege.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "privilege/errors/not_found.yaml"
+        409:
+          $ref: "privilege/errors/owner.yaml"
+
+    delete:
+      tags:
+        - Managing Host Accounts
+      summary: "Revoke a host privilege"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Revoke the specified privilege, denying the associated user all permissions
+        to manage the host account.
+      operationId: "revoke_host_privilege"
+      responses:
+        200:
+          description: |
+            The host privilege was successfully revoked.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "privilege: /hosts/16951985851389/privileges/18294757620193, has been revoked."
+        404:
+          $ref: "privilege/errors/not_found.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        409:
+          $ref: "privilege/errors/owner.yaml"
+
+  ################ MANAGING EVENTS ################
 
   /hosts/{host}/events:
     parameters:
@@ -1107,7 +1302,7 @@ paths:
 
     get:
       tags:
-        - Managing Host Accounts
+        - Managing Events
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
@@ -1133,15 +1328,201 @@ paths:
                   - $ref: "event/schemas/list.yaml"
               example:
                 $ref: "event/examples/list.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
-  ################ EVENT MANAGEMENT ################
+    post:
+      tags:
+        - Managing Events
+      summary: "Register an event"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Register a new event in the TickeTing system. Once submitted for review and
+        approved by an administrator, the host can begin to sell tickets to the event.
+      operationId: "register_event"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "event/schemas/request.yaml"
+              example:
+                $ref: "event/examples/request.yaml"
+      responses:
+        201:
+          description: "The new event was successfully registered."
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
 
-  /published-events:
+  /hosts/{host}/events/{event}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/parameters/id.yaml"
+
     get:
       tags:
-        - Working with Events
+        - Managing Events
+      summary: "Retrieve event details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve details of the current revision of the requested event
+      operationId: "retrieve_event"
+      responses:
+        200:
+          description: "Details of the current revision of the requested event were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
+
+    put:
+      tags:
+        - Managing Events
+      summary: "Update event details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Change the details of the current revision of the requested event
+      operationId: "update_event"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "event/schemas/request.yaml"
+            example:
+              $ref: "event/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The details of the current revision of the specified event were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "event/schemas/response.yaml"
+              example:
+                $ref: "event/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
+
+    delete:
+      tags:
+        - Managing Events
+      summary: "Remove an event"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Completely remove a registered event from the system. Only events that have not sold
+        any tickets can be deleted. If tickets have been sold, but further sales should be
+        prevented, an event can be unpublished or cancelled as necessary.
+      operationId: "delete_event"
+      responses:
+        200:
+          description: |
+            The event was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "event: /events/17728094995512, has been deleted."
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "event/errors/not_found.yaml"
+
+  /hosts/{host}/events/{event}/submissions:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Events
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List event submissions"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of previously submitted event revisions.
+      operationId: "list_event_submissions"
+      responses:
+        200:
+          description: "A list of previously submitted event revisions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "submission/schemas/list.yaml"
+              example:
+                $ref: "submission/examples/list.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Events
+      summary: "Submit event for review"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Submit the current event revision for administrative review. All revisions to an event listing
+        must be reviewd and approved before being published and made available to the public.
+      operationId: "submit_event"
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "submission/schemas/response.yaml"
+              example:
+                $ref: "submission/examples/response.yaml"
+      responses:
+        201:
+          description: "The current event revision was successfully submitted for review."
+          content:
+            application/json:
+              schema:
+                $ref: "submission/schemas/response.yaml"
+              example:
+                $ref: "submission/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "submission/errors/unsubmittable.yaml"
+
+  ################ EVENT ListINGS ################
+
+  /events:
+    get:
+      tags:
+        - Event Listings
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
@@ -1160,7 +1541,7 @@ paths:
       security:
         - SessionKey: [public, customer, administrator]
       description: |
-        Retrieve a list of published events open to the public that match the given criteria.
+        Retrieve a list of published events that match the given criteria.
       operationId: "list_published_events"
       responses:
         200:
@@ -1176,87 +1557,19 @@ paths:
         404:
           $ref: "pagination/errors/not_found.yaml"
 
-  /events:
-    get:
-      tags:
-        - Working with Events
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/parameters/region.yaml"
-        - $ref: "event/parameters/host.yaml"
-        - $ref: "event/parameters/title.yaml"
-        - $ref: "event/parameters/active.yaml"
-        - $ref: "event/parameters/public.yaml"
-        - $ref: "event/parameters/featured.yaml"
-        - $ref: "event/parameters/category.yaml"
-        - $ref: "event/parameters/subcategory.yaml"
-        - $ref: "event/parameters/sort.yaml"
-        - $ref: "event/parameters/order.yaml"
-      summary: "List all events"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Retrieve a list of events matching the given criteria.
-      operationId: "list_events"
-      responses:
-        200:
-          description: "The list of matching events was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "event/schemas/list.yaml"
-              example:
-                $ref: "event/examples/list.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-    post:
-      tags:
-        - Working with Events
-      summary: "Register an event"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Register a new event in the TickeTing system. Once submitted for review and
-        approved by an administrator, the host can begin to sell tickets to the event.
-      operationId: "register_event"
-      requestBody:
-        content:
-          application/json:
-              schema:
-                $ref: "event/schemas/post.yaml"
-              example:
-                $ref: "event/examples/post.yaml"
-      responses:
-        201:
-          description: "The new event was successfully registered."
-          content:
-            application/json:
-              schema:
-                $ref: "event/schemas/response.yaml"
-              example:
-                $ref: "event/examples/response.yaml"
-        400:
-          $ref: "responses/400.yaml"
-        404:
-          $ref: "event/errors/not_found.yaml"
-
   /events/{event}:
     parameters:
       - $ref: "event/parameters/id.yaml"
 
     get:
       tags:
-        - Working with Events
+        - Event Listings
       summary: "Retrieve event details"
       security:
         - SessionKey: [public, customer, administrator]
       description: |
         Retrieve the registration details of the requested event
-      operationId: "retrieve_event"
+      operationId: "retrieve_published_event"
       responses:
         200:
           description: "Details of the requested event were successfully retrieved."
@@ -1268,61 +1581,6 @@ paths:
                 $ref: "event/examples/response.yaml"
         403:
           $ref: "event/errors/unlisted.yaml"
-        404:
-          $ref: "event/errors/not_found.yaml"
-
-    put:
-      tags:
-        - Working with Events
-      summary: "Update event details"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Change the details of the requested event
-      operationId: "update_event"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "event/schemas/put.yaml"
-            example:
-              $ref: "event/examples/put.yaml"
-      responses:
-        200:
-          description: |
-            The event details were successfully updated.
-          content:
-            application/json:
-              schema:
-                $ref: "event/schemas/response.yaml"
-              example:
-                $ref: "event/examples/response.yaml"
-        400:
-          $ref: "responses/400.yaml"
-        404:
-          $ref: "event/errors/not_found.yaml"
-
-    delete:
-      tags:
-        - Working with Events
-      summary: "Remove an event"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Completely remove a registered event from the system. Only events that have not sold
-        any tickets can be deleted. If tickets have been sold, but further sales should be
-        prevented, an event can be unpublished or cancelled as necessary.
-      operationId: "delete_event"
-      responses:
-        200:
-          description: |
-            The event was successfully removed from the system.
-          content:
-            application/json:
-              schema:
-                "$ref": "responses/message.yaml"
-              example:
-                message: "event: /events/17728094995512, has been deleted."
         404:
           $ref: "event/errors/not_found.yaml"
 

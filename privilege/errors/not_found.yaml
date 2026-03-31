@@ -1,0 +1,7 @@
+description: "No host privilege with the given URI exists."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "There is presently no privilege with the given URI."
