@@ -1,6 +1,5 @@
 type: "object"
 required:
-  - host
   - type
   - title
   - description
@@ -9,10 +8,6 @@ required:
   - venue
   - public
 properties:
-  host:
-    type: "string"
-    pattern: '^\d{14}$'
-    description: "Unique identifier of the host staging this event"
   title:
     type: "string"
     description: "Unique name of the event"
@@ -30,7 +25,6 @@ properties:
     description: "Whether or not the event is open to the general public"
   category:
     type: "string"
-    format: "uri"
     description: "URI of the category under which the event is classified"
   subcategory:
     type: "string"
@@ -45,7 +39,6 @@ properties:
     description: "The date and time at which the event is scheduled to finish"
   venue:
     type: "string"
-    format: "uri"
     description: "URI of the venue at which the event is taking place"
   disclaimer:
     type: "string"

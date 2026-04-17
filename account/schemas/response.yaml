@@ -2,7 +2,6 @@ type: "object"
 properties:
   self:
     type: "string"
-    format: "uri"
     description: "URI of the account resource"
   number:
     type: "string"

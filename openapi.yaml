@@ -1311,7 +1311,7 @@ paths:
         - $ref: "event/parameters/public.yaml"
         - $ref: "event/parameters/sort.yaml"
         - $ref: "event/parameters/order.yaml"
-      summary: "List hosted events"
+      summary: "List events"
       security:
         - SessionKey: [customer, administrator]
       description: |
@@ -1362,7 +1362,7 @@ paths:
         400:
           $ref: "responses/400.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "host/errors/unauthorised.yaml"
 
   /hosts/{host}/events/{event}:
     parameters:
@@ -1466,7 +1466,7 @@ paths:
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Retrieve a list of previously submitted event revisions.
+        Retrieve a list of event changes submitted for review.
       operationId: "list_event_submissions"
       responses:
         200:
@@ -1498,9 +1498,9 @@ paths:
         content:
             application/json:
               schema:
-                $ref: "submission/schemas/response.yaml"
+                $ref: "submission/schemas/request.yaml"
               example:
-                $ref: "submission/examples/response.yaml"
+                $ref: "submission/examples/request.yaml"
       responses:
         201:
           description: "The current event revision was successfully submitted for review."
