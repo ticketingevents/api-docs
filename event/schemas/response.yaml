@@ -25,6 +25,10 @@ properties:
     type: "string"
     format: "date-time"
     description: "The date and time at which the event is scheduled to finish"
+  status:
+    type: "string"
+    enum: ["Draft", "Pending", "Approved", "Rejected", "Scheduled", "Published"]
+    description: "Publication status of the event"
   host:
     $ref: "../../host/schemas/response.yaml"
   venue:

@@ -1,4 +1,4 @@
-description: "The authenticating user is not authorised to access unlisted events from this host."
+description: "Access to unlisted events is forbidden."
 content:
   application/json:
     schema:

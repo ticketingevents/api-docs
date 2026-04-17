@@ -1,0 +1,7 @@
+description: "Pending changes have already been submitted for review, and are awaiting approval."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "Pending changes have already been submitted for review, and are awaiting approval."

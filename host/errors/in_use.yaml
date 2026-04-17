@@ -1,0 +1,7 @@
+description: "The host is staging, or has staged, one or more events."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The requested host is in use and cannot be deleted."

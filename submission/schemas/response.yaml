@@ -1,0 +1,40 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the submission resource"
+  type:
+    description: "Resource class for which changes have been submitted."
+    type: string
+    enum: ["event", "host"]
+  resource:
+    description: "Unique identifier of the resource for which changes have been submitted."
+    type: string
+    pattern: "^[0-9]{14}$"
+  previous:
+    description: "The original resource content that is being changed."
+    type: "object"
+    additionalProperties:
+      anyOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: array
+          items: {type: string}
+  changes:
+    description: "The changes to the resource being submitted for review."
+    type: "object"
+    additionalProperties:
+      anyOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: array
+          items: {type: string}
+  note:
+    description: "Note included wuth the submission for attention of the reviewer"
+    type: "string"
+  status:
+    description: "Current status of the submission."
+    type: "string"
+    enum: ["Pending", "Approved", "Rejected"]

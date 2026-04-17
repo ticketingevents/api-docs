@@ -1,0 +1,6 @@
+in: query
+name: type
+schema:
+  type: string
+required: false
+description: "If set, only returns privileges granted on resources of the specified type"

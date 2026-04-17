@@ -1,0 +1,13 @@
+type: "object"
+required:
+  - user
+  - role
+properties:
+  user:
+    type: "string"
+    format: "email"
+    description: "The email address of the user to whom the privilege is to be granted."
+  role:
+    type: "string"
+    enum: ["Administrator", "Editor", "Viewer"]
+    description: "Role that the privilege should confer upon the user."

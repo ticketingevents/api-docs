@@ -4,4 +4,4 @@ content:
     schema:
       "$ref": "../../responses/message.yaml"
     example:
-      error: "There is presently no host with the given URI."
+      message: "There is presently no host with the given URI."

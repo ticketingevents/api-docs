@@ -1,0 +1,7 @@
+description: "A privilege has already been granted to the specified user on this host"
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "Creating the requested Privilege would violate uniqueness constraints."

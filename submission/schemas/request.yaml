@@ -1,0 +1,7 @@
+type: "object"
+required:
+  - note
+properties:
+  note:
+    description: "Note included wuth the submission for attention of the reviewer"
+    type: "string"

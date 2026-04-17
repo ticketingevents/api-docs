@@ -1,0 +1,7 @@
+description: "A privilege with the Owner role cannot be modified or deleted."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "A privilege with the Owner role cannot be modified or deleted."

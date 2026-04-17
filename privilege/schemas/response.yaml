@@ -1,0 +1,39 @@
+type: "object"
+required:
+  - self
+  - user
+  - role
+  - type
+  - resource
+  - pending
+properties:
+  self:
+    type: "string"
+    description: "URI of the privilege resource."
+  user:
+    type: "string"
+    format: "email"
+    description: "Email adddress of the user to which this privilege belongs."
+  role:
+    type: "object"
+    description: "The role assigned to the specified user by this privilege."
+    properties:
+      name:
+        type: "string"
+        description: "The name of the assigned role"
+      permissions:
+        type: "array"
+        description: "The list of permissions this role confers to the user."
+        items:
+          type: "string"
+  type:
+    description: "Resource type to which this privilege grants access."
+    type: string
+    enum: ["Host", "Event"]
+  resource:
+    description: "Unique identifier of the resource to which this privilege grants access."
+    type: string
+    pattern: "^[0-9]{14}$"
+  pending:
+    type: "boolean"
+    description: "True if the privileged user needs to signup for a TickeTing account, false if not."
