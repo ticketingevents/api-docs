@@ -1,8 +1,0 @@
-in: query
-name: approved
-schema:
-  type: boolean
-required: true
-description: |
-  If set to true, the submitted content will be published, making it visible
-  to the public. Otherwise it will be returned to draft.

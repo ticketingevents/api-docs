@@ -1,0 +1,7 @@
+description: "A decision has already been taken on this submission."
+content:
+  application/json:
+    schema:
+      "$ref": "../../../responses/message.yaml"
+    example:
+      message: "A decision has already been taken on this submission."

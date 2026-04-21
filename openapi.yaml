@@ -2659,6 +2659,8 @@ paths:
         409:
           $ref: "category/errors/in_use.yaml"
 
+################ CONTENT REVIEW ################
+
   /submissions:
     get:
       tags:
@@ -2666,12 +2668,13 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "system/submission/parameters/type.yaml"
+        - $ref: "submission/parameters/type.yaml"
+        - $ref: "submission/parameters/status.yaml"
       summary: "List submissions"
       security:
         - SessionKey: [administrator]
       description: |
-        Retrieve a list of content submitted by hosts for review, optionally filtered by type.
+        Retrieve a list of content submitted for administrative review and publising approval.
       operationId: "list_submissions"
       responses:
         200:
@@ -2681,15 +2684,15 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "system/submission/schemas/list.yaml"
+                  - $ref: "submission/schemas/list.yaml"
               example:
-                $ref: "system/submission/examples/list.yaml"
+                $ref: "submission/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
   /submissions/{submission}:
     parameters:
-      - $ref: "system/submission/parameters/id.yaml"
+      - $ref: "submission/parameters/id.yaml"
 
     get:
       tags:
@@ -2706,74 +2709,71 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "system/submission/schemas/response.yaml"
+                $ref: "submission/schemas/response.yaml"
               example:
-                $ref: "system/submission/examples/response.yaml"
+                $ref: "submission/examples/response.yaml"
         404:
-          $ref: "responses/404.yaml"
+          $ref: "submission/errors/not_found.yaml"
 
-    delete:
+  /submissions/{submission}/decision:
+    parameters:
+      - $ref: "submission/parameters/id.yaml"
+
+    get:
       tags:
         - Reviewing Content
-      parameters:
-        - $ref: "system/submission/parameters/approved.yaml"
+      summary: "Retrieve submission decision"
+      security:
+        - SessionKey: [administrator]
+      description: |
+        Retrieve details of the decision taken on a submission, if one exists
+      operationId: "retrieve_submission_decision"
+      responses:
+        200:
+          description: "Details of the submission's decision were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "submission/decision/schemas/response.yaml"
+              example:
+                $ref: "submission/decision/examples/response.yaml"
+        404:
+          $ref: "submission/decision/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Reviewing Content
       summary: "Decide on a submission"
       security:
         - SessionKey: [administrator]
       description: |
-        Decide whether to approve or reject the submitted content. If approved, the content will be
-        made visible to the public, across all TickeTing platforms. If rejected, the content will revert to a draft
-        and only be visible to administrators of the host who submitted it.
-      operationId: "decide_on_submission"
+        Take a decision (approve/reject) on the content submission
+      operationId: "take_submission_decision"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "submission/decision/schemas/request.yaml"
+            example:
+              $ref: "submission/decision/examples/request.yaml"
       responses:
         200:
           description: |
-            The submission review decision was successfully actioned.
+            The decision was successfully taken on the specified submission.
           content:
             application/json:
               schema:
-                "$ref": "responses/message.yaml"
+                $ref: "submission/decision/schemas/response.yaml"
               example:
-                message: "Submission: /submissions/L2V2ZW50cy8xNjk5MzcxNzgxNzk5Ng==, has been rejected."
+                $ref: "submission/decision/examples/response.yaml"
         400:
-          $ref: "system/submission/errors/no_decision.yaml"
-
-  /transactions:
-    get:
-      tags:
-        - Transaction Reports
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "transaction/parameters/type.yaml"
-        - $ref: "transaction/parameters/category.yaml"
-        - $ref: "transaction/parameters/status.yaml"
-        - $ref: "transaction/parameters/from.yaml"
-        - $ref: "transaction/parameters/to.yaml"
-        - $ref: "transaction/parameters/event.yaml"
-        - $ref: "transaction/parameters/section.yaml"
-        - $ref: "transaction/parameters/group.yaml"
-      summary: "Generate transaction report"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Retrieve a list of transactions matching the given criteria.
-      operationId: "transaction_report"
-      responses:
-        200:
-          description: "The list of matching transactions was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "transaction/schemas/list.yaml"
-              example:
-                $ref: "transaction/examples/list.yaml"
-        400:
-          $ref: "transaction/errors/bad_query.yaml"
+          $ref: "responses/400.yaml"
         404:
-          $ref: "pagination/errors/not_found.yaml"
+          $ref: "submission/errors/not_found.yaml"
+        409:
+          $ref: "submission/decision/errors/exists.yaml"
+
+################ SYSTEM PRESETS ################
 
   /countries:
     get:

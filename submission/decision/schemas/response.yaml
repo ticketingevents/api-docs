@@ -1,0 +1,8 @@
+type: "object"
+properties:
+  approved:
+    type: "boolean"
+    description: "True if the submitted content was approved for publication, false if it was rejected."
+  note:
+    description: "Note included wuth the decision for attention of the submitter."
+    type: "string"
