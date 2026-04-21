@@ -1,0 +1,10 @@
+type: "object"
+required:
+  - approved
+properties:
+  approved:
+    type: "boolean"
+    description: "Whether or not to approve (true) or reject (false) the submitted content."
+  note:
+    description: "Note included wuth the decision for attention of the submitter."
+    type: "string"
