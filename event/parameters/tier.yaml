@@ -1,0 +1,6 @@
+in: query
+name: tier
+schema:
+  type: number
+required: false
+description: "Only returns events associated with the specified tier."

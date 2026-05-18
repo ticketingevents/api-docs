@@ -1,0 +1,7 @@
+description: "Tickets for this event have already been sold."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "An event cannot be deleted once tickets have been sold."

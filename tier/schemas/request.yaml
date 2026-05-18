@@ -1,0 +1,85 @@
+type: "object"
+required:
+  - name
+  - description
+  - price
+  - capacity
+  - available_from
+  - available_to
+  - events
+properties:
+  name:
+    type: "string"
+    description: "Name of the tier"
+  description:
+    type: "string"
+    description: "Informative or promotional text containing details of the tier."
+  price:
+    type: "number"
+    minimum: 0
+    description: "Cost of purchasing tickets in this tier."
+  capacity:
+    type: "integer"
+    minimum: 1
+    description: "Total number of tickets available for purchase in this tier."
+  available_from:
+    type: "string"
+    format: "date-time"
+    description: "The date and time after which tickets in this tier can be purchased."
+  available_to:
+    type: "string"
+    format: "date-time"
+    description: "The date and time until which tickets in this tier can be purchased."
+  events:
+    type: "array"
+    minLength: 1
+    description: |
+      The group of events this tier applies to. When this tier is purchased tickets are
+      issued to each event listed.
+    items:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          description: "Unique identfier of an event included in this tier"
+        share:
+          type: "number"
+          description: |
+            Proportion of the tier price attributable to this item. The shares of all
+            bundle items must total 100.
+  artwork:
+    type: string
+    format: base64
+    description: Base64 representation of artwork or an image associated with the tier.
+  unit_size:
+    type: "integer"
+    minimum: 1
+    default: 1
+    description: "The number of tickets that will be issued to the user upon purchase of this tier."
+  purchase_limit:
+    type: integer
+    minimum: 0
+    default: 0
+    description: The maximum number of tickets that can be purchased from this tier in a single order
+  purchase_note:
+    type: string
+    description: |
+      A note sent to customers upon issuance of tickets wihin this tier, providing addiional
+      event details, disclaimers or privileged content.
+  complimentary:
+    type: boolean
+    default: false
+    description: |
+      Whether or not tickets issued under this tier are for complimentary distrbution by the host (true) or available
+      for purchase (false)
+  transferable:
+    type: boolean
+    default: true
+    description: |
+      Whether or not tickets issued under this tier can be transferred after issuance (true) or must be user by the
+      customer they were issued to (false)
+  upgrades:
+    type: array
+    description: "List of unique tier identifiers indicating 'promotion tiers' to which tickets issued under this tier can be upgraded."
+    items:
+      type: integer
