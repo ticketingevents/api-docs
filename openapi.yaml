@@ -160,6 +160,7 @@ x-tagGroups:
     tags:
       - "Managing Host Accounts"
       - "Managing Events"
+      - "Managing Tiers"
       - "Event Listings"
       - "Event Admissions"
       - "Event Reporting"
@@ -1309,6 +1310,7 @@ paths:
         - $ref: "event/parameters/title.yaml"
         - $ref: "event/parameters/active.yaml"
         - $ref: "event/parameters/public.yaml"
+        - $ref: "event/parameters/tier.yaml"
         - $ref: "event/parameters/sort.yaml"
         - $ref: "event/parameters/order.yaml"
       summary: "List events"
@@ -1450,6 +1452,8 @@ paths:
           $ref: "event/errors/unauthorised.yaml"
         404:
           $ref: "event/errors/not_found.yaml"
+        409:
+          $ref: "event/errors/in_use.yaml"
 
   /hosts/{host}/events/{event}/submissions:
     parameters:
@@ -1516,6 +1520,168 @@ paths:
           $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "submission/errors/unsubmittable.yaml"
+  
+  ################ MANAGING TIERS ################
+
+  /hosts/{host}/tiers:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Tiers
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "tier/parameters/event.yaml"
+      summary: "List tiers"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of all ticket tiers managed by the specified host.
+      operationId: "list_host_tiers"
+      responses:
+        200:
+          description: "The list of managed tiers was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "tier/schemas/list.yaml"
+              example:
+                $ref: "tier/examples/list.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Tiers
+      summary: "Create a tier"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Create a new tier for selling tickets to a registered event. Tiers define
+        the price points a which tickets are to be sold, and metadata about how tickets issued
+        under the tier should behave. Tiers can manage ticket sales for a single event, or a
+        bundle of related events.
+      operationId: "create_tier"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "tier/schemas/request.yaml"
+              example:
+                $ref: "tier/examples/request.yaml"
+      responses:
+        201:
+          description: "The new tier was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "tier/schemas/response.yaml"
+              example:
+                $ref: "tier/examples/response.yaml"
+        400:
+          $ref: "tier/errors/invalid.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        409:
+          $ref: "tier/errors/exists.yaml"
+
+  /hosts/{host}/tiers/{tier}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "tier/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Tiers
+      summary: "Retrieve tier details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve full details of the requested tier
+      operationId: "retrieve_tier"
+      responses:
+        200:
+          description: "Full details of the requested tier were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "tier/schemas/response.yaml"
+              example:
+                $ref: "tier/examples/response.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "tier/errors/not_found.yaml"
+
+    put:
+      tags:
+        - Managing Tiers
+      summary: "Update tier details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Change the details of the requested tier. Only tiers for which no tickets have
+        been sold can be changed.
+      operationId: "update_tier"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "tier/schemas/request.yaml"
+            example:
+              $ref: "tier/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The details of the specified tier were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "tier/schemas/response.yaml"
+              example:
+                $ref: "tier/examples/response.yaml"
+        400:
+          $ref: "tier/errors/invalid.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "tier/errors/not_found.yaml"
+        409:
+          $ref: "tier/errors/in_use.yaml"
+
+    delete:
+      tags:
+        - Managing Tiers
+      summary: "Remove a tier"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Completely remove a tier from the system. Only tiers for which no tickets have
+        been sold can be deleted. If tickets have been sold, but further sales should be
+        prevented, a tier can be expired.
+      operationId: "delete_tier"
+      responses:
+        200:
+          description: |
+            The tier was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Tier: /tier/17728094995512, has been deleted."
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "tier/errors/not_found.yaml"
+        409:
+          $ref: "tier/errors/in_use.yaml"
 
   ################ EVENT ListINGS ################
 

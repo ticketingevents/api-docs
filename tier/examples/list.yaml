@@ -1,0 +1,37 @@
+page: 1
+records: 25
+entries:
+  - self: "/tiers/19381758318131"
+    name: "Backstage Pass"
+    description: "Gain exclusive access to meet the Supes and hang out after the show."
+    price: 299.9
+    capacity: 20
+    available_from: "2025-05-02T21:00:00Z"
+    available_to: "2025-07-01T00:00:00Z"
+    bundle:
+      - description: "Dawn of the Seven Premier"
+        event: 16993717817996
+        share: 100
+    artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+    purchase_limit: 2
+    purchase_note: "Your all set. Remember to give the codeword HOMELANDER when coming backstage."
+    complimentary: false
+    transferable: false
+    upgrades:
+      - self: "/tiers/18191406121236"
+        name: "All-Access Pass"
+        description: "The full VIP experience, including the week leading up to the show."
+        price: 500.00
+        capacity: 10
+        available_from: "2025-05-02T21:00:00Z"
+        available_to: "2025-07-01T00:00:00Z"
+        bundle:
+          - description: "Dawn of the Seven Premier"
+            event: 16993717817996
+            share: 100
+        artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+        purchase_limit: 1
+        purchase_note: "Your all set. Remember to give the codeword HOMELANDER when coming backstage."
+        complimentary: false
+        transferable: false
+        upgrades: []

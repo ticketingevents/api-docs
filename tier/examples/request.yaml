@@ -1,0 +1,19 @@
+name: "Backstage Pass"
+description: "Gain exclusive access to meet the Supes and hang out after the show."
+price: 299.9
+capacity: 20
+available_from: "2025-05-02T21:00:00Z"
+available_to: "2025-07-01T00:00:00Z"
+events:
+  - id: 16993717817996
+    share: 75
+  - id: 19420571582519
+    share: 25
+artwork: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAzoAAASRCAYAAAD/zekXAA..."
+unit_size: 1
+purchase_limit: 2
+purchase_note: "Your all set. Remember to give the codeword HOMELANDER when coming backstage."
+complimentary: false
+transferable: false
+upgrades:
+  - 18191406121236

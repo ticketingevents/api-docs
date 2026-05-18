@@ -1,0 +1,7 @@
+description: "The available_to and available_from dates are inconsistent, bundle shares do not total to 100 or one or more upgrade tiers do not have events in common."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The shares in a tier's bundle must total 100."
