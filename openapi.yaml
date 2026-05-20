@@ -1520,6 +1520,73 @@ paths:
           $ref: "event/errors/unauthorised.yaml"
         409:
           $ref: "submission/errors/unsubmittable.yaml"
+
+  /hosts/{host}/events/{event}/publications:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Events
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List event publications"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of published revisions for this event.
+      operationId: "list_event_publications"
+      responses:
+        200:
+          description: "A list of previously published event revisions was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "publication/schemas/list.yaml"
+              example:
+                $ref: "publication/examples/list.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Events
+      summary: "Publish event changes"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Publish the current revision to an event's listing. Once a revision is published, an
+        event becomes publically visible. If this is not the first published revision, the event's
+        listing is overriden with the revised changes.
+      operationId: "publish_event"
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "publication/schemas/request.yaml"
+              example:
+                $ref: "publication/examples/request.yaml"
+      responses:
+        201:
+          description: "The current event revision was successfully published."
+          content:
+            application/json:
+              schema:
+                $ref: "publication/schemas/response.yaml"
+              example:
+                $ref: "publication/examples/response.yaml"
+        400:
+          $ref: "responses/400.yaml"
+        403:
+          $ref: "event/errors/unauthorised.yaml"
+        409:
+          $ref: "publication/errors/unpublishable.yaml"
   
   ################ MANAGING TIERS ################
 

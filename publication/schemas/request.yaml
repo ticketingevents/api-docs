@@ -1,0 +1,8 @@
+type: "object"
+required:
+  - publish_at
+properties:
+  publish_at:
+    type: "string"
+    format: "date-time"
+    description: "Date and time at which changes should be published. Changes will be published immediately if the datetime is in the past."

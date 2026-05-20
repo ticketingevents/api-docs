@@ -1,0 +1,7 @@
+description: "Changes must be submitted and approved before they can be published."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "Pending changes must be submitted and approved before publication."
