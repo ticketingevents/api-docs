@@ -1,0 +1,18 @@
+self: "/publications/17286027149221"
+changes:
+  title: "Dawn of the Seven Premier"
+  description: |
+    World Premier of the long anticipated movie event of the
+    year: Dawn of the Seven
+  type: "Standard"
+  public: true
+  category: "/categories/16878141745207"
+  subcategory: "Premier"
+  start: "2024-06-07T20:00:00Z"
+  end: "2024-06-07T23:00:00Z"
+  venue: "/venues/16878146473429"
+  disclaimer: "Attend at your own risk"
+  tags: ["homelander","queen maeve","the deep","A-Train"]
+  banner: "http://localhost/media/16993717817996-banner.jpeg"
+  thumbnail: "http://localhost/media/16993717817996-thumbnail.jpeg"
+publish_at: "2026-05-21T14:30:00Z"
