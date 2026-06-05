@@ -2,6 +2,6 @@ description: "Tickets have already been issued under this tier and changes or de
 content:
   application/json:
     schema:
-      "$ref": "../../responses/message.yaml"
+      "$ref": "../../../responses/message.yaml"
     example:
       message: "A tier with issued tickets can no longer be modified or deleted."
