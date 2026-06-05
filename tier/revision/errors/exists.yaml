@@ -2,6 +2,6 @@ description: "One or more of the specified events already has a tier with the gi
 content:
   application/json:
     schema:
-      "$ref": "../../responses/message.yaml"
+      "$ref": "../../../responses/message.yaml"
     example:
       message: "One or more of the specified events already has a tier with the given name."

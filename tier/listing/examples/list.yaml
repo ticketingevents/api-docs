@@ -1,0 +1,27 @@
+page: 1
+records: 25
+entries:
+  - self: "/tiers/19381758318131"
+    name: "Backstage Pass"
+    description: "Gain exclusive access to meet the Supes and hang out after the show."
+    price: 299.9
+    available_from: "2025-05-02T21:00:00Z"
+    available_to: "2025-07-01T00:00:00Z"
+    events:
+      - id: 16993717817996
+        share: 100
+    artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+    unit_size: 2
+    upgrades:
+      - self: "/tiers/18191406121236"
+        name: "All-Access Pass"
+        description: "The full VIP experience, including the week leading up to the show."
+        price: 500.00
+        available_from: "2025-05-02T21:00:00Z"
+        available_to: "2025-07-01T00:00:00Z"
+        events:
+          - id: 16993717817996
+            share: 100
+        artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+        unit_size: 1
+        upgrades: []

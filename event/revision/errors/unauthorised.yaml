@@ -2,6 +2,6 @@ description: "The requesting user is not authorised to perform this operation on
 content:
   application/json:
     schema:
-      "$ref": "../../responses/message.yaml"
+      "$ref": "../../../responses/message.yaml"
     example:
       message: "You are restricted from perfoming this operation on the specified event."

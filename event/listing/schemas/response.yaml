@@ -11,12 +11,6 @@ properties:
     description: |
       Long form text detailing what the event is about, including performing acts,
       amenities and additional information important to potential attendees
-  type:
-    type: "string"
-    description: "Nature of the event. Determines what information is collected on ticket purchase."
-  public:
-    type: "boolean"
-    description: "Whether or not the event is open to the general public"
   start:
     type: "string"
     format: "date-time"
@@ -25,18 +19,14 @@ properties:
     type: "string"
     format: "date-time"
     description: "The date and time at which the event is scheduled to finish"
-  status:
-    type: "string"
-    enum: ["Draft", "Pending", "Approved", "Rejected", "Scheduled", "Published"]
-    description: "Publication status of the event"
   host:
-    $ref: "../../host/schemas/response.yaml"
+    $ref: "../../../host/schemas/response.yaml"
   venue:
-    $ref: "../../venue/schemas/response.yaml"
+    $ref: "../../../venue/schemas/response.yaml"
   category:
-    $ref: "../../category/schemas/response.yaml"
+    $ref: "../../../category/schemas/response.yaml"
   subcategory:
-    $ref: "../../category/schemas/response.yaml"
+    $ref: "../../../category/schemas/response.yaml"
   disclaimer:
     type: "string"
     description: "Subcategory under which the event is classified"
@@ -49,9 +39,6 @@ properties:
     type: "string"
     format: "date-time"
     description: "The date and time at which the event was first published"
-  popularity:
-    type: "number"
-    description: "The popularity score of the event. Higher scores indicate greater popularity."
   banner:
     type: "string"
     format: "uri"

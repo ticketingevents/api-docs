@@ -3,8 +3,6 @@ title: "Dawn of the Seven Premier"
 description: |
   World Premier of the long anticipated movie event of the
   year: Dawn of the Seven
-type: "Standard"
-public: true
 category:
   self: "/categories/16878141745207"
   name: "Party"
@@ -21,7 +19,6 @@ subcategory:
     subcategories: []
 start: "2024-06-07T20:00:00Z"
 end: "2024-06-07T23:00:00Z"
-status: "Pending"
 host:
   self: "/hosts/16951985851389"
   name: "The Boys Entertainment"
@@ -54,6 +51,5 @@ venue:
 disclaimer: ""
 tags: ["homelander","queen maeve","the deep","A-Train"]
 published: "2024-02-17T07:32:00Z"
-popularity: 78
 banner: "http://localhost/media/16993717817996-banner.jpeg"
-thumbnail: "http://localhost/media/16993717817996-thumbnail.jpeg"
+thumbnail: "http://localhost/media/16993717817996-thumbnail.jpeg" 
