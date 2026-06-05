@@ -1,0 +1,6 @@
+in: query
+name: active
+schema:
+  type: boolean
+required: false
+description: "Only returns tiers available for sale if true, or unavailable tiers if false"

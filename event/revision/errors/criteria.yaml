@@ -2,6 +2,6 @@ description: "One or more of the specified query parameters was invalid"
 content:
   application/json:
     schema:
-      "$ref": "../../responses/message.yaml"
+      "$ref": "../../../responses/message.yaml"
     example:
       message: "The following query parameters have invalid values: sort."

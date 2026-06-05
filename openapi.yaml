@@ -891,9 +891,9 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/parameters/active.yaml"
-        - $ref: "event/parameters/sort.yaml"
-        - $ref: "event/parameters/order.yaml"
+        - $ref: "event/listing/parameters/active.yaml"
+        - $ref: "event/listing/parameters/sort.yaml"
+        - $ref: "event/listing/parameters/order.yaml"
       summary: "Retrieve event itinerary"
       security:
         - SessionKey: [customer, administrator]
@@ -908,11 +908,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "event/schemas/list.yaml"
+                  - $ref: "event/listing/schemas/list.yaml"
               example:
-                $ref: "event/examples/list.yaml"
-        400:
-          $ref: "event/errors/criteria.yaml"
+                $ref: "event/listing/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1307,12 +1305,12 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/parameters/title.yaml"
-        - $ref: "event/parameters/active.yaml"
-        - $ref: "event/parameters/public.yaml"
-        - $ref: "event/parameters/tier.yaml"
-        - $ref: "event/parameters/sort.yaml"
-        - $ref: "event/parameters/order.yaml"
+        - $ref: "event/revision/parameters/title.yaml"
+        - $ref: "event/revision/parameters/active.yaml"
+        - $ref: "event/revision/parameters/public.yaml"
+        - $ref: "event/revision/parameters/tier.yaml"
+        - $ref: "event/revision/parameters/sort.yaml"
+        - $ref: "event/revision/parameters/order.yaml"
       summary: "List events"
       security:
         - SessionKey: [customer, administrator]
@@ -1327,9 +1325,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "event/schemas/list.yaml"
+                  - $ref: "event/revision/schemas/list.yaml"
               example:
-                $ref: "event/examples/list.yaml"
+                $ref: "event/revision/examples/list.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
         404:
@@ -1349,18 +1347,18 @@ paths:
         content:
           application/json:
               schema:
-                $ref: "event/schemas/request.yaml"
+                $ref: "event/revision/schemas/request.yaml"
               example:
-                $ref: "event/examples/request.yaml"
+                $ref: "event/revision/examples/request.yaml"
       responses:
         201:
           description: "The new event was successfully registered."
           content:
             application/json:
               schema:
-                $ref: "event/schemas/response.yaml"
+                $ref: "event/revision/schemas/response.yaml"
               example:
-                $ref: "event/examples/response.yaml"
+                $ref: "event/revision/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         403:
@@ -1369,7 +1367,7 @@ paths:
   /hosts/{host}/events/{event}:
     parameters:
       - $ref: "host/parameters/id.yaml"
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
 
     get:
       tags:
@@ -1386,13 +1384,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "event/schemas/response.yaml"
+                $ref: "event/revision/schemas/response.yaml"
               example:
-                $ref: "event/examples/response.yaml"
+                $ref: "event/revision/examples/response.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         404:
-          $ref: "event/errors/not_found.yaml"
+          $ref: "event/revision/errors/not_found.yaml"
 
     put:
       tags:
@@ -1407,9 +1405,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "event/schemas/request.yaml"
+              $ref: "event/revision/schemas/request.yaml"
             example:
-              $ref: "event/examples/request.yaml"
+              $ref: "event/revision/examples/request.yaml"
       responses:
         200:
           description: |
@@ -1417,15 +1415,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "event/schemas/response.yaml"
+                $ref: "event/revision/schemas/response.yaml"
               example:
-                $ref: "event/examples/response.yaml"
+                $ref: "event/revision/examples/response.yaml"
         400:
           $ref: "responses/400.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         404:
-          $ref: "event/errors/not_found.yaml"
+          $ref: "event/revision/errors/not_found.yaml"
 
     delete:
       tags:
@@ -1449,16 +1447,16 @@ paths:
               example:
                 message: "event: /events/17728094995512, has been deleted."
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         404:
-          $ref: "event/errors/not_found.yaml"
+          $ref: "event/revision/errors/not_found.yaml"
         409:
-          $ref: "event/errors/in_use.yaml"
+          $ref: "event/revision/errors/in_use.yaml"
 
   /hosts/{host}/events/{event}/submissions:
     parameters:
       - $ref: "host/parameters/id.yaml"
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
 
     get:
       tags:
@@ -1484,7 +1482,7 @@ paths:
               example:
                 $ref: "submission/examples/list.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1517,14 +1515,14 @@ paths:
         400:
           $ref: "responses/400.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         409:
           $ref: "submission/errors/unsubmittable.yaml"
 
   /hosts/{host}/events/{event}/publications:
     parameters:
       - $ref: "host/parameters/id.yaml"
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
 
     get:
       tags:
@@ -1550,7 +1548,7 @@ paths:
               example:
                 $ref: "publication/examples/list.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
@@ -1584,7 +1582,7 @@ paths:
         400:
           $ref: "responses/400.yaml"
         403:
-          $ref: "event/errors/unauthorised.yaml"
+          $ref: "event/revision/errors/unauthorised.yaml"
         409:
           $ref: "publication/errors/unpublishable.yaml"
   
@@ -1600,7 +1598,7 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "tier/parameters/event.yaml"
+        - $ref: "tier/revision/parameters/event.yaml"
       summary: "List tiers"
       security:
         - SessionKey: [customer, administrator]
@@ -1615,9 +1613,9 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "tier/schemas/list.yaml"
+                  - $ref: "tier/revision/schemas/list.yaml"
               example:
-                $ref: "tier/examples/list.yaml"
+                $ref: "tier/revision/examples/list.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
         404:
@@ -1639,29 +1637,29 @@ paths:
         content:
           application/json:
               schema:
-                $ref: "tier/schemas/request.yaml"
+                $ref: "tier/revision/schemas/request.yaml"
               example:
-                $ref: "tier/examples/request.yaml"
+                $ref: "tier/revision/examples/request.yaml"
       responses:
         201:
           description: "The new tier was successfully created."
           content:
             application/json:
               schema:
-                $ref: "tier/schemas/response.yaml"
+                $ref: "tier/revision/schemas/response.yaml"
               example:
-                $ref: "tier/examples/response.yaml"
+                $ref: "tier/revision/examples/response.yaml"
         400:
-          $ref: "tier/errors/invalid.yaml"
+          $ref: "tier/revision/errors/invalid.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
         409:
-          $ref: "tier/errors/exists.yaml"
+          $ref: "tier/revision/errors/exists.yaml"
 
   /hosts/{host}/tiers/{tier}:
     parameters:
       - $ref: "host/parameters/id.yaml"
-      - $ref: "tier/parameters/id.yaml"
+      - $ref: "tier/revision/parameters/id.yaml"
 
     get:
       tags:
@@ -1678,13 +1676,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "tier/schemas/response.yaml"
+                $ref: "tier/revision/schemas/response.yaml"
               example:
-                $ref: "tier/examples/response.yaml"
+                $ref: "tier/revision/examples/response.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
         404:
-          $ref: "tier/errors/not_found.yaml"
+          $ref: "tier/revision/errors/not_found.yaml"
 
     put:
       tags:
@@ -1700,9 +1698,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "tier/schemas/request.yaml"
+              $ref: "tier/revision/schemas/request.yaml"
             example:
-              $ref: "tier/examples/request.yaml"
+              $ref: "tier/revision/examples/request.yaml"
       responses:
         200:
           description: |
@@ -1710,17 +1708,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "tier/schemas/response.yaml"
+                $ref: "tier/revision/schemas/response.yaml"
               example:
-                $ref: "tier/examples/response.yaml"
+                $ref: "tier/revision/examples/response.yaml"
         400:
-          $ref: "tier/errors/invalid.yaml"
+          $ref: "tier/revision/errors/invalid.yaml"
         403:
           $ref: "host/errors/unauthorised.yaml"
         404:
-          $ref: "tier/errors/not_found.yaml"
+          $ref: "tier/revision/errors/not_found.yaml"
         409:
-          $ref: "tier/errors/in_use.yaml"
+          $ref: "tier/revision/errors/in_use.yaml"
 
     delete:
       tags:
@@ -1746,9 +1744,9 @@ paths:
         403:
           $ref: "host/errors/unauthorised.yaml"
         404:
-          $ref: "tier/errors/not_found.yaml"
+          $ref: "tier/revision/errors/not_found.yaml"
         409:
-          $ref: "tier/errors/in_use.yaml"
+          $ref: "tier/revision/errors/in_use.yaml"
 
   ################ EVENT ListINGS ################
 
@@ -1759,17 +1757,17 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/parameters/region.yaml"
-        - $ref: "event/parameters/host.yaml"
-        - $ref: "event/parameters/title.yaml"
-        - $ref: "event/parameters/active.yaml"
-        - $ref: "event/parameters/category.yaml"
-        - $ref: "event/parameters/subcategory.yaml"
-        - $ref: "event/parameters/after.yaml"
-        - $ref: "event/parameters/before.yaml"
-        - $ref: "event/parameters/featured.yaml"
-        - $ref: "event/parameters/sort.yaml"
-        - $ref: "event/parameters/order.yaml"
+        - $ref: "event/listing/parameters/region.yaml"
+        - $ref: "event/listing/parameters/host.yaml"
+        - $ref: "event/listing/parameters/title.yaml"
+        - $ref: "event/listing/parameters/active.yaml"
+        - $ref: "event/listing/parameters/category.yaml"
+        - $ref: "event/listing/parameters/subcategory.yaml"
+        - $ref: "event/listing/parameters/after.yaml"
+        - $ref: "event/listing/parameters/before.yaml"
+        - $ref: "event/listing/parameters/featured.yaml"
+        - $ref: "event/listing/parameters/sort.yaml"
+        - $ref: "event/listing/parameters/order.yaml"
       summary: "List all published events"
       security:
         - SessionKey: [public, customer, administrator]
@@ -1784,20 +1782,20 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "event/schemas/list.yaml"
+                  - $ref: "event/listing/schemas/list.yaml"
               example:
-                $ref: "event/examples/list.yaml"
+                $ref: "event/listing/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
 
   /events/{event}:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     get:
       tags:
         - Event Listings
-      summary: "Retrieve event details"
+      summary: "Retrieve event listing"
       security:
         - SessionKey: [public, customer, administrator]
       description: |
@@ -1809,19 +1807,52 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "event/schemas/response.yaml"
+                $ref: "event/listing/schemas/response.yaml"
               example:
-                $ref: "event/examples/response.yaml"
+                $ref: "event/listing/examples/response.yaml"
         403:
-          $ref: "event/errors/unlisted.yaml"
+          $ref: "event/listing/errors/unlisted.yaml"
         404:
-          $ref: "event/errors/not_found.yaml"
+          $ref: "event/listing/errors/not_found.yaml"
+
+  /events/{event}/tiers:
+    parameters:
+      - $ref: "event/listing/parameters/id.yaml"
+
+    get:
+      tags:
+        - Event Listings
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "tier/listing/parameters/active.yaml"
+      summary: "List event tiers"
+      security:
+        - SessionKey: [public, customer, administrator]
+      description: |
+        Retrieve a list of all ticket tiers associated with the specified event.
+      operationId: "list_event_tiers"
+      responses:
+        200:
+          description: "The list of tiers associated with the event was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "tier/listing/schemas/list.yaml"
+              example:
+                $ref: "tier/listing/examples/list.yaml"
+        403:
+          $ref: "event/listing/errors/unlisted.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
 
   ################ EVENT ADMISSIONS ################
 
   /events/{event}/tokens:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     post:
       tags:
@@ -1883,7 +1914,7 @@ paths:
 
   /events/{event}/tokens/{token}:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
       - $ref: "event/token/parameters/id.yaml"
 
     get:
@@ -1963,7 +1994,7 @@ paths:
 
   /events/{event}/tickets:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     get:
       tags:
@@ -1997,7 +2028,7 @@ paths:
 
   /events/{event}/admissions:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     post:
       tags:
@@ -2097,7 +2128,7 @@ paths:
 
   /events/{event}/statistics:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     get:
       tags:
@@ -2115,15 +2146,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "event/schemas/statistics.yaml"
+                $ref: "event/listing/schemas/statistics.yaml"
               example:
-                $ref: "event/examples/statistics.yaml"
+                $ref: "event/listing/examples/statistics.yaml"
         404:
           $ref: "responses/404.yaml"
 
   /events/{event}/sales:
     parameters:
-      - $ref: "event/parameters/id.yaml"
+      - $ref: "event/listing/parameters/id.yaml"
 
     get:
       tags:
