@@ -1763,8 +1763,6 @@ paths:
         - $ref: "event/listing/parameters/active.yaml"
         - $ref: "event/listing/parameters/category.yaml"
         - $ref: "event/listing/parameters/subcategory.yaml"
-        - $ref: "event/listing/parameters/after.yaml"
-        - $ref: "event/listing/parameters/before.yaml"
         - $ref: "event/listing/parameters/featured.yaml"
         - $ref: "event/listing/parameters/sort.yaml"
         - $ref: "event/listing/parameters/order.yaml"
