@@ -1,7 +1,0 @@
-in: query
-name: before
-schema:
-  type: string
-  format: "date-time"
-required: false
-description: "If set, only returns events that start before the specified date."
