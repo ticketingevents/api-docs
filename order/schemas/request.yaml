@@ -1,16 +1,18 @@
 type: object
+required:
+  - items
 properties:
-  customer:
-    type: "string"
-    pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
-    description: "Unique identifier of the account placing this order"
   items:
     description: Sections for which to order tickets. The object's keys
       are the URI of the event section for which tickets are being ordered, while its values
       are the number of tickets to order for the section.
-    type: object
-    additionalProperties:
-      description: Number of tickets to order for the specified section
-      type: number
-      format: integer
-              
+    type: array
+    items:
+      type: object
+      properties:
+        tier:
+          type: "integer"
+          description: "Unique identfier of the tier to be included in the order"
+        quantity:
+          type: "number"
+          description: "The number of instances in the identified tier to include in the order"

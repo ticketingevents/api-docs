@@ -11,6 +11,7 @@ entries:
       - id: 16993717817996
         share: 100
     artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+    purchase_limit: 10
     unit_size: 2
     upgrades:
       - self: "/tiers/18191406121236"
