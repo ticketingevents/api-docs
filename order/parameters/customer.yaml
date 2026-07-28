@@ -1,7 +1,0 @@
-in: query
-name: customer
-schema:
-  type: string
-  pattern: "^[A-Z]{2}-[A-Z0-9]{8}$"
-required: false
-description: "If set, only returns orders placed by the customer identified by the specified account number"

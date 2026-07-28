@@ -2,7 +2,7 @@ type: "object"
 properties:
   self:
     type: "string"
-    description: "URI of the event resource"
+    description: "URI of the tier resource"
   name:
     type: "string"
     description: "Name of the tier"
@@ -44,6 +44,9 @@ properties:
   unit_size:
     type: "integer"
     description: "The number of tickets that will be issued to the user upon purchase of this tier."
+  purchase_limit:
+    type: integer
+    description: The maximum number of tickets that can be purchased from this tier in a single order
   upgrades:
     type: array
     description: "List of 'promotion tiers' to which tickets issued under this tier can be upgraded."

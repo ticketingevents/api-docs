@@ -1,0 +1,7 @@
+description: "Tiers attached to one or more unpublished events cannot be purchased."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "You may not purchase tiers for an unpublished event."
