@@ -1,0 +1,7 @@
+in: query
+name: interval
+schema:
+  type: string
+  enum: ['hour', 'day', 'week', 'month', 'year']
+required: false
+description: "The time intervals over to breakdown aggregated statistics"

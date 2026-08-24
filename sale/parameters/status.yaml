@@ -1,0 +1,7 @@
+in: query
+name: status
+schema:
+  type: string
+  enum: ['pending', 'cancelled', 'confirmed', 'refunded']
+required: false
+description: "Only return sales with the specified status"

@@ -70,3 +70,9 @@ properties:
     description: "List of 'promotion tiers' to which tickets issued under this tier can be upgraded."
     items:
       $ref: "./response.yaml"
+  gross_sales:
+    type: number
+    description: Total gross from confirmed sales of tickets within this tier
+  units_sold:
+    type: number
+    description: Total number of units of this tier sold

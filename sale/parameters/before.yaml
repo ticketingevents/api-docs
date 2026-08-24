@@ -1,0 +1,7 @@
+in: query
+name: before
+schema:
+  type: string
+  format: date-time
+required: false
+description: "Only return sales transacted on or before the specified date and time"

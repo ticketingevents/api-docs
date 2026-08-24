@@ -1,0 +1,28 @@
+type: "object"
+properties:
+  start:
+    type: string
+    description: The date after which activity must have taken place to be included in the statistics
+  end:
+    type: string
+    description: The date before which activity must have taken place to be included in the statistics
+  gross_sales:
+    type: number
+    description: Total gross sales over the specified period
+  tickets_sold:
+    type: number
+    description: Total tickets sold over the specified period
+  breakdown:
+    type: array
+    items:
+      type: object
+      properties:
+        interval:
+          type: string
+          description: Name of the subperiod for which the aggregated statistics apply
+        gross_sales:
+          type: number
+          description: Total gross sales over the interval
+        tickets_sold:
+          type: number
+          description: Total tickets sold over the interval
