@@ -1,0 +1,7 @@
+in: query
+name: event
+schema:
+  type: string
+  pattern: '^\d{14}$'
+required: false
+description: "Only return sales of tiers associated with the specified event"

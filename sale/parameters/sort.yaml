@@ -1,0 +1,7 @@
+in: query
+name: sort
+schema:
+  type: string
+  enum: ["recorded","total"]
+required: false
+description: "If set, determines how the returned sales list is sorted"

@@ -1,0 +1,46 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the sale resource"
+  recorded:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the sale was recorded"
+  order:
+    type: "string"
+    description: "Unique identifier of the order that generated the sale"
+  event:
+    $ref: "../../event/listing/schemas/response.yaml"
+  tier:
+    $ref: "../../tier/listing/schemas/response.yaml"
+  customer:
+    $ref: "../../account/schemas/response.yaml"
+  quantity:
+    type: "number"
+    description: "The number of tickets the sale is for"
+  total:
+    type: "number"
+    description: "Monetary value of the sale"
+  status:
+    type: "string"
+    enum: ["pending", "cancelled", "confirmed", "refunded"]
+    description: "Current status of the recorded sale"
+  payment:
+    type: "object"
+    description: "Details of the payment instrument used to confirm the sale, if applicable"
+    properties:
+      method:
+        type: "string"
+        enum: ["cash", "card"]
+        description: "Type of payment instrument used to confirm the sale"
+      cardholder:
+        type: "string"
+        description: "Name of the holder of the payment instrument if it was a debit or credit card"
+      digits:
+        type: "string"
+        description: "Last 4 digits of the payment instrument if it was a debit or credit card"
+      type:
+        type: "string"
+        enum: ["visa", "mc", "amex"]
+        description: "Network of the payment instrument if it was a debit or credit card"

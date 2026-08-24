@@ -1,0 +1,7 @@
+in: query
+name: before
+schema:
+  type: string
+  format: date-time
+required: false
+description: "Only aggregate statistics for activity before the specified date"

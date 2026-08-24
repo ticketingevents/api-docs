@@ -1,0 +1,7 @@
+in: query
+name: after
+schema:
+  type: string
+  format: date-time
+required: false
+description: "Only aggregate statistics for activity after the specified date"

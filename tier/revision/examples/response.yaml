@@ -33,3 +33,5 @@ upgrades:
     complimentary: false
     transferable: false
     upgrades: []
+gross_sales: 100000
+tickets_sold: 200

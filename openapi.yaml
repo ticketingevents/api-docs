@@ -162,8 +162,8 @@ x-tagGroups:
       - "Managing Events"
       - "Managing Tiers"
       - "Event Listings"
+      - "Sales Reporting"
       - "Event Admissions"
-      - "Event Reporting"
   - name: "Purchasing Tickets"
     tags:
       - "Ordering Tickets"
@@ -1814,6 +1814,145 @@ paths:
         404:
           $ref: "pagination/errors/not_found.yaml"
 
+  ################ Sales Reporting ################
+
+  /hosts/{host}/sales:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Sales Reporting
+      parameters:
+        - $ref: "sale/parameters/after.yaml"
+        - $ref: "sale/parameters/before.yaml"
+        - $ref: "sale/parameters/event.yaml"
+        - $ref: "sale/parameters/tier.yaml"
+        - $ref: "sale/parameters/number.yaml"
+        - $ref: "sale/parameters/customer.yaml"
+        - $ref: "sale/parameters/status.yaml"
+        - $ref: "sale/parameters/sort.yaml"
+        - $ref: "sale/parameters/order.yaml"
+      summary: "List host sales"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of all recorded sales for the specified host.
+      operationId: "list_host_sales"
+      responses:
+        200:
+          description: "The list of recorded sales was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "sale/schemas/list.yaml"
+              example:
+                $ref: "sale/examples/list.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /hosts/{host}/statistics:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Sales Reporting
+      parameters:
+        - $ref: "statistics/parameters/after.yaml"
+        - $ref: "statistics/parameters/before.yaml"
+        - $ref: "statistics/parameters/interval.yaml"
+      summary: "Retrieve host statistics"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve aggregated statistics for a host including total revenue and tickets sold.
+      operationId: "retrieve_host_statistics"
+      responses:
+        200:
+          description: "The host statistics resource was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "statistics/schemas/response.yaml"
+              example:
+                $ref: "statistics/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
+
+  /hosts/{host}/events/{event}/sales:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
+
+    get:
+      tags:
+        - Sales Reporting
+      parameters:
+        - $ref: "sale/parameters/after.yaml"
+        - $ref: "sale/parameters/before.yaml"
+        - $ref: "sale/parameters/tier.yaml"
+        - $ref: "sale/parameters/number.yaml"
+        - $ref: "sale/parameters/customer.yaml"
+        - $ref: "sale/parameters/status.yaml"
+        - $ref: "sale/parameters/sort.yaml"
+        - $ref: "sale/parameters/order.yaml"
+      summary: "List event sales"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of all recorded sales for the specified event.
+      operationId: "list_event_sales"
+      responses:
+        200:
+          description: "The list of recorded sales was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "sale/schemas/list.yaml"
+              example:
+                $ref: "sale/examples/list.yaml"
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /hosts/{host}/events/{event}/statistics:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/revision//parameters/id.yaml"
+
+    get:
+      tags:
+        - Sales Reporting
+      parameters:
+        - $ref: "sale/parameters/after.yaml"
+        - $ref: "sale/parameters/before.yaml"
+        - $ref: "statistics/parameters/interval.yaml"
+      summary: "Retrieve event statistics"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve aggregated statistics for an event including total revenue and tickets sold.
+      operationId: "retrieve_event_statistics"
+      responses:
+        200:
+          description: "The event statistics resource was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "statistics/schemas/response.yaml"
+              example:
+                $ref: "statistics/examples/response.yaml"
+        404:
+          $ref: "responses/404.yaml"
+
   ################ EVENT ADMISSIONS ################
 
   /events/{event}/tokens:
@@ -2063,89 +2202,6 @@ paths:
           $ref: "event/admission/errors/unauthorised.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
-
-  ################ EVENT REPORTING ################
-
-  /hosts/{host}/statistics:
-    parameters:
-      - $ref: "host/parameters/id.yaml"
-
-    get:
-      tags:
-        - Event Reporting
-      summary: "View host statistics"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        View high-level statistics for a host including total revenues, tickets sold,
-        events listed and unique customers.
-      operationId: "view_host_statistics"
-      responses:
-        200:
-          description: "The host statistics resource was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                $ref: "host/schemas/statistics.yaml"
-              example:
-                $ref: "host/examples/statistics.yaml"
-        404:
-          $ref: "responses/404.yaml"
-
-  /events/{event}/statistics:
-    parameters:
-      - $ref: "event/listing/parameters/id.yaml"
-
-    get:
-      tags:
-        - Event Reporting
-      summary: "View event statistics"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        View high-level statistics for an event including revenues, tickets sold,
-        ticket capacity and total orders.
-      operationId: "view_event_statistics"
-      responses:
-        200:
-          description: "The event statistics resource was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                $ref: "event/listing/schemas/statistics.yaml"
-              example:
-                $ref: "event/listing/examples/statistics.yaml"
-        404:
-          $ref: "responses/404.yaml"
-
-  /events/{event}/sales:
-    parameters:
-      - $ref: "event/listing/parameters/id.yaml"
-
-    get:
-      tags:
-        - Event Reporting
-      parameters:
-        - $ref: "event/sales/parameters/from.yaml"
-        - $ref: "event/sales/parameters/to.yaml"
-        - $ref: "event/sales/parameters/section.yaml"
-      summary: "Report event sales"
-      security:
-        - SessionKey: [administrator]
-      description: |
-        Generate a summary report of ticket sales for this event using the given criteria
-      operationId: "report_event_sales"
-      responses:
-        200:
-          description: "The summary of ticket sales fitting the specified criteria was successfully generated.."
-          content:
-            application/json:
-              schema:
-                $ref: "event/sales/schemas/report.yaml"
-              example:
-                $ref: "event/sales/examples/report.yaml"
-        400:
-          $ref: "transaction/errors/bad_query.yaml"
 
   ################ ORDER MANAGEMENT ################
 
