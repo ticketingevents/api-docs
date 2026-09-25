@@ -155,20 +155,19 @@ x-tagGroups:
       - "Account Verification"
       - "Password Reset"
       - "Account Activation"
-      - "Account Activity"
   - name: "Events"
     tags:
       - "Managing Host Accounts"
       - "Managing Events"
+      - "Managing Forms"
       - "Managing Tiers"
       - "Event Listings"
       - "Sales Reporting"
       - "Event Admissions"
-  - name: "Purchasing Tickets"
+  - name: "Tickets"
     tags:
       - "Ordering Tickets"
-  - name: "Managing Tickets"
-    tags:
+      - "Customer Wallet"
       - "Ticket Transfers"
   - name: "System Administration"
     tags:
@@ -817,142 +816,6 @@ paths:
           $ref: "account/errors/unauthorised.yaml"
 
 
-  ################ ACCOUNT ACTIVITY ################
-
-  /accounts/{number}/sessions:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
-
-    get:
-      tags:
-        - Account Activity
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-      summary: "List API sessions"
-      security:
-        - SessionKey: [customer, administrator]
-      description: |
-        Retrieve a list of API sessions opened by this user.
-      operationId: "list_api_session"
-      responses:
-        200:
-          description: "The list of matching account sessions was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "authentication/session/schemas/list.yaml"
-              example:
-                $ref: "authentication/session/examples/list.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-  /accounts/{number}/events:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
-
-    get:
-      tags:
-        - Account Activity
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "event/listing/parameters/active.yaml"
-        - $ref: "event/listing/parameters/sort.yaml"
-        - $ref: "event/listing/parameters/order.yaml"
-      summary: "Retrieve event itinerary"
-      security:
-        - SessionKey: [customer, administrator]
-      description: |
-        Retrieve a list of events, past and future, that the account has tickets for.
-      operationId: "view_event_itinerary"
-      responses:
-        200:
-          description: "The event itinerary was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "event/listing/schemas/list.yaml"
-              example:
-                $ref: "event/listing/examples/list.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-  /accounts/{number}/tickets:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
-
-    get:
-      tags:
-        - Account Activity
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/parameters/event.yaml"
-        - $ref: "ticket/parameters/section.yaml"
-        - $ref: "ticket/parameters/serial.yaml"
-        - $ref: "ticket/parameters/status.yaml"
-      summary: "Retrieve ticket wallet"
-      security:
-        - SessionKey: [customer, administrator]
-      description: |
-        Retrieve a list of tickets belonging to the specified account.
-      operationId: "list_ticket_wallet"
-      responses:
-        200:
-          description: "The list of matching tickets was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/schemas/wallet.yaml"
-              example:
-                $ref: "ticket/examples/wallet.yaml"
-        400:
-          $ref: "ticket/errors/criteria.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-  /accounts/{number}/transfers:
-    parameters:
-      - $ref: "account/parameters/number.yaml"
-
-    get:
-      tags:
-        - Account Activity
-      parameters:
-        - $ref: "pagination/parameters/records.yaml"
-        - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/transfer/parameters/role.yaml"
-        - $ref: "ticket/transfer/parameters/status.yaml"
-      summary: "View transfer history"
-      security:
-        - SessionKey: [customer, administrator]
-      description: |
-        Retrieve the transfer history of the specified account.
-      operationId: "view_transfer_history"
-      responses:
-        200:
-          description: "The list of matching transfers was successfully retrieved."
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/transfer/schemas/list.yaml"
-              example:
-                $ref: "ticket/transfer/examples/sent.yaml"
-        400:
-          $ref: "ticket/transfer/errors/no_role.yaml"
-        404:
-          $ref: "pagination/errors/not_found.yaml"
-
-
   ################ HOST MANAGEMENT ################
   /hosts:
     get:
@@ -1553,6 +1416,158 @@ paths:
           $ref: "event/revision/errors/unauthorised.yaml"
         409:
           $ref: "publication/errors/unpublishable.yaml"
+  
+  ################ MANAGING FORMS ################
+
+  /hosts/{host}/forms:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Forms
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List forms"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of all forms used by the host to collect additional information on ticket purchases.
+      operationId: "list_host_forms"
+      responses:
+        200:
+          description: "The list of the specified host's forms was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "form/schemas/list.yaml"
+              example:
+                $ref: "form/examples/list.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Managing Forms
+      summary: "Create a form"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Create a new form which can be used to collect additional information from customers upon ticket purchase.
+      operationId: "create_form"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "form/schemas/request.yaml"
+              example:
+                $ref: "form/examples/request.yaml"
+      responses:
+        201:
+          description: "The new form was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "form/schemas/response.yaml"
+              example:
+                $ref: "form/examples/response.yaml"
+        400:
+          $ref: "form/errors/invalid.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        409:
+          $ref: "form/errors/exists.yaml"
+
+  /hosts/{host}/forms/{form}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "form/parameters/id.yaml"
+
+    get:
+      tags:
+        - Managing Forms
+      summary: "Retrieve form details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve metadata and fields of the requested form
+      operationId: "retrieve_form"
+      responses:
+        200:
+          description: "Metadata and fields of the requested form were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "form/schemas/response.yaml"
+              example:
+                $ref: "form/examples/response.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "form/errors/not_found.yaml"
+
+    put:
+      tags:
+        - Managing Forms
+      summary: "Update form details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Change the metadata or fields attached to the requested form.
+      operationId: "update_form"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "form/schemas/request.yaml"
+            example:
+              $ref: "form/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The details of the specified form were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "form/schemas/response.yaml"
+              example:
+                $ref: "form/examples/response.yaml"
+        400:
+          $ref: "form/errors/invalid.yaml"
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "form/errors/not_found.yaml"
+
+    delete:
+      tags:
+        - Managing Forms
+      summary: "Remove a form"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Completely remove a form from the system. If a form attached to one or more tiers is removed, additional
+        data collection will cease for those tiers unless a new form is attached.
+      operationId: "delete_form"
+      responses:
+        200:
+          description: |
+            The form was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Form: /hosts/14271847571941/forms/1927471842571142, has been deleted."
+        403:
+          $ref: "host/errors/unauthorised.yaml"
+        404:
+          $ref: "form/errors/not_found.yaml"
   
   ################ MANAGING TIERS ################
 
@@ -2370,7 +2385,113 @@ paths:
         409:
           $ref: "order/payment/errors/invalid_state.yaml"
 
-  ################ TICKET MANAGEMENT ################
+
+  ################ Customer Wallet ################
+
+  /accounts/{number}/events:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Customer Wallet
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "event/listing/parameters/active.yaml"
+        - $ref: "event/listing/parameters/sort.yaml"
+        - $ref: "event/listing/parameters/order.yaml"
+      summary: "Retrieve event itinerary"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of events, past and future, that the account has tickets for.
+      operationId: "retrieve_event_itinerary"
+      responses:
+        200:
+          description: "The event itinerary was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "event/listing/schemas/list.yaml"
+              example:
+                $ref: "event/listing/examples/list.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  /accounts/{number}/tickets:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Customer Wallet
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/parameters/event.yaml"
+        - $ref: "ticket/parameters/tier.yaml"
+        - $ref: "ticket/parameters/serial.yaml"
+        - $ref: "ticket/parameters/status.yaml"
+      summary: "Retrieve customer ticket wallet"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of tickets belonging to the specified account.
+      operationId: "retrieve_customer_tickets"
+      responses:
+        200:
+          description: "The list of matching tickets was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/schemas/wallet.yaml"
+              example:
+                $ref: "ticket/examples/wallet.yaml"
+        400:
+          $ref: "ticket/errors/criteria.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+  ################ TICKET TRANSFERS ################
+
+  /accounts/{number}/transfers:
+    parameters:
+      - $ref: "account/parameters/number.yaml"
+
+    get:
+      tags:
+        - Ticket Transfers
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+        - $ref: "ticket/transfer/parameters/role.yaml"
+        - $ref: "ticket/transfer/parameters/status.yaml"
+      summary: "View transfer history"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve the transfer history of the specified account.
+      operationId: "view_transfer_history"
+      responses:
+        200:
+          description: "The list of matching transfers was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "ticket/transfer/schemas/list.yaml"
+              example:
+                $ref: "ticket/transfer/examples/sent.yaml"
+        400:
+          $ref: "ticket/transfer/errors/no_role.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
 
   /transfers:
 

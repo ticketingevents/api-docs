@@ -1,0 +1,9 @@
+name: "Meal Options"
+description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+fields:
+  - name: "Soup"
+    type: "short_text"
+  - name: "Main"
+    type: "short_text"
+  - name: "Drink"
+    type: "short_text"

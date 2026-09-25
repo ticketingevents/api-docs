@@ -1,0 +1,25 @@
+type: "object"
+required: ["name", "description", "fields"]
+properties:
+  name:
+    type: "string"
+    description: "Human-readable name that uniquely identifies the form"
+  description:
+    type: "string"
+    description: "Text describing the type of additional information the form is designed to collect."
+  fields:
+    type: "array"
+    minLength: 1
+    items:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "Name of the field indicating the information it collects. Will be visible to the customer on ticket purchase."
+        type:
+          type: "string"
+          enum: ["short_text"]
+          description: "The type of information this field will be used to collect."
+        required:
+          type: "boolean"
+          description: "Whether or not a response to this field is mandatory when purchasing a ticket."

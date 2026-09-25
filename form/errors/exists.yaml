@@ -1,0 +1,7 @@
+description: "A form with the specified name already exists for this event host."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "Creating the requested form violates uniqueness constraints."
