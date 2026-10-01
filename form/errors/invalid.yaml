@@ -1,0 +1,7 @@
+description: "One or more fields has a duplicate name, or an invalid field type."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "One or more fields has an invalid field type."

@@ -24,6 +24,13 @@ entries:
           unit_size: 2
           upgrades: []
         quantity: 2
+        details:
+          - Soup: Goat Water
+            Main: Seasoned Rice
+            Drink: Lemonade
+          - Soup: Corm Soup
+            Main: Oxtail
+            Drink: Lemonade
       - tier:
           self: "/tiers/19381758318131"
           name: "Backstage Pass"

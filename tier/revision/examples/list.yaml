@@ -8,10 +8,9 @@ entries:
     capacity: 20
     available_from: "2025-05-02T21:00:00Z"
     available_to: "2025-07-01T00:00:00Z"
-    bundle:
-      - description: "Dawn of the Seven Premier"
-        event: 16993717817996
-        share: 100
+    events:
+        - id: 16993717817996
+          share: 100
     artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
     purchase_limit: 2
     purchase_note: "Your all set. Remember to give the codeword HOMELANDER when coming backstage."
@@ -25,9 +24,8 @@ entries:
         capacity: 10
         available_from: "2025-05-02T21:00:00Z"
         available_to: "2025-07-01T00:00:00Z"
-        bundle:
-          - description: "Dawn of the Seven Premier"
-            event: 16993717817996
+        events:
+          - id: 16993717817996
             share: 100
         artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
         purchase_limit: 1
@@ -35,3 +33,15 @@ entries:
         complimentary: false
         transferable: false
         upgrades: []
+        form: null
+    form:
+      self: "/hosts/14271847571941/forms/1927471842571142"
+      name: "Meal Options"
+      description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+      fields:
+        - name: "Soup"
+          type: "short_text"
+        - name: "Main"
+          type: "short_text"
+        - name: "Drink"
+          type: "short_text"

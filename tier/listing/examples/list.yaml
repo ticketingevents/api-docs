@@ -26,3 +26,15 @@ entries:
         artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
         unit_size: 1
         upgrades: []
+        form: null
+    form:
+      self: "/hosts/14271847571941/forms/1927471842571142"
+      name: "Meal Options"
+      description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+      fields:
+        - name: "Soup"
+          type: "short_text"
+        - name: "Main"
+          type: "short_text"
+        - name: "Drink"
+          type: "short_text"

@@ -1,5 +1,12 @@
 items: 
   - tier: 16993964783416
     quantity: 2
+    details:
+      - Soup: Goat Water
+        Main: Seasoned Rice
+        Drink: Lemonade
+      - Soup: Corm Soup
+        Main: Oxtail
+        Drink: Lemonade
   - tier: 16971671292759
     quantity: 2
