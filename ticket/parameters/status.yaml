@@ -4,6 +4,6 @@ schema:
   type: array
   items:
     type: string
-    enum: ['Issued','Pending','Held','Redeemed','Expired']
+    enum: ['issued','unclaimed','held','redeemed']
 required: false
 description: "Only return tickets that are in one of the specified statuses"

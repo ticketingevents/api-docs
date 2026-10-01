@@ -41,6 +41,13 @@ properties:
         quantity:
           type: "number"
           description: "Number of instances of this item that were ordered"
+        details:
+          type: "array"
+          description: "Additional details provided by the customer for each ticket being purchased"
+          items:
+            type: "object"
+            "additionalProperties":
+              "type": "string"
   payment:
     type: "object"
     description: "Details of the payment for this order."

@@ -1,4 +1,4 @@
-description: "One or more of the specified tiers do not exist, have insufficient availability or are complimentary, or the requested ticket amount exceeds a tier's purchase limit."
+description: "One or more of the specified tiers do not exist, have insufficient availability or are complimentary, the requested ticket amount exceeds a tier's purchase limit or additional details have not been provided when required."
 content:
   application/json:
     schema:

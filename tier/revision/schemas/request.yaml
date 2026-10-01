@@ -83,3 +83,6 @@ properties:
     description: "List of unique tier identifiers indicating 'promotion tiers' to which tickets issued under this tier can be upgraded."
     items:
       type: integer
+  form:
+    type: "string"
+    description: "ID of the form used to collect additional information on ticket purchase"

@@ -2,18 +2,62 @@ page: 1
 records: 15
 entries:
     - serial: "DAWIER-BACK75580348"
-      status: "Issued"
+      status: "issued"
       issued: "2024-02-21T14:59:18+00:00"
-      redeemed: "N/A"
-      section:
-        self: "/events/16993717817996/sections/16993964783416"
-        name: "Backstage"
-        description: "Includes meet and greet with the film's stars."
+      redeemed: "0000-00-00T00:00:00+00:00"
+      tier:
+        self: "/tiers/19381758318131"
+        name: "Backstage Pass"
+        description: "Gain exclusive access to meet the Supes and hang out after the show."
+        price: 299.9
+        available_from: "2025-05-02T21:00:00Z"
+        available_to: "2025-07-01T00:00:00Z"
+        events:
+          - id: 16993717817996
+            share: 100
+        artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+        purchase_limit: 10
+        unit_size: 2
+        upgrades:
+          - self: "/tiers/18191406121236"
+            name: "All-Access Pass"
+            description: "The full VIP experience, including the week leading up to the show."
+            price: 500.00
+            available_from: "2025-05-02T21:00:00Z"
+            available_to: "2025-07-01T00:00:00Z"
+            events:
+              - id: 16993717817996
+                share: 100
+            artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+            unit_size: 1
+            upgrades: []
     - serial: "DAWIER-VIPV75580348"
-      status: "Redeemed"
+      status: "redeemed"
       issued: "2024-02-21T14:59:18+00:00"
       redeemed: "2024-06-07T19:50:31+00:00"
-      section:
-        self: "/events/16993717817996/sections/16993964783416"
-        name: "Backstage"
-        description: "Includes meet and greet with the film's stars."
+      tler:
+        self: "/tiers/19381758318131"
+        name: "Backstage Pass"
+        description: "Gain exclusive access to meet the Supes and hang out after the show."
+        price: 299.9
+        available_from: "2025-05-02T21:00:00Z"
+        available_to: "2025-07-01T00:00:00Z"
+        events:
+          - id: 16993717817996
+            share: 100
+        artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+        purchase_limit: 10
+        unit_size: 2
+        upgrades:
+          - self: "/tiers/18191406121236"
+            name: "All-Access Pass"
+            description: "The full VIP experience, including the week leading up to the show."
+            price: 500.00
+            available_from: "2025-05-02T21:00:00Z"
+            available_to: "2025-07-01T00:00:00Z"
+            events:
+              - id: 16993717817996
+                share: 100
+            artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+            unit_size: 1
+            upgrades: []

@@ -33,5 +33,17 @@ upgrades:
     complimentary: false
     transferable: false
     upgrades: []
+    form: null
+form:
+  self: "/hosts/14271847571941/forms/1927471842571142"
+  name: "Meal Options"
+  description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+  fields:
+    - name: "Soup"
+      type: "short_text"
+    - name: "Main"
+      type: "short_text"
+    - name: "Drink"
+      type: "short_text"
 gross_sales: 100000
-tickets_sold: 200
+units_sold: 200

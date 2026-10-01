@@ -16,3 +16,10 @@ properties:
         quantity:
           type: "number"
           description: "The number of instances in the identified tier to include in the order"
+        details:
+          type: "array"
+          description: "Additional details provided by the customer for each ticket being purchased"
+          items:
+            type: "object"
+            "additionalProperties":
+              "type": "string"

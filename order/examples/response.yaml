@@ -21,6 +21,13 @@ items:
       unit_size: 2
       upgrades: []
     quantity: 2
+    details:
+      - Soup: Goat Water
+        Main: Seasoned Rice
+        Drink: Lemonade
+      - Soup: Corm Soup
+        Main: Oxtail
+        Drink: Lemonade
 payment:
   uri: "https://payments.frubipay.com/1234567890"
   status: "Pending"

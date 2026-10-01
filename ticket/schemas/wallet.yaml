@@ -12,20 +12,8 @@ properties:
         status:
           type: "string"
           description: "The ticket's current status"
-        section:
-          type: "object"
-          description: "The event section to which this ticket grants access"
-          properties:
-            self:
-              type: "string"
-              format: "uri"
-              description: "URI of the event section resource"
-            name:
-              type: "string"
-              description: "Name of the event section"
-            description:
-              type: "string"
-              description: "Details of the experience customers can expect when purchasing tickets to this event section"
+        tier:
+          $ref: "../../tier/listing/schemas/response.yaml"
         issued:
           type: "string"
           format: "date-time"
