@@ -1,7 +1,0 @@
-description: "The authenticating user is not permitted to initiate transfers on behalf of the sender."
-content:
-  application/json:
-    schema:
-      "$ref": "../../../responses/message.yaml"
-    example:
-      message: "This account is not permitted to initiate transfers on behalf of the sender."

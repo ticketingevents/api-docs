@@ -3,9 +3,7 @@ required:
   - items
 properties:
   items:
-    description: Sections for which to order tickets. The object's keys
-      are the URI of the event section for which tickets are being ordered, while its values
-      are the number of tickets to order for the section.
+    description: Tiers for which to order tickets.
     type: array
     items:
       type: object

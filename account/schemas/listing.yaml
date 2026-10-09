@@ -1,0 +1,18 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the account resource"
+  username:
+    type: "string"
+    description: "Unique username attached to the account"
+  firstName:
+    type: "string"
+    description: "The account holder's forename"
+  lastName:
+    type: "string"
+    description: "The account holder's surname"
+  title:
+    type: "string"
+    enum: ["Mr","Mrs","Ms","Mx"]
+    description: "The account holder's formal title"

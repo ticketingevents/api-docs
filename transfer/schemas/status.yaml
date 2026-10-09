@@ -1,0 +1,7 @@
+type: object
+properties:
+  status:
+    description: The target status of the transfer resource
+    type: string
+    enum: ['accepted', 'rejected', 'cancelled']
+required: ['status']

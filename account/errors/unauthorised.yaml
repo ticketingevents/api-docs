@@ -1,7 +1,7 @@
-description: "The authenticating user is not authorised to access or modify this account."
+description: "The authenticating user is not authorised to access or modify this account or its resources."
 content:
   application/json:
     schema:
       "$ref": "../../responses/message.yaml"
     example:
-      message: "You are not authorised to access or modify this account."
+      message: "You are not authorised to access or modify this account or its resources."

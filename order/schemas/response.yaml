@@ -34,10 +34,7 @@ properties:
       type: "object"
       properties:
         tier:
-          type: "object"
-          description: "Details of the ordered tier"
-          properties:
-            $ref: "../../tier/listing/schemas/response.yaml#/properties"
+          $ref: "../../tier/listing/schemas/response.yaml"
         quantity:
           type: "number"
           description: "Number of instances of this item that were ordered"
