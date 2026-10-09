@@ -2,6 +2,6 @@ type: "object"
 properties:
   entries:
     type: "array"
-    description: "List of transfers matching the given criteria"
+    description: "List of outgoing transfers matching the given criteria"
     items:
       $ref: "response.yaml"

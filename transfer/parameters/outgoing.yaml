@@ -1,0 +1,6 @@
+in: query
+name: outgoing
+schema:
+  type: boolean
+required: true
+description: "Only returns transfers initiated by the customer if true, or ticket transfers sent to the customer if false."

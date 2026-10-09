@@ -1,0 +1,35 @@
+page: 2
+records: 8
+entries:
+  - self: "/transfers/17096551195817"
+    status: "Pending"
+    initiated: "2025-11-13T12:16:57+00:00"
+    completed: "2025-11-14T07:53:10+00:00"
+    sender:
+      self: "/accounts/MO-6A39EE8D"
+      username: "mothers.milk"
+      firstName: "Marvin"
+      lastName: "Milk"
+      title: "Mr"
+    recipient:
+      self: "/accounts/BI-5A939D5D"
+      username: "the_butcher"
+      firstName: "Billy"
+      lastName: "Butcher"
+      title: "Mr"
+    tickets:
+      - tier:
+          self: "/tiers/19381758318131"
+          name: "Backstage Pass"
+          description: "Gain exclusive access to meet the Supes and hang out after the show."
+          price: 299.9
+          available_from: "2025-05-02T21:00:00Z"
+          available_to: "2025-07-01T00:00:00Z"
+          events:
+            - id: 16993717817996
+              share: 100
+          artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+          purchase_limit: 10
+          unit_size: 2
+          upgrades: []
+        quantity: 2

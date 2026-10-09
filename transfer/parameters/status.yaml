@@ -2,6 +2,6 @@ in: query
 name: status
 schema:
   type: string
-  enum: ['Pending','Claimed','Cancelled']
+  enum: ['Pending','Claimed','Rejected','Cancelled']
 required: false
 description: "If set, only returns transfers currently in the specified status"

@@ -2469,14 +2469,14 @@ paths:
       parameters:
         - $ref: "pagination/parameters/records.yaml"
         - $ref: "pagination/parameters/page.yaml"
-        - $ref: "ticket/transfer/parameters/role.yaml"
-        - $ref: "ticket/transfer/parameters/status.yaml"
-      summary: "View transfer history"
+        - $ref: "transfer/parameters/outgoing.yaml"
+        - $ref: "transfer/parameters/status.yaml"
+      summary: "List customer transfers"
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Retrieve the transfer history of the specified account.
-      operationId: "view_transfer_history"
+        List ticket transfers, matching the specified search criteria, initiated or received by the customer.
+      operationId: "list_customer_transfers"
       responses:
         200:
           description: "The list of matching transfers was successfully retrieved."
@@ -2485,62 +2485,56 @@ paths:
               schema:
                 allOf:
                   - $ref: "pagination/schemas/results.yaml"
-                  - $ref: "ticket/transfer/schemas/list.yaml"
+                  - $ref: "transfer/schemas/list.yaml"
               example:
-                $ref: "ticket/transfer/examples/sent.yaml"
-        400:
-          $ref: "ticket/transfer/errors/no_role.yaml"
+                $ref: "transfer/examples/list.yaml"
         404:
           $ref: "pagination/errors/not_found.yaml"
-
-  /transfers:
 
     post:
       tags:
         - Ticket Transfers
-      summary: "Initiating a transfer"
+      summary: "Initiate a ticket transfer"
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Initiate a transfer of one or more tickets from the requesting user
-        to another TickeTing user. Initiating a transfer, does not automatically
-        move tickets between accounts, but instead sends a transfer request. This request
-        must first be claimed at which time the tickets themselves are transferred.
-        If the transfer request is cancelled or rejected, no tickets change hands.
+        Initiate a transfer of one or more tickets to another TickeTing user. Initiating a transfer,
+        does not automatically move tickets between accounts, but instead sends a transfer offer.
+        When this offer is claimed by the recipient, the tickets are transferred between wallets.
+        If the transfer offer is cancelled or rejected, no tickets change hands.
 
-        One or more tickets, for one or multiple events, can be sent in a single transfer. 
-        Tickets that are part of an open transfer (not yet claimed, canclled or rejected)
-        enter into a pending state in which they cannot be redeemed, only becoming usable
-        again once a decision is taken on the transfer.
-      operationId: "initiate_transfer"
+        One or more tickets across multiple tiers, can be sent in a single transfer. Tickets that are
+        part of a pending transfer (which have not yet been claimed, cancelled or rejected) enter into a
+        pending state in which they cannot be redeemed, only becoming usable again once a decision is taken
+        on the transfer.
+      operationId: "initiate_ticket_transfer"
       requestBody:
         content:
           application/json:
               schema:
-                $ref: "ticket/transfer/schemas/request.yaml"
+                $ref: "transfer/schemas/request.yaml"
               example:
-                $ref: "ticket/transfer/examples/request.yaml"
+                $ref: "transfer/examples/request.yaml"
       responses:
         201:
           description: "The transfer was successfully initiated."
           content:
             application/json:
               schema:
-                $ref: "ticket/transfer/schemas/response.yaml"
+                $ref: "transfer/schemas/response.yaml"
               example:
-                $ref: "ticket/transfer/examples/response.yaml"
+                $ref: "transfer/examples/response.yaml"
         400:
-          $ref: "ticket/transfer/errors/bad_request.yaml"
+          $ref: "transfer/errors/bad_request.yaml"
         403:
-          $ref: "ticket/transfer/errors/unauthorised.yaml"
-        404:
-          $ref: "ticket/transfer/errors/unknown_recipient.yaml"
+          $ref: "account/errors/unauthorised.yaml"
         409:
-          $ref: "ticket/transfer/errors/send_to_self.yaml"
+          $ref: "transfer/errors/send_to_self.yaml"
 
-  /transfers/{transfer}:
+  /accounts/{number}/transfers/{transfer}:
     parameters:
-      - $ref: "ticket/transfer/parameters/id.yaml"
+      - $ref: "account/parameters/number.yaml"
+      - $ref: "transfer/parameters/id.yaml"
 
     get:
       tags:
@@ -2549,76 +2543,60 @@ paths:
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Retrieve the details of the requested transfer
-      operationId: "retrieve_transfer"
+        Retrieve the details of the specified customer transfer
+      operationId: "retrieve_customer_transfer"
       responses:
         200:
-          description: "Details of the requested transfer were successfully retrieved."
+          description: "Details of the specified transfer were successfully retrieved."
           content:
             application/json:
               schema:
-                $ref: "ticket/transfer/schemas/response.yaml"
+                $ref: "transfer/schemas/response.yaml"
               example:
-                $ref: "ticket/transfer/examples/response.yaml"
+                $ref: "transfer/examples/response.yaml"
         403:
-          $ref: "ticket/transfer/errors/unauthorised.yaml"
+          $ref: "account/errors/unauthorised.yaml"
 
-    delete:
+    patch:
       tags:
         - Ticket Transfers
-      summary: "Cancel a transfer"
+      summary: "Complete a transfer"
       security:
         - SessionKey: [customer, administrator]
       description: |
-        Cancel a pending transfer. A transfer can be cancelled by either its sender or
-        its recipient before it is claimed. Any pending tickets attached to the transfer
-        are immediately released. A transfer can only be cancelled if it has not yet
-        been claimed, or previously cancelled.
-      operationId: "cancel_transfer"
+        Claim, reject or cancel a pending transfer.
+        
+        **Claim** - A transfer can be claimed by its recipient any time before it is cancelled or rejected. Once
+        claimed, any tickets attached to the transfer are moved from the sender's account to the recipient's and
+        returned to a usable state.
+        
+        **Rejection** - A transfer can be rejected by its recipient any time before it is cancelled or claimed. Once
+        rejected, any tickets attached to the transfer remain in the sender's account and are returned to a usable state.
+        
+        **Cancellation** - A transfer can be cancelled by its sender any time before it is claimed or rejected.
+        Any pending tickets attached to the transfer remain in the sender's account and are returned to a usable state.
+      operationId: "complete_transfer"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "transfer/schemas/status.yaml"
+              example:
+                $ref: "transfer/examples/status.yaml"
       responses:
         200:
           description: |
-            The transfer was successfully cancelled.
+            The transfer was successfully claimed, rejected or cancelled.
           content:
             application/json:
               schema:
-                "$ref": "responses/message.yaml"
+                $ref: "transfer/schemas/response.yaml"
               example:
-                message: "Transfer: /transfers/17096551195817, has been cancelled successfully."
+                $ref: "transfer/examples/response.yaml"
         403:
-          $ref: "ticket/transfer/errors/unauthorised.yaml"
+          $ref: "account/errors/unauthorised.yaml"
         409:
-          $ref: "ticket/transfer/errors/uncancellable.yaml"
-
-  /transfers/{transfer}/claims:
-    parameters:
-      - $ref: "ticket/transfer/parameters/id.yaml"
-
-    post:
-      tags:
-        - Ticket Transfers
-      summary: "Claim a transfer"
-      security:
-        - SessionKey: [customer, administrator]
-      description: |
-        Claim a pending transfer. Once claimed, any tickets attached to the transfer are moved
-        from the sender's account to the recipient's and returned to a usable state. Only a
-        transfer's recipient can claim a transfer, and a transfer can no longer be claimed once
-        it has been cancelled or claimed previously.
-      operationId: "claim_transfer"
-      responses:
-        201:
-          description: "The transferred tickets were successfully delivered to the recipient's account."
-          content:
-            application/json:
-              schema:
-                $ref: "ticket/transfer/claim/schemas/response.yaml"
-              example:
-                $ref: "ticket/transfer/claim/examples/response.yaml"
-        403:
-          $ref: "ticket/transfer/claim/errors/unauthorised.yaml"
-        409:
-          $ref: "ticket/transfer/claim/errors/invalid_state.yaml"
+          $ref: "transfer/errors/invalid_state.yaml"
 
   ################ SYSTEM ADMINISTRATION ################
   /regions:

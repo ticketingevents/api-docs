@@ -1,0 +1,7 @@
+description: "One or more of the specified tiers do not exist or is non-transferable, the sender does not own sufficient tickets to complete the transfer or the recipient does not exist."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The sender does not hold sufficient itckets in their wallet to complete this transfer."

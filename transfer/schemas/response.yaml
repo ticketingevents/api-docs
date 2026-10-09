@@ -1,0 +1,32 @@
+type: object
+properties:
+  self:
+    type: "string"
+    description: "URI of the transfer resource"
+  status:
+    type: "string"
+    enum: ["Pending", "Cancelled", "Rejected", "Accepted"]
+    description: "Current status of the transfer"
+  initiated:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the transfer was initiated"
+  completed:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the transfer was claimed, rejected or cancelled"
+  sender:
+      $ref: ../../account/schemas/listing.yaml
+  recipient:
+      $ref: ../../account/schemas/listing.yaml
+  tickets:
+    type: "array"
+    description: List of tickets involved in the transfer
+    items:
+      type: "object"
+      properties:
+        tier:
+          $ref: "../../tier/listing/schemas/response.yaml"
+        quantity:
+          type: "number"
+          description: "Number of instances of this tier that were transferred"
