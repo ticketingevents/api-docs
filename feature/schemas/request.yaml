@@ -1,0 +1,17 @@
+type: "object"
+required:
+  - start
+  - end
+  - exclusive
+properties:
+  start:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the feature is scheduled to begin"
+  end:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the feature is scheduled to finish"
+  exclusive:
+    type: "boolean"
+    description: "If true, this event cannot be featured during the same time slot as any other"

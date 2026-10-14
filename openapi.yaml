@@ -1761,7 +1761,7 @@ paths:
                   - $ref: "pagination/schemas/results.yaml"
                   - $ref: "feature/schemas/list.yaml"
               example:
-          $ref: "feature/examples/list.yaml"
+                $ref: "feature/examples/list.yaml"
         403:
           $ref: "event/revision/errors/unauthorised.yaml"
         404:
@@ -1885,6 +1885,8 @@ paths:
           $ref: "event/revision/errors/unauthorised.yaml"
         404:
           $ref: "feature/errors/not_found.yaml"
+        409:
+          $ref: "feature/errors/indelible.yaml"
 
   ################ EVENT LISTINGS ################
 

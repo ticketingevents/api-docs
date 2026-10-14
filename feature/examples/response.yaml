@@ -1,0 +1,5 @@
+self: "/hosts/16951985851389/events/16993717817996/features/16948303519502"
+start: "2026-10-10T00:00:00Z"
+end: "2026-10-30T23:59:59Z"
+status: "launched"
+exclusive: true
