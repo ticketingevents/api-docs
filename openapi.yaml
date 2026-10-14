@@ -161,6 +161,7 @@ x-tagGroups:
       - "Managing Events"
       - "Managing Forms"
       - "Managing Tiers"
+      - "Promoting Events"
       - "Event Listings"
       - "Sales Reporting"
       - "Event Admissions"
@@ -1730,8 +1731,164 @@ paths:
           $ref: "tier/revision/errors/not_found.yaml"
         409:
           $ref: "tier/revision/errors/in_use.yaml"
+  
+  ################ PROMOTING EVENTS ################
 
-  ################ EVENT ListINGS ################
+  /hosts/{host}/events/{event}/features:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
+
+    get:
+      tags:
+        - Promoting Events
+      parameters:
+        - $ref: "pagination/parameters/records.yaml"
+        - $ref: "pagination/parameters/page.yaml"
+      summary: "List event features"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve a list of features created for this event.
+      operationId: "list_event_feature"
+      responses:
+        200:
+          description: "The list of the specified event's features was successfully retrieved."
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "pagination/schemas/results.yaml"
+                  - $ref: "feature/schemas/list.yaml"
+              example:
+                $ref: "feature/examples/list.yaml"
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        404:
+          $ref: "pagination/errors/not_found.yaml"
+
+    post:
+      tags:
+        - Promoting Events
+      summary: "Feature an event"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Feature an event to give it additional exposure across the TickeTing platform.
+      operationId: "create_event_feature"
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: "feature/schemas/request.yaml"
+              example:
+                $ref: "feature/examples/request.yaml"
+      responses:
+        201:
+          description: "The specified event was successfully featured."
+          content:
+            application/json:
+              schema:
+                $ref: "feature/schemas/response.yaml"
+              example:
+                $ref: "feature/examples/response.yaml"
+        400:
+          $ref: "feature/errors/invalid.yaml"
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        409:
+          $ref: "feature/errors/unavailable.yaml"
+
+  /hosts/{host}/events/{event}/features/{feature}:
+    parameters:
+      - $ref: "host/parameters/id.yaml"
+      - $ref: "event/revision/parameters/id.yaml"
+      - $ref: "feature/parameters/id.yaml"
+
+    get:
+      tags:
+        - Promoting Events
+      summary: "Retrieve event feature details"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Retrieve details of the specified event feature
+      operationId: "retrieve_feature"
+      responses:
+        200:
+          description: "Details of the specified feature were successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: "feature/schemas/response.yaml"
+              example:
+                $ref: "feature/examples/response.yaml"
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        404:
+          $ref: "feature/errors/not_found.yaml"
+
+    put:
+      tags:
+        - Promoting Events
+      summary: "Update event feature"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Update details of the specified event feature
+      operationId: "update_event_feature"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "feature/schemas/request.yaml"
+            example:
+              $ref: "feature/examples/request.yaml"
+      responses:
+        200:
+          description: |
+            The details of the specified feature were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "feature/schemas/response.yaml"
+              example:
+                $ref: "feature/examples/response.yaml"
+        400:
+          $ref: "feature/errors/invalid.yaml"
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        409:
+          $ref: "feature/errors/unavailable.yaml"
+
+    delete:
+      tags:
+        - Promoting Events
+      summary: "Delete an event feature"
+      security:
+        - SessionKey: [customer, administrator]
+      description: |
+        Completely remove an event feature from the system. This will immediately end the feature if it is running
+        and remove all tracking data from the platform.
+      operationId: "delete_event_feature"
+      responses:
+        200:
+          description: |
+            The feature was successfully removed from the system.
+          content:
+            application/json:
+              schema:
+                "$ref": "responses/message.yaml"
+              example:
+                message: "Feature: /hosts/14271847571941/events/1927471842571142/features/17294013948130, has been deleted."
+        403:
+          $ref: "event/revision/errors/unauthorised.yaml"
+        404:
+          $ref: "feature/errors/not_found.yaml"
+        409:
+          $ref: "feature/errors/indelible.yaml"
+
+  ################ EVENT LISTINGS ################
 
   /events:
     get:

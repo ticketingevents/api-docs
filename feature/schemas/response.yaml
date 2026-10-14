@@ -1,0 +1,20 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the event feature resource"
+  start:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the feature is scheduled to begin"
+  end:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the feature is scheduled to finish"
+  exclusive:
+    type: "boolean"
+    description: "If true, this event cannot be featured during the same time slot as any other"
+  status:
+    type: "string"
+    enum: ["scheduled", "launched", "completed"]
+    description: "Publication status of the event"

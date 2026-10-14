@@ -1,0 +1,7 @@
+description: "An attempt was made to delete a feature after it has been launched."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "An event feature cannot be deleted once launched."

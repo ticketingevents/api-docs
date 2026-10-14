@@ -1,0 +1,9 @@
+description: |
+  Featuring an event during the specified timeslot would violate the exclusivity of this or
+  another feature, or an attempt is made to modify a feature after it has launched.
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "The specified timeslot is not available for additional exclusive features."

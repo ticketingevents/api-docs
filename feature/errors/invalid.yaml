@@ -1,0 +1,7 @@
+description: "A feature's specified end time preceeds its start time or is in the past."
+content:
+  application/json:
+    schema:
+      "$ref": "../../responses/message.yaml"
+    example:
+      message: "An event feature must start before it ends."
