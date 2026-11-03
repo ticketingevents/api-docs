@@ -1,0 +1,6 @@
+in: query
+name: code
+schema:
+  type: integer
+required: true
+description: "Returns all tokens matching the provided code"

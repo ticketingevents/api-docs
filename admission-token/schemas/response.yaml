@@ -1,0 +1,21 @@
+type: "object"
+properties:
+  self:
+    type: "string"
+    description: "URI of the token resource"
+  label:
+    type: "string"
+    description: "Human-readable name used to help uniquely identify generated tokens."
+  code:
+    type: "string"
+    description: "The code used to uniquely identify this admission token in the system"
+  event:
+    $ref: "../../event/revision/schemas/response.yaml"
+  tiers:
+    type: array
+    description: "The list of tiers this token can redeem tickets for."
+    items:
+      $ref: "../../tier/revision/schemas/response.yaml"
+  api_key:
+    type: "string"
+    description: Key to use when authenticating api requests on behalf of this token

@@ -1,0 +1,19 @@
+type: "object"
+properties:
+  redeemer:
+    type: "string"
+    description: "Human-readable name of the person who redeemed the ticket"
+  device:
+    type: "string"
+    description: "Unique identifier of the device from which the ticket was redeemed"
+  serial:
+    type: "string"
+    description: "Serial number of the ticket that granted admission"
+  customer:
+    $ref: "../../account/schemas/listing.yaml"
+  tier:
+    $ref: "../../tier/listing/schemas/response.yaml"
+  admitted:
+    type: "string"
+    format: "date-time"
+    description: "The date and time at which the customer was admitted"

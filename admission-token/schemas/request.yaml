@@ -1,0 +1,14 @@
+type: "object"
+required:
+  - label
+  - tiers
+properties:
+  label:
+    type: "string"
+    description: "Human-readable name used to help uniquely identify generated tokens."
+  tiers:
+    type: array
+    description: "List of unique identifiers of tiers this token can redeem tickets for."
+    items:
+      type: number
+      description: "Unique identifier of the desired tier resource"
