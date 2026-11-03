@@ -1,6 +1,0 @@
-in: path
-name: code
-schema:
-  type: integer
-required: true
-description: "8-character code that uniquely identifies an admission token"

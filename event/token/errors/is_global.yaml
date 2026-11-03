@@ -1,7 +1,0 @@
-description: "The global admission token cannot be modified or deleted."
-content:
-  application/json:
-    schema:
-      "$ref": "../../,,/../../responses/message.yaml"
-    example:
-      message: "The global admission token cannot be modified or invalidated."

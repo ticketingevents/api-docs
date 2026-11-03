@@ -1,0 +1,99 @@
+page: 3
+records: 2
+entries:
+  - redeemer: Butcher
+    device: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36...
+    serial: "DAWIER-BACK75580348"
+    customer:
+      self: "/accounts/MO-6A39EE8D"
+      username: "mothers.milk"
+      title: "Mr"
+      firstName: "Marvin"
+      lastName: "Milk"
+    tier:
+      self: "/tiers/19381758318131"
+      name: "Backstage Pass"
+      description: "Gain exclusive access to meet the Supes and hang out after the show."
+      price: 299.9
+      available_from: "2025-05-02T21:00:00Z"
+      available_to: "2025-07-01T00:00:00Z"
+      events:
+        - id: 16993717817996
+          share: 100
+      artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+      purchase_limit: 10
+      unit_size: 2
+      upgrades:
+        - self: "/tiers/18191406121236"
+          name: "All-Access Pass"
+          description: "The full VIP experience, including the week leading up to the show."
+          price: 500.00
+          available_from: "2025-05-02T21:00:00Z"
+          available_to: "2025-07-01T00:00:00Z"
+          events:
+            - id: 16993717817996
+              share: 100
+          artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+          unit_size: 1
+          upgrades: []
+          form: null
+      form:
+        self: "/hosts/14271847571941/forms/1927471842571142"
+        name: "Meal Options"
+        description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+        fields:
+          - name: "Soup"
+            type: "short_text"
+          - name: "Main"
+            type: "short_text"
+          - name: "Drink"
+            type: "short_text"
+    admitted: "2024-03-01T10:59:56+00:00"
+  - redeemer: Butcher
+    device: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36...
+    serial: "DAWIER-VIPV37536946"
+    customer:
+      self: "/accounts/MO-6A39EE8D"
+      username: "the_butcher"
+      title: "Mr"
+      firstName: "Billy"
+      lastName: "Butched"
+    tier:
+      self: "/tiers/19381758318131"
+      name: "Backstage Pass"
+      description: "Gain exclusive access to meet the Supes and hang out after the show."
+      price: 299.9
+      available_from: "2025-05-02T21:00:00Z"
+      available_to: "2025-07-01T00:00:00Z"
+      events:
+        - id: 16993717817996
+          share: 100
+      artwork: "http://localhost/tier/artwork/19381758318131.jpeg"
+      purchase_limit: 10
+      unit_size: 2
+      upgrades:
+        - self: "/tiers/18191406121236"
+          name: "All-Access Pass"
+          description: "The full VIP experience, including the week leading up to the show."
+          price: 500.00
+          available_from: "2025-05-02T21:00:00Z"
+          available_to: "2025-07-01T00:00:00Z"
+          events:
+            - id: 16993717817996
+              share: 100
+          artwork: "http://localhost/tier/artwork/18191406121236.jpeg"
+          unit_size: 1
+          upgrades: []
+          form: null
+      form:
+        self: "/hosts/14271847571941/forms/1927471842571142"
+        name: "Meal Options"
+        description: "Collect meal options from our mas players to prepare appropriate amounts for breakfast."
+        fields:
+          - name: "Soup"
+            type: "short_text"
+          - name: "Main"
+            type: "short_text"
+          - name: "Drink"
+            type: "short_text"
+    admitted: "2024-03-01T11:25:56+00:00"

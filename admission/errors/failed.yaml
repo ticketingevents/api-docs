@@ -1,11 +1,11 @@
 description: |
-  None of the tickets identified grants access to an event section that the redeemer
+  None of the tickets identified grants access to an event tier that the redeemer
   is allowed to admit patrons to. This is either because no ticket could be found,
-  the tickets grant access to different event sections or the tickets have already
+  the tickets grant access to different event tiers or the tickets have already
   been redeemed or expired.
 content:
   application/json:
     schema:
-      "$ref": "../../../responses/message.yaml"
+      "$ref": "../../responses/message.yaml"
     example:
       message: "None of the provided ticket serials grants admission to this event"
